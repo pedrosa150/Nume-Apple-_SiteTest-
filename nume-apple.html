@@ -1,0 +1,2225 @@
+<meta charset="utf-8">
+<title>Nume Apple</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: Apple-style store — floating liquid-glass pill nav, product-first heroes, tile grid, sticky gallery + buy box */
+:root{
+  --bg:#f5f5f7; --bg2:#ffffff; --card:#ffffff; --fg:#1d1d1f; --fg2:#6e6e73; --fg3:#86868b;
+  --line:rgba(0,0,0,.09); --line2:rgba(0,0,0,.16); --chip:rgba(0,0,0,.05);
+  --accent:#0071e3; --accent-h:#0077ed; --accent-soft:rgba(0,113,227,.1); --ok:#1d8a3a; --ok-soft:rgba(29,138,58,.1); --err:#d70015;
+  --glass:rgba(255,255,255,.62); --glass2:rgba(255,255,255,.30); --glass-edge:rgba(255,255,255,.85);
+  --glass-hi:rgba(255,255,255,.95); --glass-lo:rgba(255,255,255,.35); --sheen:rgba(255,255,255,.75);
+  --shadow:0 12px 40px rgba(24,28,48,.10), 0 2px 8px rgba(24,28,48,.05);
+  --night:#000000; --night-fg:#f5f5f7; --night-fg2:#a1a1a6; --night-card:#161617;
+  --f-display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Inter Tight","Segoe UI",Roboto,sans-serif;
+  --f-text:-apple-system,BlinkMacSystemFont,"SF Pro Text","Inter Tight","Segoe UI",Roboto,sans-serif;
+  --r-lg:28px; --r-md:18px; --r-sm:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --bg2:#1c1c1e; --card:#141416; --fg:#f5f5f7; --fg2:#a1a1a6; --fg3:#86868b;
+  --line:rgba(255,255,255,.11); --line2:rgba(255,255,255,.2); --chip:rgba(255,255,255,.08);
+  --accent:#2997ff; --accent-h:#4aa8ff; --accent-soft:rgba(41,151,255,.16); --ok:#30d158; --ok-soft:rgba(48,209,88,.14); --err:#ff453a;
+  --glass:rgba(44,44,50,.55); --glass2:rgba(28,28,32,.30); --glass-edge:rgba(255,255,255,.16);
+  --glass-hi:rgba(255,255,255,.22); --glass-lo:rgba(255,255,255,.05); --sheen:rgba(255,255,255,.22);
+  --shadow:0 12px 40px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.3);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --bg2:#1c1c1e; --card:#141416; --fg:#f5f5f7; --fg2:#a1a1a6; --fg3:#86868b;
+  --line:rgba(255,255,255,.11); --line2:rgba(255,255,255,.2); --chip:rgba(255,255,255,.08);
+  --accent:#2997ff; --accent-h:#4aa8ff; --accent-soft:rgba(41,151,255,.16); --ok:#30d158; --ok-soft:rgba(48,209,88,.14); --err:#ff453a;
+  --glass:rgba(44,44,50,.55); --glass2:rgba(28,28,32,.30); --glass-edge:rgba(255,255,255,.16);
+  --glass-hi:rgba(255,255,255,.22); --glass-lo:rgba(255,255,255,.05); --sheen:rgba(255,255,255,.22);
+  --shadow:0 12px 40px rgba(0,0,0,.5), 0 2px 8px rgba(0,0,0,.3);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-text);font-size:17px;line-height:1.47;letter-spacing:-.012em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:70;background:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+input,select{font:inherit;color:inherit}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;letter-spacing:-.028em}
+p{margin:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.muted{color:var(--fg2)}
+.eyebrow{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--fg2)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ——— Liquid glass ——— */
+.glass{position:relative;background:linear-gradient(155deg,var(--glass),var(--glass2));-webkit-backdrop-filter:blur(22px) saturate(190%);backdrop-filter:blur(22px) saturate(190%);border:1px solid var(--glass-edge);box-shadow:inset 0 1px 0 var(--glass-hi),inset 0 -1px 1px var(--glass-lo),var(--shadow);isolation:isolate}
+.glass::after{content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;background:radial-gradient(220px circle at var(--mx,25%) var(--my,0%),var(--sheen),transparent 65%);opacity:.55;mix-blend-mode:overlay;transition:opacity .3s}
+.glass:hover::after{opacity:.9}
+
+/* ——— Nav ——— */
+.nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:60;padding-left:max(12px,env(safe-area-inset-left,0px));padding-right:max(12px,env(safe-area-inset-right,0px));margin-top:10px;pointer-events:none}
+.nav-pill{pointer-events:auto;max-width:1100px;margin:0 auto;height:56px;border-radius:999px;display:flex;align-items:center;gap:6px;padding:0 8px 0 20px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:-.04em;margin-right:auto}
+.logo-mark{width:26px;height:26px;border-radius:8px;background:conic-gradient(from 200deg,#5ac8fa,#007aff,#af52de,#ff2d55,#ff9500,#5ac8fa);box-shadow:inset 0 1px 1px rgba(255,255,255,.6);position:relative}
+.logo-mark::after{content:"";position:absolute;inset:5px;border-radius:5px;background:var(--bg2);opacity:.92}
+.logo small{font-weight:500;color:var(--fg2);font-size:13px;letter-spacing:0}
+.nav-links{display:flex;gap:2px}
+.nav-links a{font-size:14px;padding:8px 14px;border-radius:999px;color:var(--fg);opacity:.85;transition:background .2s,opacity .2s}
+.nav-links a:hover,.nav-links a.on{background:var(--chip);opacity:1}
+.icon-btn{width:42px;height:42px;border-radius:999px;display:grid;place-items:center;position:relative;transition:background .2s}
+.icon-btn:hover{background:var(--chip)}
+.icon-btn svg{width:20px;height:20px}
+.badge-count{position:absolute;top:4px;right:3px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--accent);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.menu-btn{display:none}
+@media (max-width:820px){
+  .nav-links{display:none;position:absolute;top:64px;left:0;right:0;flex-direction:column;padding:10px;border-radius:24px}
+  .nav-links.open{display:flex}
+  .nav-links a{padding:12px 16px;font-size:17px}
+  .menu-btn{display:grid}
+  .nav-pill{position:relative}
+}
+
+/* ——— Buttons ——— */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:46px;padding:0 24px;border-radius:999px;font-weight:600;font-size:16px;letter-spacing:-.01em;transition:transform .15s,background .2s,box-shadow .2s;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 6px 18px rgba(0,113,227,.28)}
+.btn-primary:hover{background:var(--accent-h)}
+.btn-glass{color:var(--fg)}
+.btn-link{color:var(--accent);padding:0 6px;min-height:auto;font-weight:500}
+.btn-link:hover{text-decoration:underline}
+.btn-block{width:100%}
+.btn[disabled]{opacity:.55;pointer-events:none}
+.btn-sm{min-height:36px;padding:0 16px;font-size:14px}
+
+/* ——— Devices (SVG) ——— */
+.dev{display:block;width:100%;height:auto;overflow:visible;filter:drop-shadow(0 24px 30px rgba(0,0,0,.18)) drop-shadow(0 4px 8px rgba(0,0,0,.10))}
+.tilt{perspective:1100px}
+.tilt-inner{transition:transform .5s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d;will-change:transform}
+.tilting .tilt-inner{transition:transform .08s linear}
+
+/* ——— Home hero ——— */
+.hero{position:relative;overflow:hidden;text-align:center;padding-block:56px 48px;margin-top:-66px;padding-top:122px}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:.5;pointer-events:none;transition:background 1s}
+.hero h1{font-size:clamp(44px,8vw,92px);font-weight:700;line-height:1;letter-spacing:-.04em}
+.hero .sub{font-size:clamp(19px,2.4vw,26px);font-weight:500;color:var(--fg2);margin-top:12px;letter-spacing:-.02em}
+.hero .ctas{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.hero-stage{position:relative;max-width:620px;margin:28px auto 0}
+.hero-stage .tilt-inner{width:min(460px,86%);margin:0 auto}
+.price-line{margin-top:18px;font-size:16px;color:var(--fg2)}
+.price-line b{color:var(--fg)}
+.swatch-pill{display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;margin-top:22px}
+.swatch-pill span.lbl{font-size:14px;font-weight:500;min-width:110px;text-align:left}
+.sw{width:26px;height:26px;border-radius:50%;box-shadow:inset 0 -2px 4px rgba(0,0,0,.25),inset 0 2px 3px rgba(255,255,255,.45),0 0 0 1px rgba(0,0,0,.12);transition:transform .2s,box-shadow .2s;flex:none}
+.sw:hover{transform:scale(1.12)}
+.sw.on{box-shadow:inset 0 -2px 4px rgba(0,0,0,.25),inset 0 2px 3px rgba(255,255,255,.45),0 0 0 2px var(--bg),0 0 0 4px var(--accent)}
+
+.band-night{background:var(--night);color:var(--night-fg);position:relative;overflow:hidden}
+.band-night .sub,.band-night .muted,.band-night .price-line{color:var(--night-fg2)}
+.band-night .price-line b{color:var(--night-fg)}
+.band-night .btn-glass{color:var(--night-fg);background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2)}
+.mac-hero{padding-block:72px 64px;text-align:center}
+.mac-hero h1{font-size:clamp(40px,7vw,80px);font-weight:700;letter-spacing:-.04em;line-height:1.02;background:linear-gradient(180deg,#fff 30%,#9aa3b5);-webkit-background-clip:text;background-clip:text;color:transparent}
+.mac-hero .sub{font-size:clamp(19px,2.4vw,26px);font-weight:500;margin-top:12px}
+.mac-stage{max-width:780px;margin:36px auto 0}
+.spec-strip{display:flex;justify-content:center;gap:clamp(20px,5vw,64px);flex-wrap:wrap;margin-top:40px}
+.spec-strip div{text-align:center}
+.spec-strip b{display:block;font-family:var(--f-display);font-size:clamp(28px,4vw,40px);letter-spacing:-.03em;background:linear-gradient(90deg,#64d2ff,#bf5af2);-webkit-background-clip:text;background-clip:text;color:transparent}
+.spec-strip span{font-size:14px;color:var(--night-fg2)}
+
+/* ——— Tiles ——— */
+.section{padding-block:56px}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(28px,4vw,44px);font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.tile{background:var(--card);border-radius:var(--r-lg);padding:40px 24px 0;text-align:center;overflow:hidden;display:flex;flex-direction:column;align-items:center;min-height:460px;position:relative;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.tile:hover{transform:translateY(-4px)}
+.tile h3{font-size:clamp(28px,3.4vw,40px);font-weight:700}
+.tile p{color:var(--fg2);margin-top:6px;font-size:17px}
+.tile .tile-links{display:flex;gap:18px;margin-top:12px;font-size:16px}
+.tile .tile-links a{color:var(--accent)}
+.tile .tile-links a:hover{text-decoration:underline}
+.tile .tile-img{margin-top:auto;width:min(340px,86%);padding-top:24px;transform:translateY(20px);transition:transform .6s cubic-bezier(.2,.8,.2,1)}
+.tile:hover .tile-img{transform:translateY(4px) scale(1.03)}
+.tile .tag{position:absolute;top:16px;left:16px;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px}
+@media (max-width:760px){.tiles{grid-template-columns:1fr}.tile{min-height:400px}}
+
+.perks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.perk{padding:22px;border-radius:var(--r-md);display:flex;flex-direction:column;gap:8px}
+.perk svg{width:30px;height:30px;color:var(--accent)}
+.perk b{font-size:17px;letter-spacing:-.02em}
+.perk span{font-size:14px;color:var(--fg2);line-height:1.4}
+@media (max-width:900px){.perks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.perks-bg{position:relative;overflow:hidden;border-radius:var(--r-lg);padding:20px}
+.perks-bg .blob{opacity:.35}
+
+.shelf{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:12px;scrollbar-width:thin}
+.shelf>*{scroll-snap-align:start}
+
+.used-band{border-radius:var(--r-lg);overflow:hidden;display:grid;grid-template-columns:1.1fr 1fr;align-items:center;background:var(--card);position:relative}
+.used-band .txt{padding:48px;display:flex;flex-direction:column;gap:14px;align-items:flex-start;position:relative;z-index:1}
+.used-band h2{font-size:clamp(30px,4vw,48px);font-weight:700}
+.used-band ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;color:var(--fg2);font-size:16px}
+.used-band li{display:flex;gap:10px;align-items:center}
+.used-band li::before{content:"";width:18px;height:18px;border-radius:50%;flex:none;background:var(--ok-soft) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 12.5l4 4 8-9' fill='none' stroke='%231d8a3a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/12px no-repeat}
+.used-band .art{display:flex;justify-content:center;gap:0;padding:32px;position:relative}
+.used-band .art>div{width:46%;margin:0 -6%}
+@media (max-width:760px){.used-band{grid-template-columns:1fr}.used-band .txt{padding:32px 24px 0}}
+
+.ig-cta{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:28px 32px;border-radius:var(--r-lg);flex-wrap:wrap;position:relative;overflow:hidden}
+.ig-cta h3{font-size:clamp(22px,3vw,30px)}
+
+/* ——— Cards ——— */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:16px}
+.card{background:var(--card);border-radius:24px;padding:16px 18px 20px;display:flex;flex-direction:column;gap:6px;position:relative;transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s;min-width:0}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.card .ph{aspect-ratio:1/1;max-width:100%;display:grid;place-items:center;margin-bottom:8px;position:relative}
+.card .ph .tilt-inner{width:44%;position:relative}
+.flip{position:relative;transform-style:preserve-3d;transition:transform .8s cubic-bezier(.3,.7,.2,1)}
+.card:hover .flip.can{transform:rotateY(180deg)}
+.flip .face{backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip .face.b{position:absolute;inset:0;transform:rotateY(180deg)}
+.card .cond{position:absolute;top:12px;left:12px;z-index:2;font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px}
+.cond.novo{color:var(--accent)}
+.cond.seminovo{color:var(--ok)}
+.card .launch{position:absolute;top:12px;right:12px;z-index:2;font-size:12px;font-weight:600;color:#bf5a00;padding:5px 2px}
+.card .dots{display:flex;gap:6px;min-height:16px;flex-wrap:wrap}
+.card .dots .sw{width:14px;height:14px}
+.card .dots .sw.on{box-shadow:0 0 0 1.5px var(--bg2),0 0 0 3px var(--fg3)}
+.card h3{font-size:19px;font-weight:600;letter-spacing:-.02em;margin-top:4px}
+.card .meta{font-size:13px;color:var(--fg2)}
+.card .p-old{font-size:13px;color:var(--fg3);text-decoration:line-through;margin-top:6px;min-height:18px}
+.card .p{font-size:22px;font-weight:700;letter-spacing:-.02em}
+.card .inst{font-size:13px;color:var(--fg2)}
+.card .pix{font-size:13px;color:var(--ok);font-weight:600}
+.card .ship{font-size:13px;color:var(--ok);margin-top:2px}
+.card a.cover{position:absolute;inset:0;z-index:1;border-radius:inherit}
+.card .quick{position:relative;z-index:2;margin-top:10px;align-self:flex-start}
+
+/* ——— Catalog ——— */
+.page-head{padding-block:40px 20px}
+.page-head h1{font-size:clamp(36px,5vw,56px);font-weight:700}
+.cat{display:grid;grid-template-columns:272px minmax(0,1fr);gap:28px;align-items:start;padding-bottom:64px}
+.panel{position:sticky;top:86px;border-radius:24px;padding:20px;display:flex;flex-direction:column;gap:20px;max-height:calc(100vh - 100px);overflow:auto}
+.panel h4{font-size:13px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--fg2);margin:0 0 10px}
+.search{position:relative}
+.search svg{position:absolute;left:14px;top:50%;width:18px;height:18px;transform:translateY(-50%);color:var(--fg2);pointer-events:none}
+.search input{width:100%;height:46px;border-radius:999px;border:1px solid var(--line2);background:var(--bg2);padding:0 16px 0 42px;font-size:16px;outline:none;transition:border-color .2s,box-shadow .2s}
+.search input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.opt{display:flex;align-items:center;gap:10px;padding:7px 4px;font-size:15px;cursor:pointer;border-radius:8px}
+.opt input{width:18px;height:18px;accent-color:var(--accent);margin:0}
+.opt .c{margin-left:auto;font-size:13px;color:var(--fg3)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:14px;padding:7px 13px;border-radius:999px;background:var(--chip);border:1px solid transparent;transition:all .2s}
+.chip:hover{border-color:var(--line2)}
+.chip.on{background:var(--accent);color:#fff}
+.range-row{display:flex;justify-content:space-between;font-size:14px;color:var(--fg2);margin-top:6px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.toolbar .count{font-weight:600}
+.toolbar select{height:40px;border-radius:999px;border:1px solid var(--line2);background:var(--bg2);padding:0 14px;margin-left:auto;font-size:14px}
+.active-chips{display:flex;gap:6px;flex-wrap:wrap}
+.active-chips button{font-size:13px;padding:6px 10px 6px 12px;border-radius:999px;background:var(--accent-soft);color:var(--accent);display:flex;gap:6px;align-items:center}
+.filter-btn{display:none}
+.panel-close{display:none}
+.empty{text-align:center;padding:64px 16px;border-radius:24px;background:var(--card);display:flex;flex-direction:column;align-items:center;gap:12px}
+@media (max-width:900px){
+  .cat{grid-template-columns:minmax(0,1fr)}
+  .filter-btn{display:inline-flex}
+  .panel{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:80;border-radius:28px 28px 0 0;max-height:82vh;transform:translateY(105%);transition:transform .45s cubic-bezier(.2,.8,.2,1);padding:20px max(20px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px))}
+  .panel.open{transform:none}
+  .panel-close{display:flex;justify-content:space-between;align-items:center}
+}
+
+/* ——— Product page ——— */
+.crumbs{font-size:13px;color:var(--fg2);padding-block:22px 0;display:flex;gap:6px;flex-wrap:wrap}
+.crumbs a:hover{color:var(--accent)}
+.pdp{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:48px;padding-block:20px 56px;align-items:start}
+.gallery{position:sticky;top:86px}
+.stage{position:relative;border-radius:32px;background:var(--card);aspect-ratio:1/1;max-width:100%;display:grid;place-items:center;overflow:hidden}
+.stage .blob{opacity:.4}
+.stage .tilt-inner{width:68%;position:relative;z-index:1}
+.stage.wide .tilt-inner{width:86%}
+.stage .hint{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--fg2);padding:6px 12px;border-radius:999px;z-index:2;white-space:nowrap}
+.views{display:flex;gap:10px;margin-top:14px;justify-content:center}
+.views button{width:76px;height:76px;border-radius:16px;background:var(--card);display:grid;place-items:center;padding:8px;border:2px solid transparent;transition:border-color .2s}
+.views button.on{border-color:var(--accent)}
+.views button .dev{filter:none;max-height:58px;width:auto}
+.buy h1{font-size:clamp(32px,4vw,48px);font-weight:700}
+.buy .pills{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.pill{font-size:13px;font-weight:600;padding:5px 12px;border-radius:999px;background:var(--chip)}
+.pill.novo{background:var(--accent-soft);color:var(--accent)}
+.pill.seminovo{background:var(--ok-soft);color:var(--ok)}
+.pill.hot{background:rgba(255,149,0,.14);color:#c25e00}
+.rating{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--fg2);margin-top:8px}
+.stars{color:#ff9f0a;letter-spacing:1px}
+.pricebox{margin-top:20px;padding:20px;border-radius:20px}
+.pricebox .old{font-size:15px;color:var(--fg3);text-decoration:line-through}
+.pricebox .now{font-size:34px;font-weight:700;letter-spacing:-.03em;font-family:var(--f-display)}
+.pricebox .off{font-size:15px;color:var(--ok);font-weight:600;margin-left:8px}
+.pricebox .pixp{color:var(--ok);font-weight:600;margin-top:4px}
+.pricebox .inst{color:var(--fg2);font-size:15px}
+.group{margin-top:26px}
+.group-h{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.group-h b{font-size:17px}
+.group-h span{font-size:14px;color:var(--fg2)}
+.swatches{display:flex;gap:12px;flex-wrap:wrap}
+.swatches .sw{width:34px;height:34px}
+.opts{display:grid;gap:10px}
+.optbtn{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 18px;border-radius:16px;border:1.5px solid var(--line2);text-align:left;transition:border-color .2s,background .2s}
+.optbtn:hover{border-color:var(--fg3)}
+.optbtn.on{border-color:var(--accent);background:var(--accent-soft)}
+.optbtn b{font-weight:600}
+.optbtn span{font-size:14px;color:var(--fg2)}
+.cond-box{border-radius:16px;padding:16px 18px;background:var(--card);display:grid;gap:10px}
+.cond-row{display:flex;justify-content:space-between;font-size:15px;gap:12px}
+.cond-row span{color:var(--fg2)}
+.meter{height:6px;border-radius:3px;background:var(--chip);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--ok);border-radius:3px}
+.ship-box{border-radius:16px;background:var(--card);padding:16px 18px;display:grid;gap:12px}
+.cep-row{display:flex;gap:8px}
+.cep-row input{flex:1;min-width:0;height:44px;border-radius:12px;border:1px solid var(--line2);background:var(--bg2);padding:0 14px;font-size:16px;outline:none}
+.cep-row input:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.ship-line{display:flex;gap:12px;align-items:flex-start;font-size:15px}
+.ship-line svg{width:22px;height:22px;flex:none;color:var(--ok);margin-top:1px}
+.ship-line .g{color:var(--ok);font-weight:600}
+.ship-line small{display:block;color:var(--fg2);font-size:13px}
+.buy-ctas{display:grid;gap:10px;margin-top:22px}
+.trust{display:grid;gap:10px;margin-top:20px;font-size:14px;color:var(--fg2)}
+.trust div{display:flex;gap:10px;align-items:center}
+.trust svg{width:18px;height:18px;color:var(--fg2);flex:none}
+.specs{border-radius:var(--r-lg);background:var(--card);padding:32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px 32px}
+.specs div b{display:block;font-size:13px;color:var(--fg2);font-weight:500;margin-bottom:4px}
+.specs div span{font-size:16px}
+@media (max-width:900px){.pdp{grid-template-columns:minmax(0,1fr);gap:28px}.gallery{position:relative;top:0}}
+
+/* ——— Bag drawer ——— */
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.28);z-index:85;opacity:0;pointer-events:none;transition:opacity .3s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:10px;right:10px;bottom:10px;width:min(420px,calc(100% - 20px));z-index:90;border-radius:28px;display:flex;flex-direction:column;transform:translateX(110%);transition:transform .45s cubic-bezier(.2,.8,.2,1);margin-top:env(safe-area-inset-top,0px);margin-bottom:env(safe-area-inset-bottom,0px)}
+.drawer.open{transform:none}
+.drawer-h{display:flex;justify-content:space-between;align-items:center;padding:20px 20px 12px 24px}
+.drawer-h h3{font-size:24px}
+.drawer-b{flex:1;overflow:auto;padding:4px 20px;display:flex;flex-direction:column;gap:12px}
+.drawer-f{padding:16px 20px 20px;border-top:1px solid var(--line);display:grid;gap:10px}
+.line-item{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px;border-radius:16px;background:var(--bg2)}
+.line-item .th{width:64px;height:64px;display:grid;place-items:center}
+.line-item .th .dev{max-height:60px;width:auto;max-width:60px;filter:none}
+.line-item b{font-size:15px;display:block;line-height:1.25}
+.line-item small{font-size:13px;color:var(--fg2);display:block}
+.qty{display:inline-flex;align-items:center;gap:4px;margin-top:6px;border:1px solid var(--line2);border-radius:999px;height:30px}
+.qty button{width:28px;height:28px;border-radius:50%;font-size:16px;display:grid;place-items:center}
+.qty span{min-width:18px;text-align:center;font-size:14px}
+.rm{font-size:12px;color:var(--fg2);margin-left:8px}
+.rm:hover{color:var(--err)}
+.sum-row{display:flex;justify-content:space-between;font-size:15px;gap:12px}
+.sum-row.total{font-size:20px;font-weight:700;padding-top:6px}
+.sum-row .g{color:var(--ok)}
+
+/* ——— Spotlight ——— */
+.spot{position:fixed;inset:0;z-index:95;display:flex;justify-content:center;align-items:flex-start;padding:calc(env(safe-area-inset-top,0px) + 80px) max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px));background:rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s}
+.spot.open{opacity:1;pointer-events:auto}
+.spot-box{width:min(640px,100%);border-radius:26px;padding:10px;transform:translateY(-10px) scale(.98);transition:transform .3s}
+.spot.open .spot-box{transform:none}
+.spot-box .search input{height:56px;font-size:20px;border:0;background:transparent;box-shadow:none!important;padding-left:48px}
+.spot-box .search svg{left:16px;width:22px;height:22px}
+.spot-res{display:grid;gap:2px;padding:6px 0 2px;max-height:60vh;overflow:auto}
+.spot-res a{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 12px;border-radius:14px}
+.spot-res a:hover,.spot-res a.sel{background:var(--chip)}
+.spot-res .dev{max-height:40px;width:auto;max-width:44px;filter:none;margin:auto}
+.spot-res small{color:var(--fg2);font-size:13px;display:block}
+.spot-res .pr{font-size:14px;font-weight:600}
+.spot-hint{font-size:13px;color:var(--fg2);padding:8px 14px}
+
+/* ——— Checkout ——— */
+[hidden]{display:none!important}
+.demo-note svg{width:20px;height:20px;flex:none}
+.stage.tall .tilt-inner{width:38%}
+.demo-note{display:flex;gap:10px;align-items:center;font-size:14px;padding:10px 16px;border-radius:14px;background:rgba(255,149,0,.12);color:#a45200;margin-bottom:20px}
+.ck{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:28px;align-items:start;padding-bottom:64px}
+.step{background:var(--card);border-radius:24px;padding:24px;margin-bottom:14px}
+.step-h{display:flex;align-items:center;gap:14px}
+.step-n{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-size:14px;font-weight:700;background:var(--chip);flex:none}
+.step.cur .step-n{background:var(--accent);color:#fff}
+.step.done .step-n{background:var(--ok);color:#fff}
+.step-h h2{font-size:22px;font-weight:600;letter-spacing:-.02em}
+.step-h .edit{margin-left:auto}
+.step-sum{margin:10px 0 0 44px;font-size:15px;color:var(--fg2)}
+.step-b{margin-top:20px}
+.step.locked{opacity:.55}
+.form{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:14px}
+.field{display:flex;flex-direction:column;gap:6px;grid-column:span 6;min-width:0}
+.field.s3{grid-column:span 3}.field.s2{grid-column:span 2}.field.s4{grid-column:span 4}
+.field label{font-size:13px;font-weight:500;color:var(--fg2)}
+.field input,.field select{height:48px;border-radius:12px;border:1px solid var(--line2);background:var(--bg2);padding:0 14px;font-size:16px;outline:none;width:100%;transition:border-color .2s,box-shadow .2s}
+.field input:focus,.field select:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.field.bad input{border-color:var(--err)}
+.field .err{font-size:12px;color:var(--err);min-height:0}
+@media (max-width:620px){.field.s3,.field.s2,.field.s4{grid-column:span 6}}
+.radios{display:grid;gap:10px}
+.radio{display:flex;align-items:center;gap:14px;padding:16px;border-radius:16px;border:1.5px solid var(--line2);cursor:pointer;transition:border-color .2s,background .2s}
+.radio:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.radio input{accent-color:var(--accent);width:18px;height:18px;margin:0;flex:none}
+.radio .rt{flex:1;min-width:0}
+.radio .rt b{display:block;font-size:16px;font-weight:600}
+.radio .rt small{color:var(--fg2);font-size:14px}
+.radio .rp{font-weight:600;white-space:nowrap}
+.radio .rp.g{color:var(--ok)}
+.pay-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:18px}
+.pay-tab{padding:14px 8px;border-radius:16px;border:1.5px solid var(--line2);display:flex;flex-direction:column;align-items:center;gap:6px;font-size:14px;font-weight:600;transition:all .2s}
+.pay-tab svg{width:26px;height:26px}
+.pay-tab small{font-size:11px;font-weight:600;color:var(--ok)}
+.pay-tab.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
+@media (max-width:620px){.pay-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.card-pay{display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:760px){.card-pay{grid-template-columns:minmax(0,1fr)}}
+.cc{perspective:1000px;max-width:300px}
+.cc-in{position:relative;aspect-ratio:1.586;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.3,.7,.2,1)}
+.cc.flipped .cc-in{transform:rotateY(180deg)}
+.cc-face{position:absolute;inset:0;border-radius:18px;padding:18px;color:#fff;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.4);display:flex;flex-direction:column;justify-content:space-between;background:var(--ccbg,linear-gradient(135deg,#3a3a40,#121216))}
+.cc-face::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 0%,rgba(255,255,255,.35),transparent 50%),radial-gradient(circle at 100% 100%,rgba(255,255,255,.12),transparent 45%);pointer-events:none}
+.cc-face.back{transform:rotateY(180deg);justify-content:center;padding:0}
+.cc-face.back .strip{height:38px;background:#111;margin-bottom:16px}
+.cc-face.back .cvv{margin:0 18px;background:rgba(255,255,255,.85);color:#111;border-radius:6px;padding:6px 10px;text-align:right;font-family:ui-monospace,Menlo,monospace}
+.cc-chip{width:40px;height:30px;border-radius:6px;background:linear-gradient(135deg,#f5d98a,#c9a24a);position:relative}
+.cc-num{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:19px;letter-spacing:.08em;white-space:nowrap}
+.cc-row{display:flex;justify-content:space-between;align-items:end;font-size:12px;gap:8px}
+.cc-row b{display:block;font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:170px}
+.cc-brand{font-weight:800;font-style:italic;font-size:18px;letter-spacing:-.02em;position:relative}
+.pix-box{display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;align-items:center;padding:18px;border-radius:18px;background:var(--bg2)}
+@media (max-width:620px){.pix-box{grid-template-columns:minmax(0,1fr)}}
+.qr{width:150px;height:150px;background:#fff;border-radius:12px;padding:8px;flex:none}
+.qr svg{width:100%;height:100%;display:block}
+.pix-steps{margin:0;padding-left:18px;display:grid;gap:6px;font-size:15px;color:var(--fg2)}
+.wallets{display:grid;gap:10px}
+.wallet{height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600;background:var(--fg);color:var(--bg);opacity:.9}
+.summary{position:sticky;top:86px;border-radius:24px;padding:22px;display:grid;gap:12px}
+.summary h3{font-size:20px}
+.sum-items{display:grid;gap:10px;max-height:300px;overflow:auto}
+.terms{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--fg2);margin-top:8px}
+.terms input{margin-top:3px;accent-color:var(--accent);width:16px;height:16px;flex:none}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.review-grid div{padding:14px 16px;border-radius:14px;background:var(--bg2);font-size:15px}
+.review-grid b{display:block;font-size:13px;color:var(--fg2);font-weight:500;margin-bottom:4px}
+@media (max-width:980px){.ck{grid-template-columns:minmax(0,1fr)}.summary{position:relative;top:0}}
+
+/* ——— Order done ——— */
+.done{max-width:760px;margin:0 auto;padding-block:48px 72px;text-align:center}
+.done .ok-badge{width:84px;height:84px;border-radius:50%;margin:0 auto 20px;display:grid;place-items:center}
+.done .ok-badge svg{width:40px;height:40px;color:var(--ok)}
+.done h1{font-size:clamp(32px,5vw,48px);font-weight:700}
+.done .card-done{background:var(--card);border-radius:24px;padding:24px;margin-top:24px;text-align:left}
+.timeline{display:grid;gap:0;margin-top:8px}
+.tl{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:start;padding-bottom:18px;position:relative}
+.tl::before{content:"";position:absolute;left:13px;top:24px;bottom:0;width:2px;background:var(--line2)}
+.tl:last-child::before{display:none}
+.tl i{width:28px;height:28px;border-radius:50%;background:var(--chip);display:grid;place-items:center;font-style:normal;font-size:13px;position:relative;z-index:1}
+.tl.on i{background:var(--ok);color:#fff}
+.tl b{font-size:15px;display:block}
+.tl small{color:var(--fg2);font-size:13px}
+.tl .d{font-size:13px;color:var(--fg2);white-space:nowrap}
+.code-box{display:flex;gap:8px;margin-top:12px}
+.code-box input{flex:1;min-width:0;height:44px;border-radius:12px;border:1px solid var(--line2);background:var(--bg2);padding:0 12px;font-family:ui-monospace,Menlo,monospace;font-size:13px}
+.barcode{height:64px;margin-top:12px;border-radius:8px;background:#fff;padding:8px}
+
+/* ——— Seller panel ——— */
+:root{--series-1:#2a78d6;--series-2:#eb6834;--series-3:#1baf7a;--st-wait:#a85a00;--st-prep:#6b45c4;--st-ship:#0e7480}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--series-1:#3987e5;--series-2:#d95926;--series-3:#199e70;--st-wait:#ffb340;--st-prep:#b9a2ff;--st-ship:#5fd4e0}}
+:root[data-theme="dark"]{--series-1:#3987e5;--series-2:#d95926;--series-3:#199e70;--st-wait:#ffb340;--st-prep:#b9a2ff;--st-ship:#5fd4e0}
+.adm{padding-bottom:64px}
+.adm-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;padding-block:36px 18px}
+.adm-head h1{font-size:clamp(32px,4.4vw,48px);font-weight:700}
+.adm-head .acts{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.live{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ok);padding:6px 12px;border-radius:999px;background:var(--ok-soft)}
+.live i{width:8px;height:8px;border-radius:50%;background:var(--ok);animation:pulse 1.6s infinite}
+.live.off{color:var(--fg2);background:var(--chip)}.live.off i{background:var(--fg3);animation:none}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--ok-soft)}100%{box-shadow:0 0 0 10px transparent}}
+.adm-tabs{display:flex;gap:4px;padding:5px;border-radius:999px;width:max-content;max-width:100%;overflow-x:auto;margin-bottom:20px;scrollbar-width:none}
+.adm-tabs::-webkit-scrollbar{display:none}
+.adm-tabs a{padding:9px 18px;border-radius:999px;font-size:15px;font-weight:500;white-space:nowrap;color:var(--fg2);transition:background .2s}
+.adm-tabs a.on{background:var(--bg2);color:var(--fg);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.kpi{background:var(--card);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi span{font-size:13px;color:var(--fg2)}
+.kpi b{font-family:var(--f-display);font-size:clamp(22px,2.4vw,30px);letter-spacing:-.03em;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi small{font-size:12px;color:var(--fg3)}
+@media (max-width:1000px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.panels{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:12px;margin-top:12px}
+.panels.even{grid-template-columns:repeat(2,minmax(0,1fr))}
+.panels.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){.panels,.panels.even,.panels.three{grid-template-columns:minmax(0,1fr)}}
+.box{background:var(--card);border-radius:22px;padding:20px;min-width:0}
+.box-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:14px}
+.box-h b{font-size:17px}
+.box-h span{font-size:13px;color:var(--fg2)}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.chart .hit{fill:transparent;cursor:default}
+.chart .hit:hover + .bar,.chart .bar:hover{opacity:.8}
+.hbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;align-items:center;font-size:14px;padding-block:6px}
+.hbar .t{height:8px;border-radius:4px;background:var(--chip);grid-column:1/-1;overflow:hidden}
+.hbar .t i{display:block;height:100%;border-radius:4px;background:var(--series-1)}
+.hbar .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hbar .v{font-variant-numeric:tabular-nums;color:var(--fg2);font-size:13px}
+.stack{display:flex;gap:2px;height:14px;border-radius:7px;overflow:hidden;margin-block:4px 16px;background:var(--chip)}
+.stack i{display:block;height:100%}
+.legend{display:grid;gap:10px;font-size:14px}
+.legend div{display:flex;align-items:center;gap:8px}
+.legend .sq{width:10px;height:10px;border-radius:3px;flex:none}
+.legend .v{margin-left:auto;font-variant-numeric:tabular-nums;color:var(--fg2)}
+.feed{display:grid;gap:2px}
+.feed .row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;text-align:left;padding:10px;border-radius:12px;width:100%;align-items:center}
+.feed button.row:hover{background:var(--chip)}
+.feed small{color:var(--fg2);font-size:13px;display:block}
+.feed .e{font-size:14px;color:var(--fg2);padding:10px}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.st::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st.aguardando,.st.pendente{color:var(--st-wait);background:var(--chip)}
+.st.pago,.st.aprovado{color:var(--accent);background:var(--accent-soft)}
+.st.separando{color:var(--st-prep);background:var(--chip)}
+.st.enviado{color:var(--st-ship);background:var(--chip)}
+.st.entregue{color:var(--ok);background:var(--ok-soft)}
+.st.cancelado,.st.estornado{color:var(--err);background:var(--chip)}
+.tbl-wrap{overflow-x:auto;background:var(--card);border-radius:22px}
+table.tbl{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+.tbl th{text-align:left;font-weight:500;color:var(--fg2);font-size:12px;text-transform:uppercase;letter-spacing:.05em;padding:14px 16px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tbody tr:last-child td{border-bottom:0}
+.tbl tr.click{cursor:pointer}
+.tbl tr.click:hover td{background:var(--chip)}
+.tbl .r{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl .thumb{width:44px;height:44px;display:grid;place-items:center}
+.tbl .thumb .dev{max-height:42px;width:auto;max-width:42px;filter:none}
+.tbl small{display:block;color:var(--fg2);font-size:12px}
+.adm-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+.adm-bar .search{flex:1;min-width:200px;max-width:380px}
+.adm-bar .search input{height:42px}
+.vis{font-size:12px;font-weight:600;padding:5px 10px;border-radius:999px;background:var(--ok-soft);color:var(--ok)}
+.vis.off{background:var(--chip);color:var(--fg2)}
+.notice{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:16px 18px;border-radius:18px;margin-bottom:14px}
+.notice p{font-size:15px;color:var(--fg2);max-width:640px}
+.notice b{color:var(--fg)}
+.sec-list{display:grid;gap:10px;font-size:14px;color:var(--fg2)}
+.sec-list div{display:flex;gap:10px;align-items:flex-start}
+.sec-list svg{width:18px;height:18px;flex:none;color:var(--ok);margin-top:1px}
+.dl{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 16px;font-size:14px}
+.dl dt{color:var(--fg2)}
+.dl dd{margin:0;text-align:right;overflow-wrap:anywhere}
+.d-sec{padding-block:14px;border-top:1px solid var(--line)}
+.d-sec h4{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:var(--fg2);margin:0 0 10px;font-weight:600}
+.st-btns{display:flex;flex-wrap:wrap;gap:6px}
+.st-btns button{font-size:13px;padding:7px 12px;border-radius:999px;border:1px solid var(--line2)}
+.st-btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.st-btns button.danger{color:var(--err)}
+.pform{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}
+.pform .col{display:grid;gap:12px;min-width:0}
+.pform h3{font-size:17px;margin-bottom:14px}
+.preview{position:sticky;top:86px;display:grid;gap:12px}
+@media (max-width:900px){.pform{grid-template-columns:minmax(0,1fr)}.preview{position:relative;top:0}}
+.in{height:44px;border-radius:12px;border:1px solid var(--line2);background:var(--bg2);padding:0 12px;font-size:15px;outline:none;width:100%;min-width:0}
+textarea.in{height:auto;min-height:120px;padding:12px;font-family:inherit;line-height:1.5;resize:vertical}
+.in:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+input[type=color].in{padding:3px;width:44px;cursor:pointer}
+.rows{display:grid;gap:8px}
+.row-ed{display:grid;grid-template-columns:minmax(0,1fr) 150px 36px;gap:8px;align-items:center}
+.row-ed.c{grid-template-columns:44px minmax(0,1fr) 36px}
+.row-ed .x{width:36px;height:36px;border-radius:50%;color:var(--fg2);font-size:18px}
+.row-ed .x:hover{background:var(--chip);color:var(--err)}
+.checks{display:flex;gap:18px;flex-wrap:wrap;font-size:15px;margin-top:4px}
+.checks label{display:flex;gap:8px;align-items:center;cursor:pointer}
+.checks input{width:18px;height:18px;accent-color:var(--accent);margin:0}
+.photo-drop{border:1.5px dashed var(--line2);border-radius:16px;padding:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.photo-drop .pv{width:72px;height:72px;border-radius:12px;background:var(--bg2);display:grid;place-items:center;overflow:hidden;flex:none}
+.photo-drop .pv img{width:100%;height:100%;object-fit:contain}
+.form-err{color:var(--err);font-size:14px;min-height:20px}
+.restricted{max-width:560px;margin:64px auto;text-align:center;display:grid;gap:12px;justify-items:center;padding:40px 24px;border-radius:28px}
+.restricted svg{width:44px;height:44px;color:var(--fg2)}
+.tip{position:fixed;z-index:99;pointer-events:none;padding:8px 12px;border-radius:12px;font-size:13px;font-weight:500;white-space:nowrap}
+.dev.photo{object-fit:contain;aspect-ratio:1/1;max-width:100%;filter:none}
+#photoCredits{margin-top:0;padding-top:12px;font-size:12px}
+#photoCredits a{display:inline;padding:0;text-decoration:underline;text-underline-offset:2px}
+
+/* ——— Footer & toast ——— */
+footer{border-top:1px solid var(--line);margin-top:24px;padding-block:36px 48px;font-size:13px;color:var(--fg2)}
+.foot{display:grid;grid-template-columns:1.5fr repeat(3,minmax(0,1fr));gap:24px}
+.foot b{color:var(--fg);display:block;margin-bottom:10px;font-size:13px}
+.foot a{display:block;padding:3px 0}
+.foot a:hover{color:var(--accent)}
+.legal{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);line-height:1.6}
+@media (max-width:760px){.foot{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);opacity:0;z-index:99;padding:12px 18px 12px 14px;border-radius:999px;display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500;transition:all .35s cubic-bezier(.2,.8,.2,1);pointer-events:none;max-width:calc(100% - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast .th{width:34px;height:34px}
+.toast .th .dev{filter:none;max-height:34px;width:auto}
+
+.fade-in{animation:fade .5s cubic-bezier(.2,.8,.2,1)}
+@keyframes fade{from{opacity:.4;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:18px;height:18px;border-radius:50%;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;animation:spin .8s linear infinite}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<nav class="nav" aria-label="Principal">
+  <div class="nav-pill glass">
+    <a href="#inicio" class="logo" aria-label="Nume Apple, início"><span class="logo-mark"></span>nume<small>apple</small></a>
+    <div class="nav-links glass-mobile" id="navLinks">
+      <a href="#inicio" data-nav="inicio">Início</a>
+      <a href="#iphone" data-nav="iphone">iPhone</a>
+      <a href="#mac" data-nav="mac">Mac</a>
+      <a href="#seminovos" data-nav="seminovos">Seminovos</a>
+      <a href="#catalogo" data-nav="catalogo">Catálogo</a>
+    </div>
+    <button class="icon-btn" data-act="spot-open" aria-label="Buscar produtos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    </button>
+    <button class="icon-btn" data-act="bag-open" aria-label="Abrir sacola">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 016 0v2" stroke-linecap="round"/></svg>
+      <span class="badge-count" id="bagCount" hidden>0</span>
+    </button>
+    <button class="icon-btn menu-btn" data-act="menu" aria-label="Abrir menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main id="app"></main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div>
+        <a href="#inicio" class="logo" style="margin-bottom:10px"><span class="logo-mark"></span>nume<small>apple</small></a>
+        <p style="max-width:300px">iPhones e Macs novos e seminovos, com garantia, nota fiscal e entrega para todo o Brasil.</p>
+      </div>
+      <div><b>Comprar</b><a href="#iphone">iPhone</a><a href="#mac">Mac</a><a href="#seminovos">Seminovos</a><a href="#catalogo">Catálogo completo</a></div>
+      <div><b>Ajuda</b><a href="#catalogo">Prazos de entrega</a><a href="#catalogo">Formas de pagamento</a><a href="#seminovos">Garantia de seminovos</a><a href="#gestao-x7r4kq" id="demoAdmin" hidden>Painel do vendedor (demonstração)</a></div>
+      <div><b>Contato</b><a href="https://www.instagram.com/numeapple/" target="_blank" rel="noopener">Instagram @numeapple</a><span style="display:block;padding:3px 0">Atendimento seg. a sáb., 9h às 19h</span></div>
+    </div>
+    <p class="legal">Nume Apple é uma revenda independente. Apple, iPhone, Mac, MacBook e iMac são marcas da Apple Inc. Preços, imagens e prazos deste protótipo são ilustrativos. Pagamentos são simulados nesta versão.</p>
+    <p class="legal" id="photoCredits" hidden></p>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" data-act="close-all"></div>
+<aside class="drawer glass" id="bag" aria-label="Sacola"></aside>
+<div class="spot" id="spot" data-act="spot-bg">
+  <div class="spot-box glass" role="dialog" aria-label="Buscar">
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <input id="spotInput" type="search" placeholder="Buscar iPhone 17 Pro, MacBook Air…" autocomplete="off">
+    </div>
+    <div class="spot-res" id="spotRes"></div>
+  </div>
+</div>
+<div class="toast glass" id="toast" role="status" aria-live="polite"></div>
+<div class="tip glass" id="tip" hidden></div>
+<aside class="drawer glass" id="admDrawer" aria-label="Detalhes do pedido"></aside>
+
+<script>
+/* ============ Config ============ */
+const PIX_OFF = 0.05;          // desconto no Pix
+const MAX_INST = 12;           // parcelas sem juros
+const EXPRESS = 49.9;          // frete expresso
+const STORE = { city:'São Paulo', uf:'SP', pickup:'Retirada na loja Nume · São Paulo, SP' };
+const IG = 'https://www.instagram.com/numeapple/';
+// Secret address of the seller panel (artifact link + '#' + ADM). Hiding it is a convenience; the data is protected by the database rules.
+const ADM = 'gestao-x7r4kq';
+
+/* ============ Colors ============ */
+const K = {
+  cereja:{n:'Cereja Escuro',h:'#6E2232'}, azulProf:{n:'Azul Profundo',h:'#2C3B57'}, grafite:{n:'Grafite',h:'#3A3A3D'}, prata:{n:'Prata',h:'#E2E3E6'},
+  laranja:{n:'Laranja Cósmico',h:'#D7692B'}, azulInt:{n:'Azul Intenso',h:'#2F3F5E'},
+  pretoEsp:{n:'Preto Espacial',h:'#2A2A2D'}, brancoNuvem:{n:'Branco Nuvem',h:'#F1F0EC'}, dourado:{n:'Dourado Claro',h:'#E7D6B4'}, azulCeu:{n:'Azul Céu',h:'#BCD2E6'},
+  lavanda:{n:'Lavanda',h:'#C9B6E0'}, salvia:{n:'Sálvia',h:'#B3C3A6'}, azulNevoa:{n:'Azul Névoa',h:'#A7BBD0'}, branco:{n:'Branco',h:'#F2F2F0'}, preto:{n:'Preto',h:'#2B2B2E'},
+  deserto:{n:'Titânio Deserto',h:'#BFA388'}, natural:{n:'Titânio Natural',h:'#B9B3A9'}, tpreto:{n:'Titânio Preto',h:'#3C3C3E'}, tbranco:{n:'Titânio Branco',h:'#ECEAE5'},
+  ultra:{n:'Ultramarino',h:'#6E7FE0'}, verdeAc:{n:'Verde-acinzentado',h:'#A8C8C1'}, rosa:{n:'Rosa',h:'#F1B7CE'},
+  pretoMac:{n:'Preto-espacial',h:'#2E2E31'}, prateado:{n:'Prateado',h:'#D8D9DC'}, estelar:{n:'Estelar',h:'#E6DFD1'}, meiaNoite:{n:'Meia-noite',h:'#2E3441'}, ceuMac:{n:'Azul-céu',h:'#B8CBDF'},
+  cinzaEsp:{n:'Cinza-espacial',h:'#7C7D80'}, ouroMac:{n:'Dourado',h:'#E5CAB3'},
+  iAzul:{n:'Azul',h:'#6F9DD9'}, iVerde:{n:'Verde',h:'#7DBF93'}, iRosa:{n:'Rosa',h:'#E89AAE'}, iAmarelo:{n:'Amarelo',h:'#F0C64A'}, iLaranja:{n:'Laranja',h:'#EF8A4C'}, iRoxo:{n:'Roxo',h:'#9A86D8'}
+};
+const c = (...keys) => keys.map(k => K[k]);
+const gb = (...a) => a.map(([l,d]) => ({l, d}));
+
+/* ============ Catalog data (edit with the client) ============ */
+/* Built-in catalog: shown until the shared database answers (and used offline). */
+const SEED = [
+  {id:'iphone-18-pro-max',fam:'iphone',line:'iPhone 18',name:'iPhone 18 Pro Max',model:'plateau',cond:'novo',launch:true,year:2026,chip:'A20 Pro',screen:'6,9"',price:12499,old:13299,stock:4,rating:5,reviews:18,
+   opts:gb(['256 GB',0],['512 GB',1600],['1 TB',3600]),colors:c('cereja','azulProf','grafite','prata'),
+   specs:{Tela:'6,9" Super Retina XDR com ProMotion',Chip:'A20 Pro',Câmeras:'Fusion 48 MP · Ultra-angular 48 MP · Teleobjetiva 48 MP',Vídeo:'4K a 120 qps com Dolby Vision',Bateria:'O maior iPhone em bateria até hoje',Conexão:'5G · Wi-Fi 7 · USB-C'}},
+  {id:'iphone-18-pro',fam:'iphone',line:'iPhone 18',name:'iPhone 18 Pro',model:'plateau',cond:'novo',launch:true,year:2026,chip:'A20 Pro',screen:'6,3"',price:10999,old:11799,stock:6,rating:5,reviews:24,
+   opts:gb(['256 GB',0],['512 GB',1600],['1 TB',3600]),colors:c('cereja','azulProf','grafite','prata'),
+   specs:{Tela:'6,3" Super Retina XDR com ProMotion',Chip:'A20 Pro',Câmeras:'Fusion 48 MP · Ultra-angular 48 MP · Teleobjetiva 48 MP',Vídeo:'4K a 120 qps com Dolby Vision',Conexão:'5G · Wi-Fi 7 · USB-C'}},
+  {id:'iphone-17-pro-max',fam:'iphone',line:'iPhone 17',name:'iPhone 17 Pro Max',model:'plateau',cond:'novo',year:2025,chip:'A19 Pro',screen:'6,9"',price:9999,old:11499,stock:7,rating:4.9,reviews:61,
+   opts:gb(['256 GB',0],['512 GB',1500],['1 TB',3300],['2 TB',6300]),colors:c('laranja','azulInt','prata'),
+   specs:{Tela:'6,9" Super Retina XDR com ProMotion',Chip:'A19 Pro',Câmeras:'Fusion 48 MP · Ultra-angular 48 MP · Teleobjetiva 48 MP 8x',Corpo:'Alumínio forjado unibody',Bateria:'Até 39 h de reprodução de vídeo',Conexão:'5G · Wi-Fi 7 · USB-C'}},
+  {id:'iphone-17-pro-max-semi',fam:'iphone',line:'iPhone 17',name:'iPhone 17 Pro Max',model:'plateau',cond:'seminovo',battery:97,grade:'Excelente',year:2025,chip:'A19 Pro',screen:'6,9"',price:8499,old:9999,stock:2,rating:4.9,reviews:12,
+   opts:gb(['256 GB',0],['512 GB',1200]),colors:c('laranja','azulInt'),
+   specs:{Tela:'6,9" Super Retina XDR com ProMotion',Chip:'A19 Pro',Câmeras:'Fusion 48 MP · Ultra-angular 48 MP · Teleobjetiva 48 MP 8x',Estado:'Sem marcas de uso, caixa original',Conexão:'5G · Wi-Fi 7 · USB-C'}},
+  {id:'iphone-17-pro',fam:'iphone',line:'iPhone 17',name:'iPhone 17 Pro',model:'plateau',cond:'novo',year:2025,chip:'A19 Pro',screen:'6,3"',price:8999,old:10499,stock:9,rating:4.9,reviews:77,
+   opts:gb(['256 GB',0],['512 GB',1500],['1 TB',3300]),colors:c('laranja','azulInt','prata'),
+   specs:{Tela:'6,3" Super Retina XDR com ProMotion',Chip:'A19 Pro',Câmeras:'Fusion 48 MP · Ultra-angular 48 MP · Teleobjetiva 48 MP 8x',Corpo:'Alumínio forjado unibody',Conexão:'5G · Wi-Fi 7 · USB-C'}},
+  {id:'iphone-air',fam:'iphone',line:'iPhone 17',name:'iPhone Air',model:'air',cond:'novo',year:2025,chip:'A19 Pro',screen:'6,5"',price:7999,old:9499,stock:5,rating:4.8,reviews:40,
+   opts:gb(['256 GB',0],['512 GB',1500],['1 TB',3300]),colors:c('azulCeu','dourado','brancoNuvem','pretoEsp'),
+   specs:{Tela:'6,5" Super Retina XDR com ProMotion',Chip:'A19 Pro',Espessura:'5,6 mm, o iPhone mais fino',Câmera:'Fusion 48 MP',Corpo:'Titânio com Ceramic Shield nos dois lados',Conexão:'5G · Wi-Fi 7 · USB-C'}},
+  {id:'iphone-17',fam:'iphone',line:'iPhone 17',name:'iPhone 17',model:'dual',cond:'novo',year:2025,chip:'A19',screen:'6,3"',price:6299,old:7299,stock:12,rating:4.8,reviews:95,
+   opts:gb(['256 GB',0],['512 GB',1500]),colors:c('lavanda','salvia','azulNevoa','branco','preto'),
+   specs:{Tela:'6,3" Super Retina XDR com ProMotion',Chip:'A19',Câmeras:'Fusion 48 MP · Ultra-angular 48 MP',Frontal:'Câmera Center Stage 18 MP',Conexão:'5G · Wi-Fi 7 · USB-C'}},
+  {id:'iphone-17-semi',fam:'iphone',line:'iPhone 17',name:'iPhone 17',model:'dual',cond:'seminovo',battery:99,grade:'Excelente',year:2025,chip:'A19',screen:'6,3"',price:5499,old:6299,stock:3,rating:4.8,reviews:9,
+   opts:gb(['256 GB',0]),colors:c('lavanda','preto'),
+   specs:{Tela:'6,3" Super Retina XDR com ProMotion',Chip:'A19',Câmeras:'Fusion 48 MP · Ultra-angular 48 MP',Estado:'Como novo, 2 meses de uso',Conexão:'5G · USB-C'}},
+  {id:'iphone-16-pro-max-semi',fam:'iphone',line:'iPhone 16',name:'iPhone 16 Pro Max',model:'triple',cond:'seminovo',battery:91,grade:'Excelente',year:2024,chip:'A18 Pro',screen:'6,9"',price:6699,old:7999,stock:4,rating:4.8,reviews:53,
+   opts:gb(['256 GB',0],['512 GB',900],['1 TB',1900]),colors:c('deserto','natural','tpreto','tbranco'),
+   specs:{Tela:'6,9" Super Retina XDR com ProMotion',Chip:'A18 Pro',Câmeras:'Fusion 48 MP · Ultra-angular 48 MP · Teleobjetiva 5x',Corpo:'Titânio',Conexão:'5G · Wi-Fi 7 · USB-C'}},
+  {id:'iphone-16-pro-semi',fam:'iphone',line:'iPhone 16',name:'iPhone 16 Pro',model:'triple',cond:'seminovo',battery:89,grade:'Muito bom',year:2024,chip:'A18 Pro',screen:'6,3"',price:5799,old:6999,stock:5,rating:4.7,reviews:38,
+   opts:gb(['128 GB',0],['256 GB',600],['512 GB',1400]),colors:c('deserto','natural','tpreto','tbranco'),
+   specs:{Tela:'6,3" Super Retina XDR com ProMotion',Chip:'A18 Pro',Câmeras:'Fusion 48 MP · Ultra-angular 48 MP · Teleobjetiva 5x',Estado:'Leves sinais de uso na lateral',Conexão:'5G · USB-C'}},
+  {id:'iphone-16',fam:'iphone',line:'iPhone 16',name:'iPhone 16',model:'dual',cond:'novo',year:2024,chip:'A18',screen:'6,1"',price:4999,old:5799,stock:10,rating:4.8,reviews:120,
+   opts:gb(['128 GB',0],['256 GB',800],['512 GB',2000]),colors:c('ultra','verdeAc','rosa','branco','preto'),
+   specs:{Tela:'6,1" Super Retina XDR',Chip:'A18',Câmeras:'Fusion 48 MP · Ultra-angular 12 MP',Botões:'Botão de Ação e Controle da Câmera',Conexão:'5G · USB-C'}},
+  {id:'iphone-16-plus-semi',fam:'iphone',line:'iPhone 16',name:'iPhone 16 Plus',model:'dual',cond:'seminovo',battery:93,grade:'Excelente',year:2024,chip:'A18',screen:'6,7"',price:4599,old:5499,stock:2,rating:4.7,reviews:21,
+   opts:gb(['128 GB',0],['256 GB',600]),colors:c('ultra','rosa','preto'),
+   specs:{Tela:'6,7" Super Retina XDR',Chip:'A18',Câmeras:'Fusion 48 MP · Ultra-angular 12 MP',Estado:'Sem marcas de uso',Conexão:'5G · USB-C'}},
+  {id:'iphone-16e',fam:'iphone',line:'iPhone 16',name:'iPhone 16e',model:'single',cond:'novo',year:2025,chip:'A18',screen:'6,1"',price:3999,old:4599,stock:8,rating:4.6,reviews:44,
+   opts:gb(['128 GB',0],['256 GB',700],['512 GB',1900]),colors:c('branco','preto'),
+   specs:{Tela:'6,1" Super Retina XDR',Chip:'A18',Câmera:'Fusion 48 MP 2 em 1',Bateria:'Até 26 h de vídeo',Conexão:'5G · USB-C'}},
+
+  {id:'macbook-pro-14-m5-pro',fam:'mac',kind:'laptop',line:'MacBook Pro',name:'MacBook Pro 14" M5 Pro',cond:'novo',launch:true,year:2026,chip:'M5 Pro',screen:'14,2"',price:21999,old:23999,stock:3,rating:5,reviews:11,
+   opts:gb(['24 GB · 1 TB SSD',0],['48 GB · 1 TB SSD',4000],['48 GB · 2 TB SSD',7000]),colors:c('pretoMac','prateado'),
+   specs:{Tela:'Liquid Retina XDR 14,2" com até 1.600 nits',Chip:'M5 Pro, CPU de 14 núcleos e GPU de 20 núcleos',Bateria:'Até 22 h',Portas:'3 Thunderbolt 5 · HDMI · SDXC · MagSafe 3',Câmera:'Center Stage 12 MP'}},
+  {id:'macbook-pro-16-m5-max',fam:'mac',kind:'laptop',line:'MacBook Pro',name:'MacBook Pro 16" M5 Max',cond:'novo',launch:true,year:2026,chip:'M5 Max',screen:'16,2"',price:33999,old:35999,stock:2,rating:5,reviews:6,
+   opts:gb(['36 GB · 1 TB SSD',0],['64 GB · 2 TB SSD',9000]),colors:c('pretoMac','prateado'),
+   specs:{Tela:'Liquid Retina XDR 16,2"',Chip:'M5 Max, CPU de 16 núcleos e GPU de 40 núcleos',Bateria:'Até 24 h',Portas:'3 Thunderbolt 5 · HDMI · SDXC · MagSafe 3'}},
+  {id:'macbook-pro-14-m5',fam:'mac',kind:'laptop',line:'MacBook Pro',name:'MacBook Pro 14" M5',cond:'novo',year:2025,chip:'M5',screen:'14,2"',price:15999,old:17499,stock:5,rating:4.9,reviews:29,
+   opts:gb(['16 GB · 512 GB SSD',0],['16 GB · 1 TB SSD',2000],['24 GB · 1 TB SSD',4000]),colors:c('pretoMac','prateado'),
+   specs:{Tela:'Liquid Retina XDR 14,2"',Chip:'M5, CPU de 10 núcleos e GPU de 10 núcleos',Bateria:'Até 24 h',Portas:'3 Thunderbolt 4 · HDMI · SDXC · MagSafe 3'}},
+  {id:'macbook-air-13-m5',fam:'mac',kind:'laptop',line:'MacBook Air',name:'MacBook Air 13" M5',cond:'novo',year:2026,chip:'M5',screen:'13,6"',price:9999,old:10999,stock:8,rating:4.9,reviews:33,
+   opts:gb(['16 GB · 512 GB SSD',0],['24 GB · 512 GB SSD',1500],['24 GB · 1 TB SSD',3000]),colors:c('ceuMac','prateado','estelar','meiaNoite'),
+   specs:{Tela:'Liquid Retina 13,6"',Chip:'M5',Peso:'1,24 kg',Bateria:'Até 18 h',Portas:'2 Thunderbolt · MagSafe 3 · P2'}},
+  {id:'macbook-air-15-m5',fam:'mac',kind:'laptop',line:'MacBook Air',name:'MacBook Air 15" M5',cond:'novo',year:2026,chip:'M5',screen:'15,3"',price:11999,old:12999,stock:6,rating:4.9,reviews:19,
+   opts:gb(['16 GB · 512 GB SSD',0],['24 GB · 1 TB SSD',3000]),colors:c('ceuMac','prateado','estelar','meiaNoite'),
+   specs:{Tela:'Liquid Retina 15,3"',Chip:'M5',Som:'6 alto-falantes com áudio espacial',Bateria:'Até 18 h',Portas:'2 Thunderbolt · MagSafe 3 · P2'}},
+  {id:'macbook-air-13-m4-semi',fam:'mac',kind:'laptop',line:'MacBook Air',name:'MacBook Air 13" M4',cond:'seminovo',battery:96,grade:'Excelente',year:2025,chip:'M4',screen:'13,6"',price:6999,old:8499,stock:3,rating:4.8,reviews:15,
+   opts:gb(['16 GB · 256 GB SSD',0],['16 GB · 512 GB SSD',900]),colors:c('ceuMac','meiaNoite'),
+   specs:{Tela:'Liquid Retina 13,6"',Chip:'M4',Ciclos:'42 ciclos de bateria',Estado:'Sem marcas, com carregador original',Portas:'2 Thunderbolt 4 · MagSafe 3'}},
+  {id:'macbook-pro-14-m4-semi',fam:'mac',kind:'laptop',line:'MacBook Pro',name:'MacBook Pro 14" M4',cond:'seminovo',battery:94,grade:'Excelente',year:2024,chip:'M4',screen:'14,2"',price:10999,old:13499,stock:2,rating:4.8,reviews:10,
+   opts:gb(['16 GB · 512 GB SSD',0],['24 GB · 1 TB SSD',2200]),colors:c('pretoMac','prateado'),
+   specs:{Tela:'Liquid Retina XDR 14,2"',Chip:'M4',Ciclos:'68 ciclos de bateria',Portas:'3 Thunderbolt 4 · HDMI · SDXC · MagSafe 3'}},
+  {id:'macbook-pro-14-m3-pro-semi',fam:'mac',kind:'laptop',line:'MacBook Pro',name:'MacBook Pro 14" M3 Pro',cond:'seminovo',battery:88,grade:'Muito bom',year:2023,chip:'M3 Pro',screen:'14,2"',price:9499,old:11999,stock:2,rating:4.7,reviews:14,
+   opts:gb(['18 GB · 512 GB SSD',0],['36 GB · 1 TB SSD',2500]),colors:c('pretoMac','prateado'),
+   specs:{Tela:'Liquid Retina XDR 14,2"',Chip:'M3 Pro',Ciclos:'190 ciclos de bateria',Estado:'Leve marca na tampa'}},
+  {id:'macbook-air-13-m2-semi',fam:'mac',kind:'laptop',line:'MacBook Air',name:'MacBook Air 13" M2',cond:'seminovo',battery:87,grade:'Muito bom',year:2022,chip:'M2',screen:'13,6"',price:4999,old:6499,stock:4,rating:4.7,reviews:47,
+   opts:gb(['8 GB · 256 GB SSD',0],['16 GB · 512 GB SSD',1200]),colors:c('meiaNoite','estelar','cinzaEsp','prateado'),
+   specs:{Tela:'Liquid Retina 13,6"',Chip:'M2',Ciclos:'230 ciclos de bateria',Portas:'2 Thunderbolt · MagSafe 3'}},
+  {id:'macbook-air-m1-semi',fam:'mac',kind:'laptop',line:'MacBook Air',name:'MacBook Air 13" M1',cond:'seminovo',battery:85,grade:'Bom',year:2020,chip:'M1',screen:'13,3"',price:3799,old:4999,stock:3,rating:4.6,reviews:66,
+   opts:gb(['8 GB · 256 GB SSD',0]),colors:c('cinzaEsp','ouroMac','prateado'),
+   specs:{Tela:'Retina 13,3"',Chip:'M1',Ciclos:'310 ciclos de bateria',Estado:'Sinais de uso nos cantos'}},
+  {id:'imac-24-m4',fam:'mac',kind:'imac',line:'iMac',name:'iMac 24" M4',cond:'novo',year:2024,chip:'M4',screen:'24"',price:12999,old:13999,stock:3,rating:4.9,reviews:22,
+   opts:gb(['16 GB · 256 GB SSD',0],['16 GB · 512 GB SSD',2000],['24 GB · 1 TB SSD',5000]),colors:c('iAzul','iVerde','iRosa','prateado','iAmarelo','iLaranja','iRoxo'),
+   specs:{Tela:'Retina 4,5K de 24"',Chip:'M4',Câmera:'Center Stage 12 MP',Acompanha:'Magic Keyboard com Touch ID e Magic Mouse'}},
+  {id:'mac-mini-m4',fam:'mac',kind:'mini',line:'Mac mini',name:'Mac mini M4',cond:'novo',year:2024,chip:'M4',screen:'Sem tela',price:5999,old:6499,stock:6,rating:4.9,reviews:58,
+   opts:gb(['16 GB · 256 GB SSD',0],['16 GB · 512 GB SSD',2000],['M4 Pro · 24 GB · 512 GB',6000]),colors:c('prateado'),
+   specs:{Chip:'M4',Tamanho:'12,7 × 12,7 cm',Portas:'Thunderbolt 4 · HDMI · Ethernet Gigabit · USB-C frontal'}},
+  {id:'mac-studio-m4-max',fam:'mac',kind:'studio',line:'Mac Studio',name:'Mac Studio M4 Max',cond:'novo',year:2025,chip:'M4 Max',screen:'Sem tela',price:24999,old:26999,stock:1,rating:5,reviews:5,
+   opts:gb(['36 GB · 512 GB SSD',0],['64 GB · 1 TB SSD',8000]),colors:c('prateado'),
+   specs:{Chip:'M4 Max, CPU de 14 núcleos e GPU de 32 núcleos',Portas:'Thunderbolt 5 · HDMI · 10Gb Ethernet · SDXC',Uso:'Edição de vídeo 8K, 3D e IA local'}}
+];
+let P = SEED.map(p => ({...p}));
+const byId = id => P.find(p => p.id === id);
+const shown = () => P.filter(p => !p.hidden);
+const pick = (id, fam) => { const p = byId(id); return p && !p.hidden ? p : (shown().find(x => x.fam === fam && x.launch) || shown().find(x => x.fam === fam)); };
+const curHash = () => (location.hash || '#inicio').slice(1);
+
+/* ============ Helpers ============ */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const brl = v => v.toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
+const brl0 = v => v.toLocaleString('pt-BR', {style:'currency', currency:'BRL', maximumFractionDigits:0});
+const esc = s => String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const load = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d } catch(e) { return d } };
+const save = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch(e) {} };
+const pixOf = v => Math.round(v * (1 - PIX_OFF) * 100) / 100;
+const priceOf = (p, o=0) => p.price + (p.opts[o] ? p.opts[o].d : 0);
+const oldOf = (p, o=0) => p.old ? p.old + (p.opts[o] ? p.opts[o].d : 0) : 0;
+const stars = r => '★★★★★'.slice(0, Math.round(r)) + '☆☆☆☆☆'.slice(0, 5 - Math.round(r));
+
+function mix(hex, p){
+  const n = parseInt(hex.slice(1), 16); let r = n>>16&255, g = n>>8&255, b = n&255;
+  const t = p < 0 ? 0 : 255, a = Math.abs(p);
+  r = Math.round(r + (t-r)*a); g = Math.round(g + (t-g)*a); b = Math.round(b + (t-b)*a);
+  return `rgb(${r},${g},${b})`;
+}
+function lum(hex){ const n = parseInt(hex.slice(1),16); return (0.299*(n>>16&255) + 0.587*(n>>8&255) + 0.114*(n&255)) / 255 }
+
+/* ============ Delivery ============ */
+function addBiz(n, from=new Date()){
+  const d = new Date(from);
+  while(n > 0){ d.setDate(d.getDate()+1); const w = d.getDay(); if(w !== 0 && w !== 6) n--; }
+  return d;
+}
+const fmtD = d => d.toLocaleDateString('pt-BR', {weekday:'short', day:'numeric', month:'short'}).replace(/\./g,'').replace(',', ',');
+function region(cep){
+  const s = (cep||'').replace(/\D/g,''); if(s.length !== 8) return null;
+  const T = [[1,2,'São Paulo','SP','Centro'],[1,2,'São Paulo','SP','Pinheiros'],[2,4,'Rio de Janeiro','RJ','Botafogo'],[2,4,'Belo Horizonte','MG','Savassi'],[4,7,'Salvador','BA','Barra'],[4,7,'Recife','PE','Boa Viagem'],[5,9,'Fortaleza','CE','Aldeota'],[3,5,'Brasília','DF','Asa Sul'],[3,5,'Curitiba','PR','Batel'],[3,6,'Porto Alegre','RS','Moinhos de Vento']];
+  const t = T[+s[0]];
+  return {min:t[0], max:t[1], city:t[2], uf:t[3], bairro:t[4], local: t[3] === STORE.uf};
+}
+function shipText(cep){
+  const r = region(cep) || {min:1, max:2, city:STORE.city, uf:STORE.uf, local:true, guess:true};
+  const a = addBiz(r.min), b = addBiz(r.max);
+  return {r, a, b, express: addBiz(Math.max(1, r.min - 1))};
+}
+
+/* ============ Device art (SVG) ============ */
+let U = 0;
+const DATE_TXT = new Date().toLocaleDateString('pt-BR', {weekday:'long', day:'numeric', month:'long'});
+function lens(cx, cy, r, hex, id){
+  return `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${mix(hex,-.32)}"/><circle cx="${cx}" cy="${cy}" r="${r*.82}" fill="#0b0c0f"/><circle cx="${cx}" cy="${cy}" r="${r*.58}" fill="url(#ln${id})"/><circle cx="${cx-r*.2}" cy="${cy-r*.22}" r="${r*.14}" fill="rgba(255,255,255,.55)"/>`;
+}
+function phoneBackInner(model, hex){
+  const i = ++U;
+  const plate = (x,y,w,h,rx) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${rx}" fill="${mix(hex,.1)}" stroke="${mix(hex,-.2)}" stroke-width="1.4"/><rect x="${x+1.6}" y="${y+1.6}" width="${w-3.2}" height="${h-3.2}" rx="${rx-1.6}" fill="none" stroke="rgba(255,255,255,.4)"/>`;
+  const flash = (x,y,r=6) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#f6f0dc" stroke="${mix(hex,-.3)}"/>`;
+  const dot = (x,y,r=4.5) => `<circle cx="${x}" cy="${y}" r="${r}" fill="#15161a"/>`;
+  const L = (x,y,r=18) => lens(x,y,r,hex,i);
+  let cam = '';
+  if(model === 'plateau') cam = plate(10,12,180,110,30) + L(40,40) + L(40,94) + L(88,67) + flash(156,42) + dot(156,92);
+  else if(model === 'triple') cam = plate(16,16,98,104,30) + L(42,43) + L(42,93) + L(88,68) + flash(90,32,6) + dot(90,104);
+  else if(model === 'air') cam = plate(12,16,176,58,29) + L(46,45,18) + flash(118,45,5.5) + dot(150,45,3);
+  else if(model === 'dual') cam = plate(18,18,54,110,27) + L(45,45,17) + L(45,101,17) + flash(86,40,5.5);
+  else cam = plate(18,18,58,58,20) + L(47,47,17) + flash(88,32,5.5);
+  return `<defs>
+    <linearGradient id="bd${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${mix(hex,.26)}"/><stop offset=".5" stop-color="${hex}"/><stop offset="1" stop-color="${mix(hex,-.22)}"/></linearGradient>
+    <radialGradient id="ln${i}" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#4a5b7c"/><stop offset=".55" stop-color="#151a24"/><stop offset="1" stop-color="#06070a"/></radialGradient>
+    <linearGradient id="sh${i}" x1="0" y1="0" x2="1" y2=".6"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".35" stop-color="#fff" stop-opacity="0"/><stop offset=".8" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#fff" stop-opacity=".12"/></linearGradient>
+  </defs>
+  <rect x="3" y="3" width="194" height="404" rx="40" fill="${mix(hex,-.28)}"/>
+  <rect x="5" y="5" width="190" height="400" rx="38" fill="url(#bd${i})"/>
+  <rect x="5" y="5" width="190" height="400" rx="38" fill="url(#sh${i})"/>
+  <rect x="7" y="7" width="186" height="396" rx="36" fill="none" stroke="rgba(255,255,255,.35)"/>
+  ${cam}`;
+}
+function phoneFrontInner(hex){
+  const i = ++U;
+  const light = lum(hex) > .6;
+  return `<defs>
+    <linearGradient id="wp${i}" x1="0" y1="0" x2=".4" y2="1"><stop offset="0" stop-color="${mix(hex,.35)}"/><stop offset=".5" stop-color="${light ? mix(hex,-.25) : hex}"/><stop offset="1" stop-color="#0d1020"/></linearGradient>
+    <clipPath id="cp${i}"><rect x="13" y="13" width="174" height="384" rx="30"/></clipPath>
+    <filter id="bl${i}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="22"/></filter>
+  </defs>
+  <rect x="2" y="2" width="196" height="406" rx="41" fill="${mix(hex,-.12)}"/>
+  <rect x="4" y="4" width="192" height="402" rx="39" fill="none" stroke="rgba(255,255,255,.45)"/>
+  <rect x="7" y="7" width="186" height="396" rx="36" fill="#08080a"/>
+  <g clip-path="url(#cp${i})">
+    <rect x="13" y="13" width="174" height="384" fill="url(#wp${i})"/>
+    <g filter="url(#bl${i})"><circle cx="40" cy="300" r="80" fill="${mix(hex,.55)}" opacity=".85"/><circle cx="175" cy="200" r="70" fill="${mix(hex,-.45)}"/><circle cx="120" cy="60" r="50" fill="${mix(hex,.2)}" opacity=".6"/></g>
+    <text x="100" y="82" text-anchor="middle" font-family="-apple-system,'Inter Tight',sans-serif" font-size="10.5" font-weight="600" fill="rgba(255,255,255,.9)">${DATE_TXT}</text>
+    <text x="100" y="134" text-anchor="middle" font-family="-apple-system,'Inter Tight',sans-serif" font-size="56" font-weight="700" fill="rgba(255,255,255,.95)" letter-spacing="-2">9:41</text>
+    <rect x="26" y="350" width="148" height="36" rx="18" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.35)"/>
+    ${[0,1,2,3].map(k => `<rect x="${36+k*34}" y="356" width="24" height="24" rx="7" fill="rgba(255,255,255,${.55 - k*.08})"/>`).join('')}
+  </g>
+  <rect x="72" y="22" width="56" height="17" rx="8.5" fill="#000"/>`;
+}
+function laptopInner(hex, lid){
+  const i = ++U;
+  if(lid) return `<defs><linearGradient id="ld${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${mix(hex,.22)}"/><stop offset=".55" stop-color="${hex}"/><stop offset="1" stop-color="${mix(hex,-.2)}"/></linearGradient></defs>
+    <rect x="40" y="22" width="360" height="236" rx="18" fill="${mix(hex,-.25)}"/>
+    <rect x="42" y="24" width="356" height="232" rx="16" fill="url(#ld${i})"/>
+    <rect x="44" y="26" width="352" height="228" rx="15" fill="none" stroke="rgba(255,255,255,.4)"/>
+    <circle cx="220" cy="140" r="20" fill="${mix(hex,.12)}" stroke="${mix(hex,-.12)}"/>
+    <path d="M44 40 Q220 10 396 40 L396 26 L44 26Z" fill="rgba(255,255,255,.15)"/>`;
+  return `<defs>
+    <linearGradient id="wp${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0e1a4a"/><stop offset=".5" stop-color="#4b2c9b"/><stop offset="1" stop-color="#e46e5c"/></linearGradient>
+    <linearGradient id="bs${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${mix(hex,.3)}"/><stop offset="1" stop-color="${mix(hex,-.25)}"/></linearGradient>
+    <filter id="bl${i}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="18"/></filter>
+    <clipPath id="cp${i}"><rect x="58" y="20" width="324" height="206" rx="5"/></clipPath>
+  </defs>
+  <rect x="46" y="8" width="348" height="230" rx="16" fill="${mix(hex,-.12)}"/>
+  <rect x="50" y="12" width="340" height="224" rx="13" fill="#050506"/>
+  <g clip-path="url(#cp${i})">
+    <rect x="58" y="20" width="324" height="206" fill="url(#wp${i})"/>
+    <g filter="url(#bl${i})"><circle cx="110" cy="190" r="60" fill="#ff9f6b" opacity=".7"/><circle cx="320" cy="60" r="70" fill="#5ac8fa" opacity=".45"/></g>
+    <rect x="58" y="20" width="324" height="9" fill="rgba(255,255,255,.18)"/>
+    <rect x="128" y="62" width="184" height="118" rx="12" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.45)"/>
+    <circle cx="142" cy="74" r="3" fill="#ff5f57"/><circle cx="152" cy="74" r="3" fill="#febc2e"/><circle cx="162" cy="74" r="3" fill="#28c840"/>
+    <rect x="142" y="92" width="90" height="8" rx="4" fill="rgba(255,255,255,.6)"/><rect x="142" y="108" width="150" height="6" rx="3" fill="rgba(255,255,255,.35)"/><rect x="142" y="120" width="130" height="6" rx="3" fill="rgba(255,255,255,.35)"/>
+    <rect x="150" y="200" width="140" height="18" rx="9" fill="rgba(255,255,255,.22)" stroke="rgba(255,255,255,.35)"/>
+  </g>
+  <rect x="205" y="20" width="30" height="9" rx="4" fill="#050506"/>
+  <path d="M6 238 H434 L426 256 Q423 262 413 262 H27 Q17 262 14 256 Z" fill="url(#bs${i})"/>
+  <rect x="6" y="238" width="428" height="2" fill="rgba(255,255,255,.55)"/>
+  <rect x="180" y="238" width="80" height="7" rx="3.5" fill="${mix(hex,-.28)}"/>`;
+}
+function imacInner(hex){
+  const i = ++U;
+  return `<defs>
+    <linearGradient id="ch${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${mix(hex,.25)}"/><stop offset="1" stop-color="${mix(hex,-.12)}"/></linearGradient>
+    <linearGradient id="wp${i}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${mix(hex,.55)}"/><stop offset=".5" stop-color="${hex}"/><stop offset="1" stop-color="${mix(hex,-.45)}"/></linearGradient>
+    <filter id="bl${i}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="20"/></filter>
+    <clipPath id="cp${i}"><rect x="32" y="22" width="316" height="188" rx="3"/></clipPath>
+  </defs>
+  <path d="M158 266 H222 L238 328 H142 Z" fill="url(#ch${i})"/>
+  <rect x="118" y="324" width="144" height="9" rx="4.5" fill="${mix(hex,-.15)}"/>
+  <rect x="20" y="10" width="340" height="262" rx="16" fill="url(#ch${i})"/>
+  <rect x="20" y="10" width="340" height="212" rx="16" fill="#f7f7f7"/>
+  <rect x="20" y="200" width="340" height="22" fill="#f7f7f7"/>
+  <g clip-path="url(#cp${i})"><rect x="32" y="22" width="316" height="188" fill="url(#wp${i})"/>
+    <g filter="url(#bl${i})"><circle cx="90" cy="180" r="70" fill="${mix(hex,.6)}"/><circle cx="300" cy="60" r="60" fill="${mix(hex,-.5)}"/></g>
+    <rect x="32" y="22" width="316" height="8" fill="rgba(255,255,255,.25)"/>
+    <rect x="120" y="190" width="140" height="14" rx="7" fill="rgba(255,255,255,.3)"/>
+  </g>
+  <rect x="20" y="222" width="340" height="50" rx="0" fill="url(#ch${i})" opacity="0"/>
+  <path d="M20 222 H360 V256 Q360 272 344 272 H36 Q20 272 20 256 Z" fill="url(#ch${i})"/>`;
+}
+function boxInner(hex, studio){
+  const i = ++U;
+  const y = studio ? 40 : 86, h = studio ? 150 : 96, x = studio ? 90 : 60, w = studio ? 200 : 260;
+  return `<defs>
+    <linearGradient id="bx${i}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${mix(hex,.4)}"/><stop offset=".25" stop-color="${hex}"/><stop offset="1" stop-color="${mix(hex,-.22)}"/></linearGradient>
+    <filter id="bl${i}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8"/></filter>
+  </defs>
+  <ellipse cx="190" cy="${y+h+12}" rx="${w/2+10}" ry="10" fill="rgba(0,0,0,.25)" filter="url(#bl${i})"/>
+  <rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${studio?26:24}" fill="url(#bx${i})"/>
+  <rect x="${x+2}" y="${y+2}" width="${w-4}" height="${h-4}" rx="${studio?24:22}" fill="none" stroke="rgba(255,255,255,.6)"/>
+  <rect x="${x}" y="${y}" width="${w}" height="${h*.32}" rx="${studio?26:24}" fill="rgba(255,255,255,.28)"/>
+  ${studio
+    ? `<rect x="${x+30}" y="${y+h-40}" width="12" height="5" rx="2.5" fill="#2a2a2c"/><rect x="${x+52}" y="${y+h-40}" width="12" height="5" rx="2.5" fill="#2a2a2c"/><rect x="${x+130}" y="${y+h-41}" width="40" height="6" rx="3" fill="#2a2a2c"/><circle cx="${x+w-22}" cy="${y+h-38}" r="3" fill="#fff" opacity=".9"/>`
+    : `<rect x="${x+70}" y="${y+h-34}" width="14" height="5" rx="2.5" fill="#2a2a2c"/><rect x="${x+94}" y="${y+h-34}" width="14" height="5" rx="2.5" fill="#2a2a2c"/><circle cx="${x+126}" cy="${y+h-31.5}" r="3.5" fill="#2a2a2c"/><circle cx="${x+w-24}" cy="${y+h-31.5}" r="2.5" fill="#fff" opacity=".9"/>`}`;
+}
+const imgSrc = p => p.img ? '/_blob/' + p.img : (p.imgUrl || '');
+function viewsOf(p){
+  if(imgSrc(p)) return ['photo'];
+  if(p.fam === 'iphone') return ['combo','back','front'];
+  if(p.kind === 'laptop') return ['front','lid'];
+  return ['front'];
+}
+const VIEW_LBL = {combo:'Visão geral', back:'Traseira', front:'Frente', lid:'Fechado'};
+function art(p, ci=0, view){
+  if(imgSrc(p)) return `<img class="dev photo" src="${esc(imgSrc(p))}" alt="${esc(p.name)}" loading="lazy">`;
+  const hex = ((p.colors && (p.colors[ci] || p.colors[0])) || {h:'#c7c7cc'}).h;
+  view = view || viewsOf(p)[0];
+  if(p.fam === 'iphone'){
+    if(view === 'back') return `<svg class="dev" viewBox="0 0 200 410" role="img" aria-label="${esc(p.name)} traseira">${phoneBackInner(p.model, hex)}</svg>`;
+    if(view === 'front') return `<svg class="dev" viewBox="0 0 200 410" role="img" aria-label="${esc(p.name)} frente">${phoneFrontInner(hex)}</svg>`;
+    return `<svg class="dev" viewBox="0 0 330 430" role="img" aria-label="${esc(p.name)}"><svg x="0" y="20" width="200" height="410" viewBox="0 0 200 410">${phoneBackInner(p.model, hex)}</svg><svg x="130" y="0" width="200" height="410" viewBox="0 0 200 410">${phoneFrontInner(hex)}</svg></svg>`;
+  }
+  if(p.kind === 'laptop') return `<svg class="dev" viewBox="0 0 440 270" role="img" aria-label="${esc(p.name)}">${laptopInner(hex, view === 'lid')}</svg>`;
+  if(p.kind === 'imac') return `<svg class="dev" viewBox="0 0 380 340" role="img" aria-label="${esc(p.name)}">${imacInner(hex)}</svg>`;
+  return `<svg class="dev" viewBox="0 0 380 230" role="img" aria-label="${esc(p.name)}">${boxInner(hex, p.kind === 'studio')}</svg>`;
+}
+const isWide = p => p.fam === 'mac' || !!imgSrc(p);
+
+/* ============ State ============ */
+let cart = load('nume-cart', []);
+let F = {q:'', fam:new Set(), cond:new Set(), line:new Set(), max:36000, sort:'rel'};
+let sel = {id:null, color:0, opt:0, view:null};
+let cep = load('nume-cep', '');
+let heroC = 0;
+let ck = null;
+let lastOrder = null;
+
+/* ============ Shared bits ============ */
+const condLbl = p => p.cond === 'novo' ? 'Novo' : 'Seminovo';
+function card(p){
+  const vs = viewsOf(p);
+  const canFlip = !imgSrc(p) && (p.fam === 'iphone' || p.kind === 'laptop');
+  const f1 = p.fam === 'iphone' ? 'back' : 'front', f2 = p.fam === 'iphone' ? 'front' : 'lid';
+  const s = shipText(cep);
+  return `<article class="card" data-card="${p.id}">
+    <a class="cover" href="#p-${p.id}" aria-label="${esc(p.name)} ${condLbl(p)}"></a>
+    <span class="cond ${p.cond} glass">${condLbl(p)}</span>
+    ${p.launch ? '<span class="launch">Lançamento</span>' : ''}
+    <div class="ph tilt"><div class="tilt-inner" ${isWide(p) ? 'style="width:90%"' : ''}>
+      <div class="flip ${canFlip ? 'can' : ''}"><div class="face a">${art(p,0,f1)}</div>${canFlip ? `<div class="face b">${art(p,0,f2)}</div>` : ''}</div>
+    </div></div>
+    <div class="dots">${p.colors.length > 1 ? p.colors.map((k,i) => `<button class="sw ${i?'':'on'}" style="background:${k.h};position:relative;z-index:2" data-cs="${p.id}" data-i="${i}" aria-label="${k.n}" title="${k.n}"></button>`).join('') : ''}</div>
+    <h3>${esc(p.name)}</h3>
+    <div class="meta">${p.opts[0].l}${p.opts.length > 1 ? ' e mais' : ''}${p.battery ? ` · Bateria ${p.battery}%` : ''}</div>
+    <div class="p-old num">${p.old ? brl0(p.old) : ''}</div>
+    <div class="p num">${brl0(p.price)}</div>
+    <div class="pix num">${brl(pixOf(p.price))} no Pix</div>
+    <div class="inst num">ou ${MAX_INST}x de ${brl(p.price/MAX_INST)} sem juros</div>
+    <div class="ship">Frete grátis · chega ${fmtD(s.a)}</div>
+  </article>`;
+}
+function perkIcon(k){
+  const I = {
+    truck:'<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/>',
+    pix:'<path d="M12 3l3.5 3.5L12 10 8.5 6.5zM12 14l3.5 3.5L12 21l-3.5-3.5zM3 12l3.5-3.5L10 12l-3.5 3.5zM14 12l3.5-3.5L21 12l-3.5 3.5z"/>',
+    card:'<rect x="3" y="5.5" width="18" height="13" rx="2.5"/><path d="M3 10h18M7 15h4"/>',
+    shield:'<path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>',
+    store:'<path d="M4 9l1.5-5h13L20 9M4 9h16v11H4zM9 20v-6h6v6"/>',
+    box:'<path d="M3 7.5L12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5l9 4.5 9-4.5M12 12v9"/>'
+  };
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${I[k]}</svg>`;
+}
+
+/* ============ Pages ============ */
+function pageHome(){
+  const h = pick('iphone-18-pro','iphone'), m = pick('macbook-pro-14-m5-pro','mac');
+  if(!h || !m) return `<div class="wrap"><div class="page-head"><h1>Nume Apple</h1></div><div class="grid" style="padding-bottom:56px">${shown().map(card).join('') || '<div class="empty"><b>Catálogo em atualização</b><p class="muted">Volte em alguns minutos.</p></div>'}</div></div>`;
+  if(heroC >= h.colors.length) heroC = 0;
+  const hc = h.colors[heroC].h;
+  let best = ['iphone-17-pro','iphone-air','iphone-17','macbook-air-13-m5','iphone-16-pro-max-semi','macbook-pro-14-m5','iphone-16','mac-mini-m4'].map(byId).filter(p => p && !p.hidden);
+  if(best.length < 4) best = shown().slice(0, 8);
+  const semis = shown().filter(p => p.cond === 'seminovo' && p.fam === 'iphone').slice(0, 2);
+  return `
+  <section class="hero" id="hero">
+    <div class="blob" id="hb1" style="width:520px;height:520px;left:calc(50% - 520px);top:120px;background:${hc}"></div>
+    <div class="blob" id="hb2" style="width:440px;height:440px;left:52%;top:260px;background:${mix(hc,.4)}"></div>
+    <div class="wrap" style="position:relative">
+      <div class="eyebrow" style="color:#bf5a00">Lançamento</div>
+      <h1>${esc(h.name)}</h1>
+      <p class="sub">O iPhone mais avançado que já passou por aqui.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#p-${h.id}">Comprar</a>
+        <a class="btn btn-glass glass" href="#iphone">Ver todos os iPhones</a>
+      </div>
+      <p class="price-line num">A partir de <b>${brl0(h.price)}</b> ou ${MAX_INST}x de ${brl(h.price/MAX_INST)} sem juros · ${brl0(pixOf(h.price))} no Pix</p>
+      <div class="hero-stage tilt"><div class="tilt-inner" id="heroArt">${art(h, heroC, 'combo')}</div></div>
+      <div class="swatch-pill glass">
+        ${h.colors.map((k,i) => `<button class="sw ${i===heroC?'on':''}" style="background:${k.h}" data-act="hero-color" data-i="${i}" aria-label="${k.n}"></button>`).join('')}
+        <span class="lbl" id="heroLbl">${h.colors[heroC].n}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="band-night">
+    <div class="blob" style="width:600px;height:400px;left:-120px;top:40%;background:#3b2a9b;opacity:.45"></div>
+    <div class="blob" style="width:500px;height:400px;right:-120px;top:10%;background:#0a5cff;opacity:.3"></div>
+    <div class="wrap mac-hero" style="position:relative">
+      <div class="eyebrow" style="color:#ff9f0a">Novo</div>
+      <h1>${esc(m.name.replace(/ \d+(,\d+)?"/, ''))}</h1>
+      <p class="sub">Desempenho de estúdio, onde você estiver.</p>
+      <div class="ctas" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:24px">
+        <a class="btn btn-primary" href="#p-${m.id}">Comprar</a>
+        <a class="btn btn-glass glass" href="#mac">Ver todos os Macs</a>
+      </div>
+      <p class="price-line num" style="margin-top:18px">A partir de <b>${brl0(m.price)}</b> ou ${MAX_INST}x de ${brl(m.price/MAX_INST)}</p>
+      <div class="mac-stage tilt"><div class="tilt-inner">${art(m, 0, 'front')}</div></div>
+      <div class="spec-strip">
+        <div><b>${esc(m.chip)}</b><span>Apple Silicon</span></div>
+        <div><b>22 h</b><span>de bateria</span></div>
+        <div><b>1.600 nits</b><span>Liquid Retina XDR</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section"><div class="wrap">
+    <div class="tiles">
+      ${tile('iphone-air','O iPhone mais fino de todos.',1)}
+      ${tile('iphone-17','Mais tela, mais câmera, mesmo preço justo.',0)}
+      ${tile('macbook-air-13-m5','Leve, silencioso e com M5.',0)}
+      ${tile('imac-24-m4','Sete cores. Um chip M4.',0)}
+    </div>
+  </div></section>
+
+  <section class="section" style="padding-top:8px"><div class="wrap">
+    <div class="perks-bg">
+      <div class="blob" style="width:300px;height:300px;left:10%;top:-80px;background:#5ac8fa"></div>
+      <div class="blob" style="width:300px;height:300px;right:10%;bottom:-120px;background:#bf5af2"></div>
+      <div class="perks" style="position:relative">
+        <div class="perk glass">${perkIcon('truck')}<b>Entrega para todo o Brasil</b><span>Frete grátis e envio no mesmo dia para pedidos até 14h.</span></div>
+        <div class="perk glass">${perkIcon('pix')}<b>${Math.round(PIX_OFF*100)}% de desconto no Pix</b><span>Pagamento aprovado na hora, pedido separado em seguida.</span></div>
+        <div class="perk glass">${perkIcon('card')}<b>Até ${MAX_INST}x sem juros</b><span>Em todos os cartões de crédito.</span></div>
+        <div class="perk glass">${perkIcon('shield')}<b>Garantia em tudo</b><span>1 ano Apple nos novos, 6 meses da loja nos seminovos.</span></div>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section" style="padding-top:8px"><div class="wrap">
+    <div class="sec-head"><h2>Mais vendidos</h2><a class="btn-link" href="#catalogo">Ver catálogo completo ›</a></div>
+    <div class="shelf">${best.map(card).join('')}</div>
+  </div></section>
+
+  <section class="section" style="padding-top:8px"><div class="wrap">
+    <div class="used-band">
+      <div class="txt">
+        <span class="pill seminovo">Seminovos certificados</span>
+        <h2>iPhone e Mac seminovos, com cara de novo.</h2>
+        <ul><li>Revisados em 30 pontos por técnico</li><li>Bateria acima de 85%, informada no anúncio</li><li>6 meses de garantia da loja e nota fiscal</li></ul>
+        <a class="btn btn-primary" href="#seminovos" style="margin-top:6px">Ver seminovos</a>
+      </div>
+      <div class="art">
+        ${semis.map((p,i) => `<div class="tilt" ${i ? 'style="transform:translateY(24px)"' : ''}><div class="tilt-inner">${art(p,0,'back')}</div></div>`).join('')}
+      </div>
+    </div>
+  </div></section>
+
+  <section class="section" style="padding-top:8px"><div class="wrap">
+    <div class="ig-cta glass">
+      <div><div class="eyebrow">Instagram</div><h3>Novidades e estoque do dia em @numeapple</h3></div>
+      <a class="btn btn-primary" href="${IG}" target="_blank" rel="noopener">Seguir no Instagram</a>
+    </div>
+  </div></section>`;
+}
+function tile(id, txt, tag){
+  const p = byId(id);
+  if(!p || p.hidden) return '';
+  return `<a class="tile" href="#p-${id}">
+    ${tag ? '<span class="tag glass">Novo</span>' : ''}
+    <h3>${esc(p.name.replace(/ M\d.*$/,''))}</h3>
+    <p>${txt}</p>
+    <p class="num" style="font-size:15px">A partir de ${brl0(p.price)}</p>
+    <div class="tile-links"><span style="color:var(--accent)">Comprar ›</span></div>
+    <div class="tile-img tilt"><div class="tilt-inner">${art(p, 0, p.fam === 'iphone' ? 'combo' : 'front')}</div></div>
+  </a>`;
+}
+
+/* ---- Catalog ---- */
+const LINES = {iphone:['iPhone 18','iPhone 17','iPhone 16'], mac:['MacBook Pro','MacBook Air','iMac','Mac mini','Mac Studio']};
+function filtered(){
+  const words = norm(F.q).split(/\s+/).filter(Boolean);
+  let r = shown().filter(p => {
+    if(F.fam.size && !F.fam.has(p.fam)) return false;
+    if(F.cond.size && !F.cond.has(p.cond)) return false;
+    if(F.line.size && !F.line.has(p.line)) return false;
+    if(p.price > F.max) return false;
+    if(words.length){
+      const hay = norm([p.name, p.line, p.chip, p.cond, p.screen, p.colors.map(k=>k.n).join(' '), p.opts.map(o=>o.l).join(' ')].join(' '));
+      if(!words.every(w => hay.includes(w))) return false;
+    }
+    return true;
+  });
+  if(F.sort === 'low') r.sort((a,b) => a.price - b.price);
+  else if(F.sort === 'high') r.sort((a,b) => b.price - a.price);
+  else if(F.sort === 'new') r.sort((a,b) => b.year - a.year || b.price - a.price);
+  else r.sort((a,b) => (b.launch?1:0) - (a.launch?1:0) || b.year - a.year);
+  return r;
+}
+function cnt(fn){ return shown().filter(fn).length }
+function pageCatalog(title, sub){
+  const lines = F.fam.size === 1 ? LINES[[...F.fam][0]] : [...LINES.iphone, ...LINES.mac];
+  return `<div class="wrap">
+    <div class="page-head"><div class="eyebrow">${sub}</div><h1>${title}</h1></div>
+    <div class="cat">
+      <aside class="panel glass" id="panel" aria-label="Filtros">
+        <div class="panel-close"><b style="font-size:20px">Filtros</b><button class="btn btn-sm btn-glass glass" data-act="filters-close">Ver resultados</button></div>
+        <div class="search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+          <input id="q" type="search" placeholder="Buscar modelo, cor, chip…" value="${esc(F.q)}" autocomplete="off" aria-label="Buscar no catálogo">
+        </div>
+        <div><h4>Categoria</h4>
+          <label class="opt"><input type="checkbox" data-f="fam" value="iphone" ${F.fam.has('iphone')?'checked':''}>iPhone<span class="c">${cnt(p=>p.fam==='iphone')}</span></label>
+          <label class="opt"><input type="checkbox" data-f="fam" value="mac" ${F.fam.has('mac')?'checked':''}>Mac<span class="c">${cnt(p=>p.fam==='mac')}</span></label>
+        </div>
+        <div><h4>Condição</h4>
+          <label class="opt"><input type="checkbox" data-f="cond" value="novo" ${F.cond.has('novo')?'checked':''}>Novo, lacrado<span class="c">${cnt(p=>p.cond==='novo')}</span></label>
+          <label class="opt"><input type="checkbox" data-f="cond" value="seminovo" ${F.cond.has('seminovo')?'checked':''}>Seminovo certificado<span class="c">${cnt(p=>p.cond==='seminovo')}</span></label>
+        </div>
+        <div><h4>Linha</h4><div class="chips">${lines.map(l => `<button class="chip ${F.line.has(l)?'on':''}" data-act="line" data-v="${l}">${l}</button>`).join('')}</div></div>
+        <div><h4>Preço máximo</h4>
+          <input type="range" id="pmax" min="3500" max="36000" step="500" value="${F.max}" aria-label="Preço máximo">
+          <div class="range-row num"><span>R$ 3.500</span><b id="pmaxV" style="color:var(--fg)">${F.max >= 36000 ? 'Qualquer valor' : 'até ' + brl0(F.max)}</b></div>
+        </div>
+        <button class="btn btn-sm btn-glass glass" data-act="clear">Limpar filtros</button>
+      </aside>
+      <section>
+        <div class="toolbar">
+          <button class="btn btn-sm btn-glass glass filter-btn" data-act="filters-open">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filtros</button>
+          <span class="count" id="count"></span>
+          <div class="active-chips" id="activeChips"></div>
+          <select id="sort" aria-label="Ordenar">
+            <option value="rel" ${F.sort==='rel'?'selected':''}>Relevância</option>
+            <option value="new" ${F.sort==='new'?'selected':''}>Mais recentes</option>
+            <option value="low" ${F.sort==='low'?'selected':''}>Menor preço</option>
+            <option value="high" ${F.sort==='high'?'selected':''}>Maior preço</option>
+          </select>
+        </div>
+        <div id="results"></div>
+      </section>
+    </div>
+  </div>`;
+}
+function renderResults(){
+  const r = filtered();
+  const box = $('#results'); if(!box) return;
+  $('#count').textContent = `${r.length} ${r.length === 1 ? 'produto' : 'produtos'}`;
+  const chips = [];
+  if(F.q) chips.push(['q', '', `“${F.q}”`]);
+  F.fam.forEach(v => chips.push(['fam', v, v === 'iphone' ? 'iPhone' : 'Mac']));
+  F.cond.forEach(v => chips.push(['cond', v, v === 'novo' ? 'Novo' : 'Seminovo']));
+  F.line.forEach(v => chips.push(['line', v, v]));
+  if(F.max < 36000) chips.push(['max', '', 'até ' + brl0(F.max)]);
+  $('#activeChips').innerHTML = chips.map(([k,v,l]) => `<button data-act="unchip" data-k="${k}" data-v="${esc(v)}">${esc(l)} <span aria-hidden="true">✕</span></button>`).join('');
+  box.innerHTML = r.length ? `<div class="grid fade-in">${r.map(card).join('')}</div>`
+    : `<div class="empty"><b style="font-size:20px">Nenhum produto encontrado</b><p class="muted">Tente outro termo ou remova algum filtro.</p><button class="btn btn-primary btn-sm" data-act="clear">Limpar filtros</button></div>`;
+}
+
+/* ---- Product ---- */
+function pageProduct(p){
+  if(sel.id !== p.id) sel = {id:p.id, color:0, opt:0, view:viewsOf(p)[0]};
+  const pr = priceOf(p, sel.opt), old = oldOf(p, sel.opt);
+  const s = shipText(cep);
+  const vs = viewsOf(p);
+  const hex = p.colors[sel.color].h;
+  const rel = shown().filter(x => x.id !== p.id && (x.line === p.line || x.fam === p.fam)).slice(0, 4);
+  const cityTxt = s.r.guess ? `${STORE.city}, ${STORE.uf}` : `${s.r.city}, ${s.r.uf}`;
+  return `<div class="wrap">
+    <nav class="crumbs" aria-label="Navegação"><a href="#inicio">Início</a>›<a href="#${p.fam}">${p.fam === 'iphone' ? 'iPhone' : 'Mac'}</a>›<a href="#catalogo">${p.line}</a>›<span>${esc(p.name)}</span></nav>
+    <div class="pdp">
+      <div class="gallery">
+        <div class="stage tilt ${isWide(p) ? 'wide' : ''} ${p.fam === 'iphone' && !imgSrc(p) && sel.view !== 'combo' ? 'tall' : ''}">
+          <div class="blob" style="width:60%;height:60%;left:5%;top:10%;background:${hex}"></div>
+          <div class="blob" style="width:50%;height:50%;right:0;bottom:0;background:${mix(hex,.45)}"></div>
+          <div class="tilt-inner fade-in" id="stageArt">${art(p, sel.color, sel.view)}</div>
+          <span class="hint glass">Passe o mouse para girar</span>
+        </div>
+        ${vs.length > 1 ? `<div class="views">${vs.map(v => `<button class="${v===sel.view?'on':''}" data-act="view" data-v="${v}" aria-label="${VIEW_LBL[v]}" title="${VIEW_LBL[v]}">${art(p, sel.color, v)}</button>`).join('')}</div>` : ''}
+      </div>
+      <div class="buy">
+        <div class="pills"><span class="pill ${p.cond}">${p.cond === 'novo' ? 'Novo · Lacrado' : 'Seminovo certificado'}</span>${p.launch ? '<span class="pill hot">Lançamento</span>' : ''}${p.stock <= 3 ? `<span class="pill">Últimas ${p.stock} unidades</span>` : ''}</div>
+        <h1>${esc(p.name)}</h1>
+        <div class="rating"><span class="stars">${stars(p.rating)}</span> ${p.rating.toLocaleString('pt-BR')} · ${p.reviews} avaliações</div>
+        <div class="pricebox glass">
+          ${old ? `<div class="old num">${brl(old)}</div>` : ''}
+          <div><span class="now num" id="pNow">${brl(pr)}</span>${old ? `<span class="off">${Math.round((1 - pr/old)*100)}% OFF</span>` : ''}</div>
+          <div class="pixp num">${brl(pixOf(pr))} no Pix (${Math.round(PIX_OFF*100)}% de desconto)</div>
+          <div class="inst num">ou em até ${MAX_INST}x de ${brl(pr/MAX_INST)} sem juros</div>
+        </div>
+
+        ${p.colors.length ? `<div class="group"><div class="group-h"><b>Cor</b><span>${p.colors[sel.color].n}</span></div>
+          <div class="swatches">${p.colors.map((k,i) => `<button class="sw ${i===sel.color?'on':''}" style="background:${k.h}" data-act="color" data-i="${i}" aria-label="${k.n}" title="${k.n}"></button>`).join('')}</div></div>` : ''}
+
+        <div class="group"><div class="group-h"><b>${p.fam === 'iphone' ? 'Armazenamento' : 'Configuração'}</b><span>${p.chip}</span></div>
+          <div class="opts">${p.opts.map((o,i) => `<button class="optbtn ${i===sel.opt?'on':''}" data-act="opt" data-i="${i}"><b>${o.l}</b><span class="num">${brl0(priceOf(p,i))}</span></button>`).join('')}</div></div>
+
+        ${p.cond === 'seminovo' ? `<div class="group"><div class="group-h"><b>Estado do aparelho</b><span>${p.grade}</span></div>
+          <div class="cond-box">
+            <div class="cond-row"><span>Saúde da bateria</span><b class="num">${p.battery}%</b></div>
+            <div class="meter"><i style="width:${p.battery}%"></i></div>
+            <div class="cond-row"><span>Revisão técnica</span><b>30 pontos aprovados</b></div>
+            <div class="cond-row"><span>Garantia</span><b>6 meses da loja</b></div>
+            <div class="cond-row"><span>Acompanha</span><b>Cabo USB-C e nota fiscal</b></div>
+          </div></div>` : ''}
+
+        <div class="group"><div class="group-h"><b>Entrega</b><span>${p.stock} em estoque</span></div>
+          <div class="ship-box">
+            <div class="cep-row"><input id="cep" inputmode="numeric" data-mask="cep" placeholder="Digite seu CEP" value="${esc(cep)}" aria-label="CEP"><button class="btn btn-sm btn-glass glass" data-act="cep">Calcular</button></div>
+            <div class="ship-line">${perkIcon('truck')}<div><span class="g">Chega grátis entre ${fmtD(s.a)} e ${fmtD(s.b)}</span><small>Envio normal para ${cityTxt}${s.r.guess ? ' (informe o CEP para o prazo exato)' : ''}</small></div></div>
+            <div class="ship-line">${perkIcon('box')}<div><b>Expressa: ${fmtD(s.express)}</b><small>${brl(EXPRESS)} · pedidos pagos até 14h</small></div></div>
+            <div class="ship-line">${perkIcon('store')}<div><b>Retire grátis hoje, a partir das 15h</b><small>${STORE.pickup}</small></div></div>
+          </div></div>
+
+        <div class="buy-ctas">
+          <button class="btn btn-primary btn-block" data-act="buy" data-id="${p.id}">Comprar agora</button>
+          <button class="btn btn-glass glass btn-block" data-act="add" data-id="${p.id}">Adicionar à sacola</button>
+        </div>
+        <div class="trust">
+          <div>${perkIcon('shield')}${p.cond === 'novo' ? '1 ano de garantia Apple · nota fiscal' : '6 meses de garantia da loja · nota fiscal'}</div>
+          <div>${perkIcon('box')}7 dias para devolução grátis</div>
+          <div>${perkIcon('card')}Compra protegida · Pix, cartão em até ${MAX_INST}x ou boleto</div>
+        </div>
+      </div>
+    </div>
+    <section class="section" style="padding-top:0"><div class="sec-head"><h2>Especificações</h2></div>
+      <div class="specs">${Object.entries(p.specs).map(([k,v]) => `<div><b>${k}</b><span>${esc(v)}</span></div>`).join('')}<div><b>Ano</b><span>${p.year}</span></div></div>
+    </section>
+    ${rel.length ? `<section class="section" style="padding-top:0"><div class="sec-head"><h2>Você também pode gostar</h2></div><div class="grid">${rel.map(card).join('')}</div></section>` : ''}
+  </div>`;
+}
+
+/* ---- Checkout ---- */
+function ckTotals(){
+  const sub = ck.items.reduce((s,it) => s + priceOf(byId(it.id), it.opt) * it.qty, 0);
+  const ship = ck.ship === 'express' ? EXPRESS : 0;
+  const disc = ck.pay === 'pix' ? Math.round(sub * PIX_OFF * 100) / 100 : 0;
+  return {sub, ship, disc, total: sub - disc + ship};
+}
+function itemRow(it, controls){
+  const p = byId(it.id);
+  return `<div class="line-item">
+    <div class="th">${art(p, it.color, p.fam === 'iphone' ? 'back' : 'front')}</div>
+    <div style="min-width:0"><b>${esc(p.name)}</b><small>${p.opts[it.opt].l} · ${p.colors[it.color].n} · ${condLbl(p)}</small>
+      ${controls ? `<div style="display:flex;align-items:center"><div class="qty"><button data-act="qty" data-k="${it.k}" data-d="-1" aria-label="Diminuir">−</button><span class="num">${it.qty}</span><button data-act="qty" data-k="${it.k}" data-d="1" aria-label="Aumentar">+</button></div><button class="rm" data-act="rm" data-k="${it.k}">Remover</button></div>` : `<small>Qtd. ${it.qty}</small>`}
+    </div>
+    <b class="num" style="font-size:15px">${brl(priceOf(p, it.opt) * it.qty)}</b>
+  </div>`;
+}
+const F_ADDR = [
+  ['nome','Nome completo','s6','text','name'],['email','E-mail','s3','email','email'],['tel','Celular','s3','tel','tel'],
+  ['cpf','CPF','s3','text','off'],['cep','CEP','s3','text','postal-code'],
+  ['rua','Endereço','s4','text','address-line1'],['num','Número','s2','text','off'],
+  ['comp','Complemento (opcional)','s3','text','address-line2'],['bairro','Bairro','s3','text','off'],
+  ['cidade','Cidade','s4','text','address-level2'],['uf','UF','s2','text','address-level1']
+];
+const MASK = {cep:'cep', tel:'tel', cpf:'cpf'};
+function pageCheckout(){
+  if(!ck || !ck.items.length) return `<div class="wrap"><div class="empty" style="margin-block:56px"><b style="font-size:22px">Sua sacola está vazia</b><p class="muted">Escolha um produto para continuar.</p><a class="btn btn-primary btn-sm" href="#catalogo">Ver catálogo</a></div></div>`;
+  const t = ckTotals();
+  const a = ck.addr, s = shipText(a.cep);
+  const shipLbl = {normal:`Normal · chega entre ${fmtD(s.a)} e ${fmtD(s.b)}`, express:`Expressa · chega ${fmtD(s.express)}`, pickup:'Retirada na loja · hoje, a partir das 15h'}[ck.ship];
+  const payLbl = {pix:'Pix', card:`Cartão de crédito · ${ck.card.inst}x de ${brl(t.total/ck.card.inst)}`, boleto:'Boleto bancário', wallet:'Carteira digital'}[ck.pay];
+  const stepCls = n => ck.step === n ? 'cur' : ck.step > n ? 'done' : 'locked';
+  return `<div class="wrap">
+    <div class="page-head" style="padding-bottom:12px"><div class="eyebrow">Finalizar compra</div><h1>Checkout</h1></div>
+    <div class="demo-note">${perkIcon('shield')}<span>Protótipo: o pagamento é simulado e nenhum valor é cobrado.</span></div>
+    <div class="ck">
+      <div>
+        <section class="step ${stepCls(1)}">
+          <div class="step-h"><span class="step-n">${ck.step > 1 ? '✓' : 1}</span><h2>Entrega</h2>${ck.step > 1 ? '<button class="btn-link edit" data-act="ck-edit" data-s="1">Alterar</button>' : '<button class="btn-link edit" data-act="ck-fill">Preencher exemplo</button>'}</div>
+          ${ck.step > 1 ? `<p class="step-sum">${esc(a.nome)} · ${esc(a.rua)}, ${esc(a.num)} · ${esc(a.cidade)}/${esc(a.uf)}<br>${shipLbl}</p>` : ''}
+          ${ck.step === 1 ? `<div class="step-b">
+            <div class="form">${F_ADDR.map(([id,l,sp,ty,ac]) => `<div class="field ${sp}" id="f-${id}"><label for="a-${id}">${l}</label><input id="a-${id}" type="${ty}" autocomplete="${ac}" value="${esc(a[id]||'')}" ${MASK[id] ? `data-mask="${MASK[id]}" inputmode="numeric"` : ''} ${id==='uf'?'maxlength="2"':''}><span class="err"></span></div>`).join('')}</div>
+            <h3 style="font-size:17px;margin:24px 0 12px">Como você quer receber?</h3>
+            <div class="radios" id="shipOpts">${shipOpts(a.cep)}</div>
+            <button class="btn btn-primary" style="margin-top:20px" data-act="ck-next" data-s="1">Continuar para pagamento</button>
+          </div>` : ''}
+        </section>
+        <section class="step ${stepCls(2)}">
+          <div class="step-h"><span class="step-n">${ck.step > 2 ? '✓' : 2}</span><h2>Pagamento</h2>${ck.step > 2 ? '<button class="btn-link edit" data-act="ck-edit" data-s="2">Alterar</button>' : ''}</div>
+          ${ck.step > 2 ? `<p class="step-sum">${payLbl}</p>` : ''}
+          ${ck.step === 2 ? `<div class="step-b">${payBlock(t)}</div>` : ''}
+        </section>
+        <section class="step ${stepCls(3)}">
+          <div class="step-h"><span class="step-n">3</span><h2>Revisar e confirmar</h2></div>
+          ${ck.step === 3 ? `<div class="step-b">
+            <div class="review-grid">
+              <div><b>Entrega</b>${esc(a.rua)}, ${esc(a.num)}${a.comp ? ' · ' + esc(a.comp) : ''}<br>${esc(a.bairro)} · ${esc(a.cidade)}/${esc(a.uf)}</div>
+              <div><b>Prazo</b>${shipLbl}</div>
+              <div><b>Pagamento</b>${payLbl}</div>
+              <div><b>Nota fiscal para</b>${esc(a.nome)}<br>${esc(a.email)}</div>
+            </div>
+            <label class="terms"><input type="checkbox" id="terms" ${ck.terms?'checked':''}>Li e concordo com os termos de venda, a política de trocas de 7 dias e a garantia do produto.</label>
+            <p class="err" id="termsErr" style="color:var(--err);font-size:13px;margin-top:6px"></p>
+            <button class="btn btn-primary btn-block" style="margin-top:16px;min-height:52px" data-act="ck-confirm" id="confirmBtn">Confirmar pedido · ${brl(t.total)}</button>
+          </div>` : ''}
+        </section>
+      </div>
+      <aside class="summary glass">
+        <h3>Resumo do pedido</h3>
+        <div class="sum-items">${ck.items.map(it => itemRow(it, false)).join('')}</div>
+        <div class="sum-row"><span>Produtos</span><span class="num">${brl(t.sub)}</span></div>
+        <div class="sum-row"><span>Frete</span><span class="num ${t.ship ? '' : 'g'}">${t.ship ? brl(t.ship) : 'Grátis'}</span></div>
+        ${t.disc ? `<div class="sum-row"><span>Desconto Pix</span><span class="num g">− ${brl(t.disc)}</span></div>` : ''}
+        <div class="sum-row total"><span>Total</span><span class="num">${brl(t.total)}</span></div>
+        <p class="muted num" style="font-size:13px">${ck.pay === 'pix' ? 'À vista no Pix' : `ou ${MAX_INST}x de ${brl(t.total/MAX_INST)} sem juros no cartão`}</p>
+      </aside>
+    </div>
+  </div>`;
+}
+function shipOpts(cepv){
+  const s = shipText(cepv);
+  const o = [
+    ['normal', 'Envio normal', `Chega entre ${fmtD(s.a)} e ${fmtD(s.b)}`, 'Grátis'],
+    ['express', 'Envio expresso', `Chega ${fmtD(s.express)}`, brl(EXPRESS)],
+    ['pickup', 'Retirar na loja', STORE.pickup + ' · hoje, a partir das 15h', 'Grátis']
+  ];
+  return o.map(([v,b,sm,pr]) => `<label class="radio"><input type="radio" name="ship" value="${v}" ${ck.ship===v?'checked':''}><span class="rt"><b>${b}</b><small>${sm}</small></span><span class="rp ${pr==='Grátis'?'g':''}">${pr}</span></label>`).join('');
+}
+function payIcon(k){
+  const I = {pix:perkIcon('pix'), card:perkIcon('card'),
+    boleto:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 5v14M7 5v14M9.5 5v14M13 5v14M15.5 5v14M18 5v14M20 5v14"/></svg>',
+    wallet:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M16 12.5h2M3 9h18"/></svg>'};
+  return I[k];
+}
+function payBlock(t){
+  const tabs = [['pix','Pix',`${Math.round(PIX_OFF*100)}% OFF`],['card','Cartão',`até ${MAX_INST}x`],['boleto','Boleto',''],['wallet','Carteiras','']];
+  let body = '';
+  if(ck.pay === 'pix') body = `<div class="pix-box"><div class="qr">${qrSvg('preview')}</div><div>
+      <b style="font-size:18px">Pague ${brl(t.total)} com Pix</b>
+      <ol class="pix-steps" style="margin-top:10px"><li>Confirme o pedido para gerar o código</li><li>Abra o app do seu banco e escolha Pix</li><li>Escaneie o QR Code ou cole o código</li></ol>
+      <p class="muted" style="font-size:13px;margin-top:10px">Aprovação na hora. O código vale por 30 minutos.</p></div></div>`;
+  else if(ck.pay === 'card'){
+    const cd = ck.card, br = brand(cd.num);
+    body = `<div class="card-pay">
+      <div class="cc" id="cc"><div class="cc-in">
+        <div class="cc-face" style="--ccbg:${br.bg}"><div style="display:flex;justify-content:space-between;align-items:center;position:relative"><span class="cc-chip"></span><span class="cc-brand" id="ccBrand">${br.n}</span></div>
+          <div class="cc-num num" id="ccNum" style="position:relative">${ccMasked(cd.num)}</div>
+          <div class="cc-row" style="position:relative"><div>Titular<b id="ccName">${esc(cd.name || 'SEU NOME')}</b></div><div>Validade<b id="ccExp">${esc(cd.exp || 'MM/AA')}</b></div></div></div>
+        <div class="cc-face back" style="--ccbg:${br.bg}"><div class="strip"></div><div class="cvv" id="ccCvv">${cd.cvv ? '•'.repeat(cd.cvv.length) : 'CVV'}</div></div>
+      </div></div>
+      <div class="form">
+        <div class="field" id="f-cnum"><label for="c-num">Número do cartão</label><input id="c-num" inputmode="numeric" autocomplete="cc-number" data-mask="card" value="${esc(cd.num)}" placeholder="0000 0000 0000 0000"><span class="err"></span></div>
+        <div class="field" id="f-cname"><label for="c-name">Nome impresso no cartão</label><input id="c-name" autocomplete="cc-name" value="${esc(cd.name)}"><span class="err"></span></div>
+        <div class="field s3" id="f-cexp"><label for="c-exp">Validade</label><input id="c-exp" inputmode="numeric" autocomplete="cc-exp" data-mask="exp" placeholder="MM/AA" value="${esc(cd.exp)}"><span class="err"></span></div>
+        <div class="field s3" id="f-ccvv"><label for="c-cvv">CVV</label><input id="c-cvv" inputmode="numeric" autocomplete="cc-csc" data-mask="cvv" placeholder="123" value="${esc(cd.cvv)}"><span class="err"></span></div>
+        <div class="field"><label for="c-inst">Parcelas</label><select id="c-inst">${Array.from({length:MAX_INST}, (_,i) => `<option value="${i+1}" ${cd.inst===i+1?'selected':''}>${i+1}x de ${brl(t.total/(i+1))} sem juros</option>`).join('')}</select></div>
+      </div></div>`;
+  }
+  else if(ck.pay === 'boleto') body = `<div class="pix-box" style="grid-template-columns:minmax(0,1fr)"><b style="font-size:18px">Boleto de ${brl(t.total)}</b>
+      <p class="muted">Vence em ${fmtD(addBiz(2))}. A compensação leva até 2 dias úteis e o envio acontece logo depois.</p></div>`;
+  else body = `<div class="wallets"><div class="wallet">Apple Pay</div><div class="wallet">Google Pay</div><div class="wallet">Mercado Pago</div><p class="muted" style="font-size:13px">Carteiras digitais entram junto com a integração de pagamento. Neste protótipo, o pedido segue como simulado.</p></div>`;
+  return `<div class="pay-tabs">${tabs.map(([k,l,s]) => `<button class="pay-tab ${ck.pay===k?'on':''}" data-act="pay" data-v="${k}">${payIcon(k)}${l}${s ? `<small>${s}</small>` : '<small>&nbsp;</small>'}</button>`).join('')}</div>
+    ${body}
+    <button class="btn btn-primary" style="margin-top:20px" data-act="ck-next" data-s="2">Revisar pedido</button>`;
+}
+function brand(num){
+  const n = (num||'').replace(/\D/g,'');
+  if(/^(4011|4312|4389|4514|4576|5041|5066|5067|509|6277|6362|6363|650|6516|6550)/.test(n)) return {n:'elo', bg:'linear-gradient(135deg,#1c1c1c,#3a3a3a 60%,#ffcb05)'};
+  if(/^(606282|3841)/.test(n)) return {n:'Hipercard', bg:'linear-gradient(135deg,#b3131b,#5c0a0e)'};
+  if(/^3[47]/.test(n)) return {n:'AMEX', bg:'linear-gradient(135deg,#2e77bc,#123c66)'};
+  if(/^(5[1-5]|2[2-7])/.test(n)) return {n:'mastercard', bg:'linear-gradient(135deg,#1d1d1f,#3b2b2b 55%,#eb5f1a)'};
+  if(/^4/.test(n)) return {n:'VISA', bg:'linear-gradient(135deg,#1a2b6d,#3156c9)'};
+  return {n:'', bg:'linear-gradient(135deg,#4a4a52,#141418)'};
+}
+function ccMasked(num){
+  const d = (num||'').replace(/\D/g,'').padEnd(16, '•');
+  return d.slice(0,16).replace(/(.{4})/g, '$1 ').trim();
+}
+function qrSvg(seed){
+  let h = 0; for(const ch of String(seed)) h = (h*31 + ch.charCodeAt(0)) >>> 0;
+  const rnd = () => (h = (h * 1664525 + 1013904223) >>> 0) / 4294967296;
+  const N = 29; let r = '';
+  const finder = (x,y) => `<rect x="${x}" y="${y}" width="7" height="7" fill="#000"/><rect x="${x+1}" y="${y+1}" width="5" height="5" fill="#fff"/><rect x="${x+2}" y="${y+2}" width="3" height="3" fill="#000"/>`;
+  const inF = (x,y) => (x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9);
+  for(let y=0;y<N;y++) for(let x=0;x<N;x++) if(!inF(x,y) && rnd() > .52) r += `<rect x="${x}" y="${y}" width="1" height="1"/>`;
+  return `<svg viewBox="0 0 ${N} ${N}" shape-rendering="crispEdges" aria-label="QR Code de demonstração"><g fill="#000">${r}</g>${finder(0,0)}${finder(N-7,0)}${finder(0,N-7)}</svg>`;
+}
+
+/* ---- Order done ---- */
+function pageDone(){
+  const o = lastOrder;
+  if(!o) return `<div class="wrap"><div class="empty" style="margin-block:56px"><b style="font-size:22px">Nenhum pedido recente</b><a class="btn btn-primary btn-sm" href="#catalogo">Ver catálogo</a></div></div>`;
+  const s = shipText(o.addr.cep);
+  const eta = o.ship === 'pickup' ? 'Hoje, a partir das 15h' : o.ship === 'express' ? fmtD(s.express) : `${fmtD(s.a)} a ${fmtD(s.b)}`;
+  const paid = o.pay === 'card';
+  let payBox = '';
+  if(o.pay === 'pix') payBox = `<div class="card-done"><b style="font-size:18px">Pague com Pix para liberar o envio</b>
+    <div class="pix-box" style="margin-top:14px"><div class="qr">${qrSvg(o.id)}</div><div>
+      <p>Valor: <b class="num">${brl(o.total)}</b></p><p class="muted" style="font-size:14px">Expira em <b id="pixTimer" class="num">30:00</b></p>
+      <div class="code-box"><input id="pixCode" readonly value="${o.pixCode}" aria-label="Código Pix copia e cola"><button class="btn btn-sm btn-primary" data-act="copy">Copiar</button></div>
+      <p class="muted" style="font-size:12px;margin-top:8px">QR Code e código de demonstração, sem valor real.</p></div></div></div>`;
+  else if(o.pay === 'boleto') payBox = `<div class="card-done"><b style="font-size:18px">Boleto gerado</b><p class="muted">Vencimento ${fmtD(addBiz(2))}</p>
+    <div class="barcode">${barcodeSvg(o.id)}</div>
+    <div class="code-box"><input id="pixCode" readonly value="${o.pixCode}" aria-label="Linha digitável"><button class="btn btn-sm btn-primary" data-act="copy">Copiar</button></div></div>`;
+  const tl = [
+    ['Pedido recebido', 'Agora', true],
+    ['Pagamento aprovado', paid ? 'Agora' : 'Aguardando', paid],
+    ['Separação e nota fiscal', paid ? 'Hoje' : '—', false],
+    [o.ship === 'pickup' ? 'Pronto para retirada' : 'Enviado', o.ship === 'pickup' ? 'Hoje, 15h' : fmtD(addBiz(o.ship==='express'?0:1)), false],
+    [o.ship === 'pickup' ? 'Retirado' : 'Entregue', eta, false]
+  ];
+  return `<div class="wrap"><div class="done fade-in">
+    <div class="ok-badge glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+    <div class="eyebrow">Pedido ${o.id}</div>
+    <h1>${paid ? 'Compra confirmada!' : 'Pedido reservado!'}</h1>
+    <p class="muted" style="margin-top:10px;font-size:18px">Enviamos os detalhes para ${esc(o.addr.email)}. ${o.ship === 'pickup' ? 'Retire na loja' : 'Previsão de entrega'}: <b style="color:var(--fg)">${eta}</b>.</p>
+    ${payBox}
+    <div class="card-done"><b style="font-size:18px">Acompanhe seu pedido</b><div class="timeline" style="margin-top:16px">
+      ${tl.map(([b,d,on]) => `<div class="tl ${on?'on':''}"><i>${on?'✓':''}</i><div><b>${b}</b></div><span class="d">${d}</span></div>`).join('')}
+    </div></div>
+    <div class="card-done"><b style="font-size:18px">Itens</b><div style="display:grid;gap:10px;margin-top:12px">${o.items.map(it => itemRow(it,false)).join('')}</div>
+      <div class="sum-row total" style="margin-top:10px"><span>Total</span><span class="num">${brl(o.total)}</span></div></div>
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:28px;flex-wrap:wrap"><a class="btn btn-primary" href="#catalogo">Continuar comprando</a><a class="btn btn-glass glass" href="${IG}" target="_blank" rel="noopener">Falar com a loja</a></div>
+  </div></div>`;
+}
+function barcodeSvg(seed){
+  let h = 7; for(const ch of seed) h = (h*33 + ch.charCodeAt(0)) >>> 0;
+  let x = 0, r = '';
+  while(x < 300){ h = (h * 1103515245 + 12345) >>> 0; const w = 1 + (h % 3); if((h >> 5) & 1) r += `<rect x="${x}" y="0" width="${w}" height="48"/>`; x += w; }
+  return `<svg viewBox="0 0 300 48" preserveAspectRatio="none" width="100%" height="48" fill="#000">${r}</svg>`;
+}
+
+/* ============ Live data (claude.ai runtime) ============ */
+let DB = null, USER = null, ROOM = null, ASSETS = null, UID = null, IS_ADMIN = false, RUNTIME = false, SEEDED = true, BOOTED = false;
+const LIVE = {orders:[], views:{}, viewers:0, peers:[], roomOn:false};
+let myViews = {}, viewTimer = null;
+
+function trackView(id){
+  if(!DB || !UID || IS_ADMIN) return;
+  myViews[id] = (myViews[id] || 0) + 1;
+  clearTimeout(viewTimer);
+  viewTimer = setTimeout(() => DB.doc('stats/' + UID).set({views:myViews, at:Date.now()}).catch(() => {}), 1500);
+}
+// Footer credit line for every product photo that carries attribution data (one entry per source file).
+function renderCredits(){
+  const el = $('#photoCredits'); if(!el) return;
+  const seen = new Map();
+  shown().forEach(p => { const c = p.imgCredit; if(!p.img || !c || !c.source) return;
+    if(!seen.has(c.source)) seen.set(c.source, {c, names:[]}); seen.get(c.source).names.push(p.name); });
+  if(!seen.size){ el.hidden = true; return; }
+  const safe = u => /^https?:\/\//.test(u || '') ? u : '';
+  el.innerHTML = 'Créditos das fotos (Wikimedia Commons): ' + [...seen.values()].map(({c, names}) =>
+    `${esc([...new Set(names)].join(', '))}: foto de <a href="${esc(safe(c.source))}" target="_blank" rel="noopener">${esc(c.author || 'autor')}</a>, ${safe(c.licenseUrl) ? `<a href="${esc(safe(c.licenseUrl))}" target="_blank" rel="noopener">${esc(c.license)}</a>` : esc(c.license || '')}`).join(' · ') + '.';
+  el.hidden = false;
+}
+function softRefresh(kind){
+  if(kind === 'products') renderCredits();
+  const h = curHash();
+  if(h.startsWith(ADM)){ renderAdmin(); return; }
+  if(kind !== 'products') return;
+  if(['iphone','mac','seminovos','catalogo'].includes(h)) renderResults();
+  else if(h.startsWith('p-')){ if(byId(h.slice(2))) rerender(); }
+  else if(h === 'inicio'){ const y = scrollY; $('#app').innerHTML = pageHome(); scrollTo(0, y); }
+}
+async function boot(){
+  updateBag();
+  if(!(window.claude && typeof window.claude.use === 'function')){
+    // Opened as a plain local file: panel runs in local demo mode with no stored data.
+    IS_ADMIN = true; $('#demoAdmin').hidden = false; route(); return;
+  }
+  RUNTIME = true;
+  route();
+  const [db, user] = await Promise.all([claude.use('db'), claude.use('user')]);
+  DB = db; USER = user;
+  if(user){ IS_ADMIN = await user.canEdit(); UID = await user.id(); }
+  BOOTED = true;
+  if(curHash().startsWith(ADM)) route();
+  if(db){
+    let prodDocs = null;
+    const apply = () => { if(prodDocs && (SEEDED || prodDocs.length)){ P = prodDocs; softRefresh('products'); } };
+    db.doc('config/store').onSnapshot(d => { SEEDED = d.exists && !!d.data().seeded; apply(); }, () => {});
+    db.collection('products').onSnapshot(s => { prodDocs = s.docs.map(d => ({...d.data(), id:d.id})); apply(); }, () => {});
+    if(IS_ADMIN){
+      db.collection('orders').onSnapshot(s => {
+        LIVE.orders = s.docs.flatMap(d => Object.values(d.data().orders || {}).map(o => ({...o, _doc:d.id}))).sort((a,b) => b.at - a.at);
+        softRefresh('orders');
+      }, () => {});
+      db.collection('stats').onSnapshot(s => {
+        const v = {}; let n = 0;
+        s.docs.forEach(d => { const x = d.data(); const vw = x.views || {}; let any = false;
+          for(const k in vw){ v[k] = (v[k] || 0) + vw[k]; any = true; }
+          if(any) n += x.people || 1; });
+        LIVE.views = v; LIVE.viewers = n; softRefresh('stats');
+      }, () => {});
+      claude.use('assets').then(a => { ASSETS = a; });
+    } else if(UID){
+      db.doc('stats/' + UID).get().then(d => { if(d.exists) myViews = {...(d.data().views || {})}; }).catch(() => {});
+    }
+  }
+  claude.use('room').then(r => {
+    ROOM = r; if(!r) return; LIVE.roomOn = true;
+    if(!IS_ADMIN) r.presence({page:curHash()}).catch(() => {}); // the seller sends no presence, so the panel address never reaches other viewers
+    r.onPeers(c => { LIVE.peers = c.peers.filter(p => !p.isMe && p.kind === 'viewer' && p.presence && p.presence.page); if(curHash() === ADM) renderAdmin(); }, () => { LIVE.roomOn = false; });
+  });
+}
+
+/* ============ Seller panel ============ */
+const ST = {aguardando:'Aguardando pagamento', pago:'Pago', separando:'Em separação', enviado:'Enviado', entregue:'Entregue', cancelado:'Cancelado'};
+const ST_FLOW = ['aguardando','pago','separando','enviado','entregue'];
+const PAYN = {pix:'Pix', card:'Cartão', boleto:'Boleto', wallet:'Carteira digital'};
+const PAYC = {pix:'var(--series-1)', card:'var(--series-2)', boleto:'var(--series-3)', wallet:'var(--fg3)'};
+const PST = {pendente:'Pendente', aprovado:'Aprovado', estornado:'Estornado', cancelado:'Cancelado'};
+const SHIPN = {normal:'Envio normal', express:'Envio expresso', pickup:'Retirada na loja'};
+const isPaid = o => !['aguardando','cancelado'].includes(o.status);
+const DAY = 864e5;
+const fmtDT = ts => new Date(ts).toLocaleString('pt-BR', {day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit'}).replace('.', '');
+const stPill = (s, map=ST) => `<span class="st ${s}">${map[s] || s}</span>`;
+const thumbOf = (id) => { const p = byId(id); return p ? art(p, 0, p.fam === 'iphone' && !imgSrc(p) ? 'back' : undefined) : ''; };
+let admSel = null, ordFilter = 'todos', ordQ = '', prodQ = '', PF = null, delArm = 0, showCpf = false;
+const ICON = {
+  lock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="10.5" width="14" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 018 0v3"/></svg>',
+  check:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg>'
+};
+
+function admTab(h){ return h === ADM ? 'geral' : h.slice(ADM.length + 1); }
+function pageAdmin(h){
+  if(!IS_ADMIN) return `<div class="wrap"><div class="restricted glass">${ICON.lock}<h2 style="font-size:28px">Área restrita</h2>
+    <p class="muted">${RUNTIME && !BOOTED ? 'Confirmando seu acesso…' : 'Este painel só abre para a conta do vendedor. Os dados de pedidos e pagamentos ficam protegidos no servidor e não chegam a este navegador.'}</p>
+    <a class="btn btn-primary btn-sm" href="#inicio">Voltar para a loja</a></div></div>`;
+  const tab = admTab(h);
+  const T = [[ADM,'geral','Visão geral'],[ADM + '-pedidos','pedidos','Pedidos'],[ADM + '-produtos','produtos','Produtos'],[ADM + '-pagamentos','pagamentos','Pagamentos']];
+  const title = {geral:'Visão geral', pedidos:'Pedidos', produtos:'Produtos', pagamentos:'Pagamentos', novo:'Novo produto'}[tab] || 'Editar produto';
+  if(tab === 'novo') PF = blankPF();
+  else if(tab.startsWith('editar-')){ const p = byId(tab.slice(7)); PF = p ? pfFrom(p) : blankPF(); }
+  return `<div class="wrap adm">
+    <div class="adm-head"><div><div class="eyebrow">Painel do vendedor</div><h1>${title}</h1></div>
+      <div class="acts">${RUNTIME ? `<span class="live ${DB ? '' : 'off'}"><i></i>${DB ? 'Ao vivo' : 'Sem conexão'}</span>` : '<span class="live off"><i></i>Modo local de demonstração</span>'}
+      <a class="btn btn-sm btn-primary" href="#${ADM}-novo">+ Novo produto</a></div></div>
+    <nav class="adm-tabs glass" aria-label="Seções do painel">${T.map(([href,k,l]) => `<a href="#${href}" class="${tab===k || (k==='produtos' && (tab==='novo' || tab.startsWith('editar-'))) ? 'on' : ''}">${l}</a>`).join('')}</nav>
+    <div id="admMain">${admBody(tab)}</div>
+  </div>`;
+}
+function admBody(tab){
+  if(tab === 'pedidos') return admOrders();
+  if(tab === 'produtos') return admProducts();
+  if(tab === 'pagamentos') return admPayments();
+  if(tab === 'novo' || tab.startsWith('editar-')) return admForm();
+  return admOverview();
+}
+function renderAdmin(){
+  const h = curHash(); if(!h.startsWith(ADM) || !IS_ADMIN) return;
+  const tab = admTab(h);
+  if(tab === 'novo' || tab.startsWith('editar-')) return; // never clobber a form being edited
+  const m = $('#admMain'); if(!m) return;
+  const a = document.activeElement, keepId = a && a.id, pos = a && a.selectionStart;
+  m.innerHTML = admBody(tab);
+  if(keepId){ const el = document.getElementById(keepId); if(el){ el.focus(); try { el.setSelectionRange(pos, pos); } catch(e){} } }
+  if(admSel) openAdmDrawer(admSel);
+}
+function admStats(){
+  const now = Date.now(), o30 = LIVE.orders.filter(o => now - o.at < 30*DAY);
+  const paid = o30.filter(isPaid);
+  const rev = paid.reduce((s,o) => s + o.total, 0);
+  const wait = LIVE.orders.filter(o => o.status === 'aguardando');
+  const sold = {};
+  LIVE.orders.filter(isPaid).forEach(o => (o.items || []).forEach(it => {
+    const s = sold[it.id] || (sold[it.id] = {id:it.id, name:it.name, units:0, rev:0}); s.units += it.qty; s.rev += it.price * it.qty; }));
+  return {o30, paid, rev, wait, sold};
+}
+const niceStep = x => { const p = 10 ** Math.floor(Math.log10(x || 1)); const m = x / p; return (m <= 1 ? 1 : m <= 2 ? 2 : m <= 5 ? 5 : 10) * p; };
+const shortBRL = v => v >= 1000 ? 'R$ ' + (v/1000).toLocaleString('pt-BR', {maximumFractionDigits:1}) + ' mil' : 'R$ ' + Math.round(v);
+function barsSvg(days){
+  const W = 640, H = 230, pl = 64, pb = 28, pt = 10, ih = H - pt - pb;
+  const max = Math.max(1, ...days.map(d => d.v)), step = niceStep(max / 4), top = Math.ceil(max / step) * step;
+  const bw = (W - pl) / days.length;
+  let g = '', b = '';
+  for(let v = 0; v <= top + 1e-6; v += step){ const y = pt + ih * (1 - v/top);
+    g += `<line x1="${pl}" x2="${W}" y1="${y}" y2="${y}" stroke="var(--line)"/><text x="${pl-10}" y="${y+4}" text-anchor="end" font-size="11" fill="var(--fg3)">${shortBRL(v)}</text>`; }
+  days.forEach((d, i) => {
+    const w = bw * .62, x = pl + i*bw + (bw - w)/2, h = ih * d.v / top, yb = pt + ih, y = yb - h, r = Math.min(4, h, w/2);
+    const tip = `${d.d.toLocaleDateString('pt-BR',{weekday:'short',day:'numeric',month:'short'})} · ${brl(d.v)} · ${d.n} ${d.n === 1 ? 'pedido' : 'pedidos'}`;
+    if(h > 0) b += `<path class="bar" d="M${x} ${yb} V${y+r} Q${x} ${y} ${x+r} ${y} H${x+w-r} Q${x+w} ${y} ${x+w} ${y+r} V${yb} Z" fill="${i === days.length-1 ? 'var(--series-1)' : 'var(--series-1)'}" opacity="${i === days.length-1 ? 1 : .78}"/>`;
+    b += `<rect class="hit" x="${pl + i*bw}" y="${pt}" width="${bw}" height="${ih}" data-tip="${esc(tip)}"/>`;
+    if(i % 2 === (days.length - 1) % 2) b += `<text x="${x + w/2}" y="${H - 8}" text-anchor="middle" font-size="11" fill="var(--fg3)">${d.d.getDate()}/${d.d.getMonth()+1}</text>`;
+  });
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Faturamento por dia nos últimos 14 dias">${g}${b}</svg>`;
+}
+function hbars(rows, fmt){
+  if(!rows.length) return '<div class="feed"><div class="e">Ainda sem dados.</div></div>';
+  const max = Math.max(...rows.map(r => r.v), 1);
+  return rows.map(r => `<div class="hbar"><span class="n">${esc(r.name)}</span><span class="v">${fmt(r.v, r)}</span><span class="t"><i style="width:${Math.max(2, r.v/max*100)}%"></i></span></div>`).join('');
+}
+function paySplit(orders){
+  const pay = {}; orders.forEach(o => pay[o.pay] = (pay[o.pay] || 0) + o.total);
+  const tot = Object.values(pay).reduce((a,b) => a+b, 0);
+  const keys = ['pix','card','boleto','wallet'].filter(k => pay[k]);
+  if(!tot) return '<div class="feed"><div class="e">Ainda sem pagamentos aprovados.</div></div>';
+  return `<div class="stack" role="img" aria-label="Divisão por forma de pagamento">${keys.map(k => `<i style="width:${pay[k]/tot*100}%;background:${PAYC[k]}" data-tip="${PAYN[k]}: ${brl(pay[k])}"></i>`).join('')}</div>
+    <div class="legend">${keys.map(k => `<div><span class="sq" style="background:${PAYC[k]}"></span>${PAYN[k]}<span class="v">${brl(pay[k])} · ${Math.round(pay[k]/tot*100)}%</span></div>`).join('')}</div>`;
+}
+function pageLabel(page){
+  if(!page || page === 'inicio') return 'Página inicial';
+  if(page.startsWith('p-')){ const p = byId(page.slice(2)); return p ? p.name : 'Produto'; }
+  return {catalogo:'Catálogo', iphone:'iPhone', mac:'Mac', seminovos:'Seminovos', checkout:'Finalizando compra', pedido:'Pedido confirmado'}[page] || page;
+}
+function demoNotice(){
+  const hasDemo = LIVE.orders.some(o => o.demo);
+  if(!LIVE.orders.length) return `<div class="notice glass"><p><b>Nenhum pedido ainda.</b> Os pedidos feitos na loja aparecem aqui na hora. Para ver o painel funcionando, gere pedidos de demonstração (ficam marcados e podem ser apagados depois).</p><button class="btn btn-sm btn-primary" data-act="demo-gen">Gerar pedidos de demonstração</button></div>`;
+  if(hasDemo) return `<div class="notice glass"><p>Este painel inclui <b>pedidos de demonstração</b>, que não são vendas reais.</p><button class="btn btn-sm btn-glass glass" data-act="demo-clear">Apagar dados de demonstração</button></div>`;
+  return '';
+}
+function admOverview(){
+  const S = admStats();
+  const days = [...Array(14)].map((_, i) => { const d = new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate() - 13 + i); return {d, v:0, n:0}; });
+  LIVE.orders.filter(isPaid).forEach(o => { const t = new Date(o.at); t.setHours(0,0,0,0); const b = days.find(x => x.d.getTime() === t.getTime()); if(b){ b.v += o.total; b.n++; } });
+  const d14 = days.reduce((s,d) => s + d.v, 0);
+  const top = Object.values(S.sold).sort((a,b) => b.rev - a.rev).slice(0, 6).map(r => ({name:r.name, v:r.rev, units:r.units}));
+  const views = Object.entries(LIVE.views).map(([id, v]) => ({name:(byId(id) || {}).name || id, v})).sort((a,b) => b.v - a.v).slice(0, 6);
+  const buyers = new Set(S.o30.map(o => (o.customer && o.customer.email) || o._doc)).size;
+  const conv = LIVE.viewers ? Math.min(100, buyers / LIVE.viewers * 100) : 0;
+  const low = P.filter(p => !p.hidden && p.stock <= 2).sort((a,b) => a.stock - b.stock).slice(0, 6);
+  const peers = LIVE.peers;
+  return `${demoNotice()}
+  <div class="kpis">
+    <div class="kpi"><span>Faturamento · 30 dias</span><b class="num">${brl0(S.rev)}</b><small>${S.paid.length} pedidos pagos</small></div>
+    <div class="kpi"><span>Pedidos · 30 dias</span><b class="num">${S.o30.length}</b><small>${S.wait.length} aguardando pagamento</small></div>
+    <div class="kpi"><span>Ticket médio</span><b class="num">${brl0(S.paid.length ? S.rev / S.paid.length : 0)}</b><small>por pedido pago</small></div>
+    <div class="kpi"><span>Conversão</span><b class="num">${conv.toLocaleString('pt-BR', {maximumFractionDigits:1})}%</b><small>${buyers} compradores de ${LIVE.viewers} visitantes</small></div>
+    <div class="kpi"><span>No site agora</span><b class="num">${LIVE.roomOn ? peers.length : '—'}</b><small>${LIVE.roomOn ? 'visitantes ao vivo' : 'disponível na versão publicada'}</small></div>
+  </div>
+  <div class="panels">
+    <div class="box chart"><div class="box-h"><b>Faturamento por dia</b><span class="num">${brl0(d14)} em 14 dias</span></div>${barsSvg(days)}</div>
+    <div class="box"><div class="box-h"><b>Formas de pagamento</b><span>pedidos pagos · 30 dias</span></div>${paySplit(S.paid)}
+      <div class="box-h" style="margin-top:22px"><b>Aguardando pagamento</b><span class="num">${brl0(S.wait.reduce((s,o) => s + o.total, 0))}</span></div>
+      <div class="feed">${S.wait.slice(0,3).map(o => ordRow(o)).join('') || '<div class="e">Nenhum pedido pendente.</div>'}</div></div>
+  </div>
+  <div class="panels even">
+    <div class="box"><div class="box-h"><b>Mais vendidos</b><span>por faturamento</span></div>${hbars(top, (v, r) => `${brl0(v)} · ${r.units} un.`)}</div>
+    <div class="box"><div class="box-h"><b>Mais visualizados</b><span>${Object.values(LIVE.views).reduce((a,b) => a+b, 0)} visualizações</span></div>${hbars(views, v => `${v.toLocaleString('pt-BR')} visualizações`)}</div>
+  </div>
+  <div class="panels three">
+    <div class="box"><div class="box-h"><b>Pedidos recentes</b><a class="btn-link" href="#${ADM}-pedidos">Ver todos</a></div><div class="feed">${LIVE.orders.slice(0,5).map(o => ordRow(o)).join('') || '<div class="e">Nenhum pedido ainda.</div>'}</div></div>
+    <div class="box"><div class="box-h"><b>Agora no site</b><span>ao vivo</span></div><div class="feed">${!LIVE.roomOn ? '<div class="e">Aparece quando o site está publicado e aberto por clientes.</div>' : peers.length ? peers.slice(0,8).map(p => `<div class="row"><span>${esc(pageLabel(p.presence && p.presence.page))}<small>${p.guest ? 'Convidado' : 'Visitante'}</small></span><span class="live" style="padding:4px 10px"><i></i></span></div>`).join('') : '<div class="e">Ninguém navegando neste momento.</div>'}</div></div>
+    <div class="box"><div class="box-h"><b>Estoque baixo</b><a class="btn-link" href="#${ADM}-produtos">Produtos</a></div><div class="feed">${low.map(p => `<a class="row" href="#${ADM}-editar-${p.id}" style="border-radius:12px"><span>${esc(p.name)}<small>${condLbl(p)} · ${p.opts[0].l}</small></span><b class="num" style="color:${p.stock ? 'var(--st-wait)' : 'var(--err)'}">${p.stock} un.</b></a>`).join('') || '<div class="e">Todo o estoque está acima de 2 unidades.</div>'}</div></div>
+  </div>
+  <div class="panels even">
+    <div class="box"><div class="box-h"><b>Proteção dos dados</b><span>como funciona hoje</span></div><div class="sec-list">
+      <div>${ICON.check}<span>Pedidos, clientes e pagamentos ficam em um banco com regras no servidor: só contas com acesso de Editor leem esses dados. Um cliente só grava os próprios pedidos.</span></div>
+      <div>${ICON.check}<span>O número do cartão e o CVV nunca são gravados. Ficam só a bandeira e os 4 últimos dígitos.</span></div>
+      <div>${ICON.check}<span>O acesso exige login. Esconder o painel na tela é só conveniência: a proteção está nas regras do banco.</span></div>
+    </div></div>
+    <div class="box"><div class="box-h"><b>Antes de vender de verdade</b><span>próximos passos</span></div><div class="sec-list">
+      <div>${ICON.lock}<span>Hospedagem própria com proteção contra DDoS, firewall de aplicação e bloqueio de robôs (scraping).</span></div>
+      <div>${ICON.lock}<span>Gateway de pagamento (Mercado Pago, Pagar.me ou Stripe) com cartão tokenizado e confirmação por webhook.</span></div>
+      <div>${ICON.lock}<span>Login do vendedor com verificação em duas etapas, registro de acessos e política de privacidade (LGPD).</span></div>
+    </div></div>
+  </div>`;
+}
+function ordRow(o){
+  return `<button class="row" data-act="ord-open" data-id="${esc(o.id)}"><span>${esc((o.customer && o.customer.nome) || 'Cliente')}<small>${esc(o.id)} · ${fmtDT(o.at)}${o.demo ? ' · demo' : ''}</small></span><span style="text-align:right"><b class="num">${brl(o.total)}</b><br>${stPill(o.status)}</span></button>`;
+}
+function admOrders(){
+  const q = norm(ordQ);
+  const counts = {}; LIVE.orders.forEach(o => counts[o.status] = (counts[o.status] || 0) + 1);
+  const list = LIVE.orders.filter(o => (ordFilter === 'todos' || o.status === ordFilter) &&
+    (!q || norm([o.id, o.customer && o.customer.nome, o.customer && o.customer.email, (o.items || []).map(i => i.name).join(' ')].join(' ')).includes(q)));
+  return `${demoNotice()}<div class="adm-bar">
+      <div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="ordQ" type="search" placeholder="Buscar pedido, cliente ou produto" value="${esc(ordQ)}" aria-label="Buscar pedidos"></div>
+      <div class="chips"><button class="chip ${ordFilter==='todos'?'on':''}" data-act="ord-f" data-v="todos">Todos · ${LIVE.orders.length}</button>${Object.keys(ST).map(k => `<button class="chip ${ordFilter===k?'on':''}" data-act="ord-f" data-v="${k}">${ST[k]} · ${counts[k] || 0}</button>`).join('')}</div>
+    </div>
+    ${list.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Pedido</th><th>Cliente</th><th>Itens</th><th>Pagamento</th><th>Entrega</th><th class="r">Total</th><th>Status</th></tr></thead><tbody>
+      ${list.map(o => `<tr class="click" data-act="ord-open" data-id="${esc(o.id)}"><td><b>${esc(o.id)}</b><small>${fmtDT(o.at)}${o.demo ? ' · demo' : ''}</small></td>
+        <td>${esc((o.customer && o.customer.nome) || '—')}<small>${esc((o.customer && o.customer.cidade) || '')}${o.customer && o.customer.uf ? '/' + esc(o.customer.uf) : ''}</small></td>
+        <td>${(o.items || []).map(i => esc(i.name)).join(', ')}<small>${(o.items || []).reduce((s,i) => s + i.qty, 0)} un.</small></td>
+        <td>${PAYN[o.pay] || o.pay}<small>${o.pay === 'card' && o.card ? `${esc(o.card.brand)} •••• ${esc(o.card.last4)} · ${o.inst}x` : stPill(o.payStatus, PST)}</small></td>
+        <td>${SHIPN[o.ship] || o.ship}</td><td class="r"><b>${brl(o.total)}</b></td><td>${stPill(o.status)}</td></tr>`).join('')}
+    </tbody></table></div>` : `<div class="empty"><b style="font-size:20px">${LIVE.orders.length ? 'Nenhum pedido com esse filtro' : 'Nenhum pedido ainda'}</b><p class="muted">${LIVE.orders.length ? 'Mude o filtro ou a busca.' : 'Assim que um cliente finalizar uma compra, o pedido aparece aqui.'}</p></div>`}`;
+}
+function admPayments(){
+  const all = LIVE.orders;
+  const sum = f => all.filter(f).reduce((s,o) => s + o.total, 0);
+  const ok = sum(o => o.payStatus === 'aprovado'), pend = sum(o => o.payStatus === 'pendente'), back = sum(o => o.payStatus === 'estornado');
+  return `${demoNotice()}<div class="kpis" style="grid-template-columns:repeat(auto-fit,minmax(180px,1fr))">
+      <div class="kpi"><span>Aprovado</span><b class="num">${brl0(ok)}</b><small>${all.filter(o => o.payStatus === 'aprovado').length} pagamentos</small></div>
+      <div class="kpi"><span>Pendente</span><b class="num">${brl0(pend)}</b><small>Pix e boletos não pagos</small></div>
+      <div class="kpi"><span>Estornado</span><b class="num">${brl0(back)}</b><small>pedidos cancelados após pagamento</small></div>
+      <div class="kpi"><span>Descontos no Pix</span><b class="num">${brl0(all.filter(o => o.payStatus === 'aprovado').reduce((s,o) => s + (o.disc || 0), 0))}</b><small>concedidos</small></div>
+    </div>
+    <div class="panels" style="margin-bottom:12px"><div class="box"><div class="box-h"><b>Formas de pagamento</b><span>aprovados</span></div>${paySplit(all.filter(o => o.payStatus === 'aprovado'))}</div>
+      <div class="box"><div class="box-h"><b>Integração de pagamento</b><span>pendente</span></div><p class="muted" style="font-size:14px">Neste protótipo os pagamentos são simulados. Com o gateway integrado, esta lista passa a vir dele e o status muda sozinho quando o Pix ou o boleto é pago.</p></div></div>
+    ${all.length ? `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Data</th><th>Pedido</th><th>Cliente</th><th>Forma</th><th>Detalhe</th><th class="r">Valor</th><th>Status</th></tr></thead><tbody>
+      ${all.map(o => `<tr class="click" data-act="ord-open" data-id="${esc(o.id)}"><td>${fmtDT(o.at)}</td><td>${esc(o.id)}</td><td>${esc((o.customer && o.customer.nome) || '—')}</td><td>${PAYN[o.pay] || o.pay}</td>
+        <td>${o.pay === 'card' && o.card ? `${esc(o.card.brand)} •••• ${esc(o.card.last4)} · ${o.inst}x de ${brl(o.total / o.inst)}` : o.pay === 'pix' ? `Desconto de ${brl(o.disc || 0)}` : '—'}</td>
+        <td class="r"><b>${brl(o.total)}</b></td><td>${stPill(o.payStatus, PST)}</td></tr>`).join('')}
+    </tbody></table></div>` : '<div class="empty"><b style="font-size:20px">Nenhum pagamento ainda</b></div>'}`;
+}
+function admProducts(){
+  const S = admStats(), q = norm(prodQ);
+  const list = P.filter(p => !q || norm([p.name, p.line, p.chip, p.cond].join(' ')).includes(q)).sort((a,b) => (a.fam > b.fam ? 1 : a.fam < b.fam ? -1 : 0) || b.year - a.year || b.price - a.price);
+  return `${RUNTIME && DB && !SEEDED ? `<div class="notice glass"><p><b>O catálogo inicial ainda não foi importado para o banco.</b> Importe para poder editar os 26 produtos de exemplo.</p><button class="btn btn-sm btn-primary" data-act="import">Importar catálogo</button></div>` : ''}
+    <div class="adm-bar"><div class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><input id="prodQ" type="search" placeholder="Buscar produto" value="${esc(prodQ)}" aria-label="Buscar produtos"></div>
+      <span class="muted" style="font-size:14px">${P.length} produtos · ${P.filter(p => p.hidden).length} ocultos</span></div>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr><th></th><th>Produto</th><th>Condição</th><th class="r">Preço</th><th>Estoque</th><th class="r">Visualizações</th><th class="r">Vendidos</th><th>Loja</th><th></th></tr></thead><tbody>
+      ${list.map(p => `<tr><td><div class="thumb">${thumbOf(p.id)}</div></td><td><b>${esc(p.name)}</b><small>${esc(p.line)} · ${p.opts.length} ${p.opts.length === 1 ? 'opção' : 'opções'} · ${p.colors.length} ${p.colors.length === 1 ? 'cor' : 'cores'}</small></td>
+        <td><span class="pill ${p.cond}">${condLbl(p)}</span></td><td class="r">${brl0(p.price)}</td>
+        <td><div class="qty" style="margin:0"><button data-act="stock" data-id="${p.id}" data-d="-1" aria-label="Diminuir estoque">−</button><span class="num" style="min-width:24px">${p.stock}</span><button data-act="stock" data-id="${p.id}" data-d="1" aria-label="Aumentar estoque">+</button></div></td>
+        <td class="r">${(LIVE.views[p.id] || 0).toLocaleString('pt-BR')}</td><td class="r">${S.sold[p.id] ? S.sold[p.id].units : 0}</td>
+        <td><button class="vis ${p.hidden ? 'off' : ''}" data-act="vis" data-id="${p.id}">${p.hidden ? 'Oculto' : 'Visível'}</button></td>
+        <td><a class="btn-link" href="#${ADM}-editar-${p.id}">Editar</a></td></tr>`).join('')}
+    </tbody></table></div>`;
+}
+
+/* ---- Product form ---- */
+function blankPF(){ return {id:'', name:'', fam:'iphone', model:'dual', kind:'laptop', line:'iPhone 17', cond:'novo', battery:90, grade:'Excelente', chip:'', screen:'', year:new Date().getFullYear(), price:'', old:'', stock:1, launch:false, hidden:false, rating:5, reviews:0, opts:[{l:'256 GB', d:0}], colors:[{n:'Preto', h:'#2b2b2e'}], specsTxt:'', img:'', imgUrl:''}; }
+function pfFrom(p){ const c = JSON.parse(JSON.stringify(p)); return {...c, specsTxt:Object.entries(p.specs || {}).map(([k,v]) => k + ': ' + v).join('\n'), old:p.old || '', battery:p.battery || 90, grade:p.grade || 'Excelente', model:p.model || 'dual', kind:p.kind || 'laptop', img:p.img || '', imgUrl:p.imgUrl || '', hidden:!!p.hidden, launch:!!p.launch}; }
+function pfProduct(){
+  const f = PF, specs = {};
+  (f.specsTxt || '').split('\n').forEach(l => { const i = l.indexOf(':'); if(i > 0 && l.slice(i+1).trim()) specs[l.slice(0, i).trim()] = l.slice(i+1).trim(); });
+  const p = {id:f.id || 'novo', name:(f.name || '').trim() || 'Novo produto', fam:f.fam, line:(f.line || '').trim() || (f.fam === 'iphone' ? 'iPhone' : 'Mac'), cond:f.cond,
+    launch:!!f.launch, hidden:!!f.hidden, year:+f.year || new Date().getFullYear(), chip:(f.chip || '').trim(), screen:(f.screen || '').trim(),
+    price:+f.price || 0, old:+f.old || 0, stock:Math.max(0, +f.stock || 0), rating:f.rating || 5, reviews:f.reviews || 0,
+    opts:f.opts.filter(o => (o.l || '').trim()).map(o => ({l:o.l.trim(), d:+o.d || 0})), colors:f.colors.filter(c => (c.n || '').trim()).map(c => ({n:c.n.trim(), h:c.h})), specs};
+  if(f.fam === 'iphone') p.model = f.model; else p.kind = f.kind;
+  if(f.cond === 'seminovo'){ p.battery = Math.min(100, Math.max(0, +f.battery || 0)); p.grade = f.grade; }
+  if(f.img){ p.img = f.img; if(f.imgCredit) p.imgCredit = f.imgCredit; } else if(f.imgUrl) p.imgUrl = f.imgUrl;
+  return p;
+}
+function previewCard(){
+  const p = pfProduct();
+  if(!p.opts.length) p.opts = [{l:'Configuração', d:0}];
+  if(!p.colors.length) p.colors = [{n:'Cor', h:'#c7c7cc'}];
+  return card(p);
+}
+function fld(label, key, attrs='', type='text'){ return `<div class="field s3"><label for="pf-${key}">${label}</label><input class="in" id="pf-${key}" data-pf="${key}" type="${type}" value="${esc(PF[key] ?? '')}" ${attrs}></div>`; }
+function admForm(){
+  const f = PF, editing = !!f.id;
+  const lines = [...new Set([...LINES.iphone, ...LINES.mac, ...P.map(p => p.line)])];
+  return `<div class="pform">
+    <div class="col">
+      <div class="box"><h3>Informações básicas</h3><div class="form">
+        <div class="field"><label for="pf-name">Nome do produto</label><input class="in" id="pf-name" data-pf="name" value="${esc(f.name)}" placeholder="iPhone 17 Pro Max"></div>
+        <div class="field s3"><label for="pf-fam">Categoria</label><select class="in" id="pf-fam" data-pf="fam"><option value="iphone" ${f.fam==='iphone'?'selected':''}>iPhone</option><option value="mac" ${f.fam==='mac'?'selected':''}>Mac</option></select></div>
+        <div class="field s3"><label for="pf-line">Linha</label><input class="in" id="pf-line" data-pf="line" list="pfLines" value="${esc(f.line)}"><datalist id="pfLines">${lines.map(l => `<option value="${esc(l)}">`).join('')}</datalist></div>
+        <div class="field s3"><label for="pf-cond">Condição</label><select class="in" id="pf-cond" data-pf="cond"><option value="novo" ${f.cond==='novo'?'selected':''}>Novo, lacrado</option><option value="seminovo" ${f.cond==='seminovo'?'selected':''}>Seminovo</option></select></div>
+        ${fld('Ano de lançamento', 'year', 'inputmode="numeric"', 'number')}
+        ${fld('Chip', 'chip', 'placeholder="A19 Pro"')}
+        ${fld('Tela', 'screen', 'placeholder="6,9&quot;"')}
+        <div class="field"><label for="pf-style">Ilustração (usada quando não há foto)</label><select class="in" id="pf-style" data-pf="${f.fam === 'iphone' ? 'model' : 'kind'}">${f.fam === 'iphone'
+          ? [['plateau','Câmera em barra (17 Pro / 18 Pro)'],['triple','Três câmeras (16 Pro)'],['air','Câmera única em barra (Air)'],['dual','Duas câmeras verticais'],['single','Uma câmera (16e)']].map(([v,l]) => `<option value="${v}" ${f.model===v?'selected':''}>${l}</option>`).join('')
+          : [['laptop','MacBook'],['imac','iMac'],['mini','Mac mini'],['studio','Mac Studio']].map(([v,l]) => `<option value="${v}" ${f.kind===v?'selected':''}>${l}</option>`).join('')}</select></div>
+      </div></div>
+      <div class="box"><h3>Preço e estoque</h3><div class="form">
+        ${fld('Preço à vista no cartão (R$)', 'price', 'inputmode="decimal" min="0" step="1"', 'number')}
+        ${fld('Preço "de", riscado (opcional)', 'old', 'inputmode="decimal" min="0" step="1"', 'number')}
+        ${fld('Estoque (unidades)', 'stock', 'inputmode="numeric" min="0" step="1"', 'number')}
+        <div class="field s3"><label>Exibição</label><div class="checks"><label><input type="checkbox" data-pf="launch" ${f.launch?'checked':''}>Lançamento</label><label><input type="checkbox" data-pf="hidden" ${f.hidden?'checked':''}>Ocultar da loja</label></div></div>
+      </div><p class="muted" style="font-size:13px;margin-top:10px">O preço no Pix é calculado com ${Math.round(PIX_OFF*100)}% de desconto e as parcelas em até ${MAX_INST}x.</p></div>
+      ${f.cond === 'seminovo' ? `<div class="box"><h3>Estado do seminovo</h3><div class="form">
+        ${fld('Saúde da bateria (%)', 'battery', 'inputmode="numeric" min="0" max="100"', 'number')}
+        <div class="field s3"><label for="pf-grade">Estado</label><select class="in" id="pf-grade" data-pf="grade">${['Excelente','Muito bom','Bom'].map(g => `<option ${f.grade===g?'selected':''}>${g}</option>`).join('')}</select></div>
+      </div></div>` : ''}
+      <div class="box"><h3>${f.fam === 'iphone' ? 'Armazenamento' : 'Configurações'} e preço adicional</h3><div class="rows">
+        ${f.opts.map((o,i) => `<div class="row-ed"><input class="in" data-pfo="${i}" data-k="l" value="${esc(o.l)}" placeholder="${f.fam === 'iphone' ? '256 GB' : '16 GB · 512 GB SSD'}" aria-label="Opção ${i+1}"><input class="in" data-pfo="${i}" data-k="d" type="number" value="${esc(o.d)}" placeholder="+ R$ 0" aria-label="Acréscimo da opção ${i+1}"><button class="x" data-act="pf-rm-opt" data-i="${i}" aria-label="Remover opção">×</button></div>`).join('')}
+      </div><button class="btn-link" style="margin-top:10px" data-act="pf-add-opt">+ Adicionar opção</button></div>
+      <div class="box"><h3>Cores</h3><div class="rows">
+        ${f.colors.map((c,i) => `<div class="row-ed c"><input class="in" type="color" data-pfc="${i}" data-k="h" value="${esc(c.h)}" aria-label="Cor ${i+1}"><input class="in" data-pfc="${i}" data-k="n" value="${esc(c.n)}" placeholder="Nome da cor" aria-label="Nome da cor ${i+1}"><button class="x" data-act="pf-rm-color" data-i="${i}" aria-label="Remover cor">×</button></div>`).join('')}
+      </div><button class="btn-link" style="margin-top:10px" data-act="pf-add-color">+ Adicionar cor</button></div>
+      <div class="box"><h3>Foto do produto</h3><div class="photo-drop">
+        <div class="pv" id="pfPv">${f.img || f.imgUrl ? `<img src="${esc(f.img ? '/_blob/' + f.img : f.imgUrl)}" alt="">` : '<span class="muted" style="font-size:12px">Sem foto</span>'}</div>
+        <div style="display:grid;gap:6px;min-width:0"><input type="file" id="pfPhoto" accept="image/png,image/jpeg,image/webp" aria-label="Enviar foto">
+          <span class="muted" style="font-size:13px">PNG com fundo transparente ou JPG com fundo claro. Sem foto, a loja usa a ilustração.</span>
+          ${f.img || f.imgUrl ? '<button class="btn-link" style="justify-self:start;padding:0" data-act="pf-photo-rm">Remover foto</button>' : ''}</div>
+      </div></div>
+      <div class="box"><h3>Especificações</h3><textarea class="in" id="pf-specsTxt" data-pf="specsTxt" placeholder="Tela: 6,3&quot; Super Retina XDR&#10;Chip: A19 Pro&#10;Câmeras: 48 MP">${esc(f.specsTxt)}</textarea><p class="muted" style="font-size:13px;margin-top:8px">Uma por linha, no formato "Nome: valor".</p></div>
+    </div>
+    <div class="preview">
+      <div class="box"><div class="box-h"><b>Prévia na loja</b><span>ao vivo</span></div><div id="pfPreview">${previewCard()}</div></div>
+      <div class="box" style="display:grid;gap:10px">
+        <p class="form-err" id="pfErr"></p>
+        <button class="btn btn-primary btn-block" data-act="pf-save" id="pfSave">${editing ? 'Salvar alterações' : 'Publicar produto'}</button>
+        <a class="btn btn-glass glass btn-block" href="#${ADM}-produtos">Cancelar</a>
+        ${editing ? `<button class="btn btn-link btn-block" style="color:var(--err)" data-act="pf-del" id="pfDel">Excluir produto</button>` : ''}
+      </div>
+    </div>
+  </div>`;
+}
+let pfTimer = null;
+function pfPreview(){ clearTimeout(pfTimer); pfTimer = setTimeout(() => { const el = $('#pfPreview'); if(el) el.innerHTML = previewCard(); }, 120); }
+function pfRedraw(){ const y = scrollY; $('#admMain').innerHTML = admForm(); scrollTo(0, y); }
+const slug = s => norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60) || 'produto';
+async function pfSave(){
+  const p = pfProduct(), err = $('#pfErr');
+  const miss = !PF.name.trim() ? 'Dê um nome ao produto.' : !(p.price > 0) ? 'Informe o preço.' : !p.opts.length ? 'Adicione ao menos uma opção de armazenamento ou configuração.' : !p.colors.length ? 'Adicione ao menos uma cor.' : '';
+  if(miss){ err.textContent = miss; return; }
+  if(!PF.id){ const base = slug(p.name + (p.cond === 'seminovo' ? ' semi' : '')); let id = base, n = 2; while(byId(id)) id = base + '-' + n++; p.id = id; }
+  if(RUNTIME) delete p.imgUrl;
+  const btn = $('#pfSave'); btn.disabled = true; btn.textContent = 'Salvando…';
+  try {
+    if(DB){
+      if(!SEEDED) await importCatalog();
+      const {id, ...body} = p;
+      await DB.collection('products').doc(p.id).set(body);
+    } else { const i = P.findIndex(x => x.id === p.id); if(i >= 0) P[i] = p; else P.push(p); }
+    toast(p, PF.id ? 'Alterações salvas' : 'Produto publicado na loja');
+    location.hash = ADM + '-produtos';
+  } catch(e){
+    btn.disabled = false; btn.textContent = PF.id ? 'Salvar alterações' : 'Publicar produto';
+    err.textContent = e && e.code === 'quota_exceeded' ? 'O banco de dados está cheio. Exclua produtos antigos e tente de novo.' : 'Não foi possível salvar. Confira sua conexão e tente de novo.';
+  }
+}
+async function importCatalog(){
+  for(const p of SEED){ const {id, ...body} = p; await DB.collection('products').doc(id).set(body); }
+  await DB.doc('config/store').set({seeded:true, at:Date.now()});
+}
+async function writeProduct(id, patch){
+  const p = byId(id); if(!p) return;
+  if(!DB){ Object.assign(p, patch); renderAdmin(); return; }
+  try { if(!SEEDED) await importCatalog(); await DB.doc('products/' + id).update(patch); }
+  catch(e){ toast(null, 'Não foi possível salvar. Tente de novo.'); }
+}
+
+/* ---- Order detail drawer ---- */
+function openAdmDrawer(id){
+  const d = $('#admDrawer'); admSel = id;
+  const o = id && LIVE.orders.find(x => x.id === id);
+  if(!o){ d.classList.remove('open'); if(!$('#bag').classList.contains('open')) $('#scrim').classList.remove('on'); return; }
+  const c = o.customer || {};
+  const cpf = c.cpf ? (showCpf ? c.cpf : c.cpf.replace(/^(\d{3})\.\d{3}\.\d{3}/, '$1.•••.•••')) : '—';
+  d.innerHTML = `<div class="drawer-h"><div><div class="eyebrow">${fmtDT(o.at)}${o.demo ? ' · demonstração' : ''}</div><h3>${esc(o.id)}</h3></div><button class="icon-btn" data-act="ord-close" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="drawer-b">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">${stPill(o.status)}${stPill(o.payStatus, PST)}</div>
+      <div class="d-sec"><h4>Mudar status</h4><div class="st-btns">${ST_FLOW.map(s => `<button class="${o.status===s?'on':''}" data-act="ord-st" data-v="${s}">${ST[s]}</button>`).join('')}<button class="danger ${o.status==='cancelado'?'on':''}" data-act="ord-st" data-v="cancelado">Cancelar pedido</button></div></div>
+      ${o.ship !== 'pickup' ? `<div class="d-sec"><h4>Código de rastreio</h4><div class="cep-row"><input id="trackIn" class="in" value="${esc(o.track || '')}" placeholder="BR123456789BR"><button class="btn btn-sm btn-glass glass" data-act="ord-track">Salvar</button></div></div>` : ''}
+      <div class="d-sec"><h4>Cliente</h4><dl class="dl"><dt>Nome</dt><dd>${esc(c.nome || '—')}</dd><dt>E-mail</dt><dd>${esc(c.email || '—')}</dd><dt>Celular</dt><dd>${esc(c.tel || '—')}</dd>
+        <dt>CPF</dt><dd>${esc(cpf)} ${c.cpf ? `<button class="btn-link" style="padding:0 0 0 6px;font-size:13px" data-act="cpf">${showCpf ? 'Ocultar' : 'Mostrar'}</button>` : ''}</dd></dl></div>
+      <div class="d-sec"><h4>${SHIPN[o.ship] || 'Entrega'}</h4><p style="font-size:14px">${o.ship === 'pickup' ? esc(STORE.pickup) : `${esc(c.rua || '')}, ${esc(c.num || '')}${c.comp ? ' · ' + esc(c.comp) : ''}<br>${esc(c.bairro || '')} · ${esc(c.cidade || '')}/${esc(c.uf || '')} · CEP ${esc(c.cep || '')}`}</p></div>
+      <div class="d-sec"><h4>Itens</h4><div style="display:grid;gap:8px">${(o.items || []).map(i => `<div class="line-item"><div class="th">${thumbOf(i.id)}</div><div style="min-width:0"><b>${esc(i.name)}</b><small>${esc(i.opt)} · ${esc(i.color)} · Qtd. ${i.qty}</small></div><b class="num" style="font-size:14px">${brl(i.price * i.qty)}</b></div>`).join('')}</div></div>
+      <div class="d-sec"><h4>Pagamento</h4><dl class="dl"><dt>Forma</dt><dd>${PAYN[o.pay] || o.pay}${o.pay === 'card' && o.card ? ` · ${esc(o.card.brand)} •••• ${esc(o.card.last4)} · ${o.inst}x` : ''}</dd>
+        <dt>Produtos</dt><dd class="num">${brl(o.sub || 0)}</dd><dt>Frete</dt><dd class="num">${o.shipCost ? brl(o.shipCost) : 'Grátis'}</dd>${o.disc ? `<dt>Desconto Pix</dt><dd class="num">− ${brl(o.disc)}</dd>` : ''}
+        <dt><b style="color:var(--fg)">Total</b></dt><dd class="num"><b>${brl(o.total)}</b></dd></dl></div>
+    </div>`;
+  d.classList.add('open'); $('#scrim').classList.add('on');
+}
+async function setOrder(o, patch){
+  if(o._doc === 'local' || !DB){ Object.assign(o, patch); renderAdmin(); openAdmDrawer(o.id); return; }
+  try { await DB.doc('orders/' + o._doc).update({orders:{[o.id]:patch}}); toast(null, 'Pedido atualizado'); }
+  catch(e){ toast(null, 'Não foi possível atualizar o pedido. Tente de novo.'); }
+}
+function payAfter(o, status){
+  if(status === 'cancelado') return o.payStatus === 'aprovado' ? 'estornado' : 'cancelado';
+  if(status === 'aguardando') return 'pendente';
+  return 'aprovado';
+}
+
+/* ---- Demo data (clearly marked, removable) ---- */
+function demoData(){
+  const pool = shown(); const now = Date.now(); const orders = {}; const views = {};
+  const first = ['Ana','Bruno','Carla','Diego','Elisa','Felipe','Gabriela','Henrique','Isabela','João','Larissa','Marcos','Natália','Otávio','Paula','Rafael','Sofia','Tiago'];
+  const cities = [['São Paulo','SP','01310-100'],['Campinas','SP','13010-000'],['Rio de Janeiro','RJ','22250-040'],['Belo Horizonte','MG','30130-000'],['Curitiba','PR','80010-000'],['Salvador','BA','40010-000']];
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  for(let i = 0; i < 24; i++){
+    const p = pool[Math.floor(rnd() * Math.min(pool.length, 14))] || pool[0];
+    const opt = Math.floor(rnd() * p.opts.length), color = Math.floor(rnd() * p.colors.length);
+    const age = Math.floor(rnd() * 13.5 * DAY), at = now - age;
+    const pay = ['pix','pix','card','card','card','boleto'][Math.floor(rnd() * 6)];
+    const price = priceOf(p, opt), disc = pay === 'pix' ? Math.round(price * PIX_OFF * 100) / 100 : 0;
+    const ship = ['normal','normal','express','pickup'][Math.floor(rnd() * 4)], shipCost = ship === 'express' ? EXPRESS : 0;
+    const dAge = age / DAY;
+    let status = dAge > 6 ? 'entregue' : dAge > 3 ? 'enviado' : dAge > 1 ? 'separando' : 'pago';
+    if(pay !== 'card' && dAge < 1.2 && rnd() > .4) status = 'aguardando';
+    if(rnd() < .06) status = 'cancelado';
+    const [cidade, uf, cep] = cities[Math.floor(rnd() * cities.length)];
+    const id = 'DM-' + String(100000 + i * 7919).slice(-6);
+    orders[id] = {id, demo:true, at, status, payStatus: status === 'aguardando' ? 'pendente' : status === 'cancelado' ? (pay === 'card' ? 'estornado' : 'cancelado') : 'aprovado',
+      pay, inst: pay === 'card' ? [1,3,6,10,12][Math.floor(rnd() * 5)] : 1, card: pay === 'card' ? {brand:['VISA','mastercard','elo'][Math.floor(rnd() * 3)], last4:String(1000 + Math.floor(rnd() * 8999))} : null,
+      ship, shipCost, sub:price, disc, total:price - disc + shipCost, track: status === 'enviado' || status === 'entregue' ? 'BR' + (100000000 + i * 3571) + 'BR' : '',
+      items:[{id:p.id, name:p.name, opt:p.opts[opt].l, color:p.colors[color].n, qty:1, price}],
+      customer:{nome:`${first[i % first.length]} (demonstração)`, email:`cliente${i+1}@exemplo.com`, tel:'(11) 90000-0000', cpf:'000.000.000-00', cep, rua:'Rua de Exemplo', num:String(100 + i), comp:'', bairro:'Centro', cidade, uf}};
+  }
+  pool.forEach((p, i) => { views[p.id] = Math.round(30 + rnd() * 400 / (1 + i * .15)); });
+  return {orders, views};
+}
+async function demoGen(){
+  const {orders, views} = demoData();
+  if(!DB){ LIVE.orders = [...Object.values(orders).map(o => ({...o, _doc:'local'})), ...LIVE.orders].sort((a,b) => b.at - a.at); LIVE.views = views; LIVE.viewers = 140; renderAdmin(); return; }
+  try { await DB.doc('orders/demo').set({orders, demo:true, at:Date.now()}); await DB.doc('stats/demo').set({views, people:140, demo:true, at:Date.now()}); toast(null, 'Pedidos de demonstração criados'); }
+  catch(e){ toast(null, 'Não foi possível criar os dados de demonstração.'); }
+}
+async function demoClear(){
+  if(!DB){ LIVE.orders = LIVE.orders.filter(o => !o.demo); LIVE.views = {}; LIVE.viewers = 0; renderAdmin(); return; }
+  try { await DB.doc('orders/demo').delete(); await DB.doc('stats/demo').delete(); toast(null, 'Dados de demonstração apagados'); }
+  catch(e){ toast(null, 'Não foi possível apagar. Tente de novo.'); }
+}
+
+/* ============ Router ============ */
+let pixInt = null;
+function route(){
+  const h = (location.hash || '#inicio').slice(1);
+  const app = $('#app');
+  $('#navLinks').classList.remove('open');
+  clearInterval(pixInt);
+  let nav = h;
+  if(h === 'iphone'){ F = {...F, fam:new Set(['iphone']), cond:new Set(), line:new Set(), q:'', max:36000}; app.innerHTML = pageCatalog('iPhone', 'Gerações 16, 17 e 18 · novos e seminovos'); renderResults(); }
+  else if(h === 'mac'){ F = {...F, fam:new Set(['mac']), cond:new Set(), line:new Set(), q:'', max:36000}; app.innerHTML = pageCatalog('Mac', 'MacBook, iMac, Mac mini e Mac Studio'); renderResults(); }
+  else if(h === 'seminovos'){ F = {...F, fam:new Set(), cond:new Set(['seminovo']), line:new Set(), q:'', max:36000}; app.innerHTML = pageCatalog('Seminovos', 'Revisados, com bateria informada e garantia'); renderResults(); }
+  else if(h === 'catalogo'){ app.innerHTML = pageCatalog('Catálogo', 'Todos os produtos'); renderResults(); }
+  else if(h.startsWith('p-') && byId(h.slice(2)) && (!byId(h.slice(2)).hidden || IS_ADMIN)){ const p = byId(h.slice(2)); app.innerHTML = pageProduct(p); nav = p.fam; document.title = p.name + ' · Nume Apple'; trackView(p.id); }
+  else if((h === ADM || h.startsWith(ADM + '-')) && IS_ADMIN){ app.innerHTML = pageAdmin(h); nav = ''; document.title = 'Painel · Nume Apple'; }
+  else if(h === 'checkout'){ if(!ck) ck = newCk(cart); app.innerHTML = pageCheckout(); nav = ''; }
+  else if(h === 'pedido'){ app.innerHTML = pageDone(); nav = ''; startPixTimer(); }
+  else { app.innerHTML = pageHome(); nav = 'inicio'; }
+  if(!h.startsWith('p-') && !(IS_ADMIN && h.startsWith(ADM))) document.title = 'Nume Apple';
+  if(!h.startsWith(ADM)) openAdmDrawer(null);
+  if(ROOM && !IS_ADMIN) ROOM.presence({page:h}).catch(() => {});
+  $$('[data-nav]').forEach(a => a.classList.toggle('on', a.dataset.nav === nav));
+  window.scrollTo({top:0, behavior:'instant'});
+}
+function rerender(){ // keep scroll
+  const y = window.scrollY; const h = (location.hash || '#inicio').slice(1);
+  if(h.startsWith('p-')) $('#app').innerHTML = pageProduct(byId(h.slice(2)));
+  else if(h === 'checkout') $('#app').innerHTML = pageCheckout();
+  window.scrollTo({top:y, behavior:'instant'});
+}
+window.addEventListener('hashchange', route);
+
+/* ============ Cart ============ */
+function key(id,opt,color){ return `${id}|${opt}|${color}` }
+function addToCart(id, opt, color, open=true){
+  const k = key(id,opt,color); const f = cart.find(x => x.k === k);
+  if(f) f.qty++; else cart.push({k, id, opt, color, qty:1});
+  save('nume-cart', cart); updateBag(); toast(byId(id), 'Adicionado à sacola');
+  if(open) setTimeout(() => openBag(true), 250);
+}
+function updateBag(){
+  const n = cart.reduce((s,x) => s + x.qty, 0);
+  const b = $('#bagCount'); b.textContent = n; b.hidden = !n;
+  const sub = cart.reduce((s,x) => s + priceOf(byId(x.id), x.opt) * x.qty, 0);
+  $('#bag').innerHTML = `<div class="drawer-h"><h3>Sacola</h3><button class="icon-btn" data-act="close-all" aria-label="Fechar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="drawer-b">${cart.length ? cart.map(it => itemRow(it, true)).join('') : `<div style="text-align:center;padding:40px 10px" class="muted"><p style="font-size:18px;color:var(--fg);font-weight:600">Sua sacola está vazia</p><p style="margin-top:6px">Os produtos que você adicionar aparecem aqui.</p><a class="btn btn-primary btn-sm" style="margin-top:16px" href="#catalogo" data-act="close-all">Ver catálogo</a></div>`}</div>
+    ${cart.length ? `<div class="drawer-f">
+      <div class="sum-row"><span>Subtotal</span><b class="num">${brl(sub)}</b></div>
+      <div class="sum-row"><span>No Pix</span><span class="num g">${brl(pixOf(sub))}</span></div>
+      <div class="sum-row"><span>Frete</span><span class="g">Grátis</span></div>
+      <button class="btn btn-primary btn-block" data-act="bag-checkout">Finalizar compra</button>
+    </div>` : ''}`;
+}
+function openBag(on){ $('#bag').classList.toggle('open', on); $('#scrim').classList.toggle('on', on); }
+function newCk(items){ return {items: items.map(x => ({...x})), step:1, addr:{cep:cep||''}, ship:'normal', pay:'pix', card:{num:'',name:'',exp:'',cvv:'',inst:1}, terms:false}; }
+
+/* ============ Toast ============ */
+let tt;
+function toast(p, msg){
+  const el = $('#toast');
+  el.innerHTML = `${p ? `<span class="th">${art(p, 0, p.fam === 'iphone' ? 'back' : 'front')}</span>` : ''}<span>${esc(msg)}</span>`;
+  el.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('on'), 2200);
+}
+
+/* ============ Spotlight ============ */
+let spotSel = 0;
+function spotRender(){
+  const q = $('#spotInput').value.trim();
+  const words = norm(q).split(/\s+/).filter(Boolean);
+  const res = (words.length ? shown().filter(p => { const h = norm([p.name,p.line,p.chip,p.cond,p.colors.map(k=>k.n).join(' ')].join(' ')); return words.every(w => h.includes(w)); }) : shown().filter(p => p.launch)).slice(0, 7);
+  spotSel = Math.min(spotSel, Math.max(0, res.length - 1));
+  $('#spotRes').innerHTML = (words.length ? '' : '<div class="spot-hint">Lançamentos</div>') + (res.length ? res.map((p,i) => `<a href="#p-${p.id}" class="${i===spotSel?'sel':''}" data-act="spot-close">${art(p,0,p.fam==='iphone'?'back':'front')}<span style="min-width:0"><b>${esc(p.name)}</b><small>${condLbl(p)} · ${p.opts[0].l}</small></span><span class="pr num">${brl0(p.price)}</span></a>`).join('')
+    + (words.length ? `<div class="spot-hint">Enter para ver todos os resultados no catálogo</div>` : '') : `<div class="spot-hint">Nada encontrado para “${esc(q)}”.</div>`);
+}
+function openSpot(on){
+  $('#spot').classList.toggle('open', on);
+  if(on){ $('#spotInput').value = ''; spotSel = 0; spotRender(); setTimeout(() => $('#spotInput').focus(), 50); }
+}
+$('#spotInput').addEventListener('input', () => { spotSel = 0; spotRender(); });
+$('#spotInput').addEventListener('keydown', e => {
+  const links = $$('#spotRes a');
+  if(e.key === 'ArrowDown'){ e.preventDefault(); spotSel = Math.min(spotSel+1, links.length-1); spotRender(); }
+  else if(e.key === 'ArrowUp'){ e.preventDefault(); spotSel = Math.max(spotSel-1, 0); spotRender(); }
+  else if(e.key === 'Enter'){ e.preventDefault(); const q = e.target.value.trim(); openSpot(false);
+    if(q){ F = {q, fam:new Set(), cond:new Set(), line:new Set(), max:36000, sort:'rel'}; if(location.hash === '#catalogo') route(); else location.hash = 'catalogo'; }
+    else if(links[spotSel]) location.hash = links[spotSel].getAttribute('href').slice(1); }
+  else if(e.key === 'Escape') openSpot(false);
+});
+
+/* ============ Masks ============ */
+function applyMask(el){
+  const m = el.dataset.mask, d = el.value.replace(/\D/g,'');
+  let v = d;
+  if(m === 'cep') v = d.slice(0,8).replace(/^(\d{5})(\d)/, '$1-$2');
+  else if(m === 'tel') v = d.slice(0,11).replace(/^(\d{2})(\d)/, '($1) $2').replace(/(\d{5})(\d{1,4})$/, '$1-$2');
+  else if(m === 'cpf') v = d.slice(0,11).replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d)/, '$1.$2').replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+  else if(m === 'card') v = d.slice(0,16).replace(/(\d{4})(?=\d)/g, '$1 ');
+  else if(m === 'exp') v = d.slice(0,4).replace(/^(\d{2})(\d)/, '$1/$2');
+  else if(m === 'cvv') v = d.slice(0,4);
+  el.value = v;
+}
+
+/* ============ Checkout logic ============ */
+function readAddr(){ F_ADDR.forEach(([id]) => { const el = $('#a-' + id); if(el) ck.addr[id] = el.value.trim(); }); }
+function readCard(){ if(!$('#c-num')) return; ck.card = {num:$('#c-num').value, name:$('#c-name').value.trim(), exp:$('#c-exp').value, cvv:$('#c-cvv').value, inst:+$('#c-inst').value}; }
+function setErr(fid, msg){ const f = $('#f-' + fid); if(!f) return; f.classList.toggle('bad', !!msg); $('.err', f).textContent = msg || ''; }
+function validAddr(){
+  readAddr(); const a = ck.addr; let ok = true;
+  const req = {nome:'Informe seu nome completo', email:'Informe um e-mail válido', tel:'Informe um celular com DDD', cpf:'Informe o CPF para a nota fiscal', cep:'Informe um CEP com 8 dígitos', rua:'Informe o endereço', num:'Informe o número', bairro:'Informe o bairro', cidade:'Informe a cidade', uf:'Informe a UF'};
+  for(const k in req){
+    let bad = !a[k];
+    if(k === 'email') bad = !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(a[k]||'');
+    if(k === 'tel') bad = (a[k]||'').replace(/\D/g,'').length < 10;
+    if(k === 'cpf') bad = (a[k]||'').replace(/\D/g,'').length !== 11;
+    if(k === 'cep') bad = (a[k]||'').replace(/\D/g,'').length !== 8;
+    if(k === 'nome') bad = (a[k]||'').split(' ').filter(Boolean).length < 2;
+    setErr(k, bad ? req[k] : ''); if(bad) ok = false;
+  }
+  if(!ok){ const f = $('.field.bad input'); f && f.focus(); }
+  return ok;
+}
+function luhn(n){ let s = 0, alt = false; for(let i = n.length-1; i >= 0; i--){ let d = +n[i]; if(alt){ d *= 2; if(d > 9) d -= 9; } s += d; alt = !alt; } return s % 10 === 0; }
+function validCard(){
+  readCard(); const c = ck.card; let ok = true;
+  const n = c.num.replace(/\D/g,'');
+  const e1 = n.length < 13 ? 'Digite o número completo do cartão' : !luhn(n) ? 'Confira o número: ele não parece válido' : '';
+  const [mm, yy] = (c.exp||'').split('/').map(Number);
+  const now = new Date(); const exp = new Date(2000 + (yy||0), (mm||1), 0);
+  const e3 = !(mm >= 1 && mm <= 12 && yy) ? 'Use o formato MM/AA' : exp < now ? 'Este cartão está vencido' : '';
+  const e4 = c.cvv.length < 3 ? 'O CVV tem 3 ou 4 dígitos' : '';
+  const e2 = c.name.length < 3 ? 'Digite o nome como está no cartão' : '';
+  setErr('cnum', e1); setErr('cname', e2); setErr('cexp', e3); setErr('ccvv', e4);
+  ok = !(e1||e2||e3||e4); if(!ok){ const f = $('.field.bad input'); f && f.focus(); }
+  return ok;
+}
+function confirmOrder(){
+  if(!$('#terms').checked){ $('#termsErr').textContent = 'Marque a caixa acima para confirmar o pedido.'; return; }
+  const b = $('#confirmBtn'); b.disabled = true; b.innerHTML = '<span class="spinner"></span> Processando pagamento…';
+  setTimeout(async () => {
+    const t = ckTotals();
+    const id = 'NA-' + Math.floor(100000 + Math.random()*900000);
+    const paidNow = ck.pay === 'card';
+    const cn = (ck.card.num || '').replace(/\D/g,'');
+    // Order record for the seller panel. The card number and CVV are never stored, only brand + last 4 digits.
+    const rec = {id, at:Date.now(), status: paidNow ? 'pago' : 'aguardando', payStatus: paidNow ? 'aprovado' : 'pendente',
+      pay:ck.pay, inst: ck.pay === 'card' ? ck.card.inst : 1, card: ck.pay === 'card' ? {brand: brand(cn).n || 'Cartão', last4: cn.slice(-4)} : null,
+      ship:ck.ship, shipCost:t.ship, sub:t.sub, disc:t.disc, total:t.total, track:'',
+      items: ck.items.map(it => { const p = byId(it.id); return {id:it.id, name:p.name, opt:p.opts[it.opt].l, color:p.colors[it.color].n, qty:it.qty, price:priceOf(p, it.opt)}; }),
+      customer: {...ck.addr}};
+    if(DB && UID){
+      try {
+        const ref = DB.doc('orders/' + UID);
+        const s = await ref.get();
+        const cur = s.exists ? (s.data().orders || {}) : {};
+        await ref.set({orders:{...cur, [id]:rec}, at:Date.now()});
+      } catch(err){
+        b.disabled = false; b.textContent = 'Confirmar pedido · ' + brl(t.total);
+        $('#termsErr').textContent = 'Não foi possível registrar o pedido com este acesso. Para testar compras, a loja precisa te convidar como comprador (Contribuidor).';
+        return;
+      }
+    } else if(!RUNTIME){ LIVE.orders.unshift({...rec, _doc:'local'}); }
+    lastOrder = {id, items:ck.items, addr:{...ck.addr}, ship:ck.ship, pay:ck.pay, total:t.total, when:Date.now(),
+      pixCode: ck.pay === 'boleto' ? '34191.79001 01043.510047 91020.150008 ' + Math.floor(Math.random()*9) + ' ' + String(Math.round(t.total*100)).padStart(14,'0')
+        : `00020126580014BR.GOV.BCB.PIX0136nume-demo-${id.toLowerCase()}5204000053039865406${t.total.toFixed(2)}5802BR5915NUME APPLE DEMO6009SAO PAULO6304DEMO`};
+    if(ck.fromCart){ cart = []; save('nume-cart', cart); updateBag(); }
+    ck = null;
+    location.hash = 'pedido';
+  }, 1500);
+}
+function startPixTimer(){
+  const el = $('#pixTimer'); if(!el || !lastOrder) return;
+  const end = lastOrder.when + 30*60*1000;
+  const tick = () => { const s = Math.max(0, Math.round((end - Date.now())/1000)); el.textContent = `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; };
+  tick(); pixInt = setInterval(tick, 1000);
+}
+
+/* ============ Events ============ */
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-act]'); if(!t) return;
+  const a = t.dataset.act;
+  const h = (location.hash || '').slice(1);
+  const p = h.startsWith('p-') ? byId(h.slice(2)) : null;
+  switch(a){
+    case 'menu': $('#navLinks').classList.toggle('open'); $('#navLinks').classList.toggle('glass'); break;
+    case 'spot-open': openSpot(true); break;
+    case 'spot-close': openSpot(false); break;
+    case 'spot-bg': if(e.target === t) openSpot(false); break;
+    case 'bag-open': updateBag(); openBag(true); break;
+    case 'close-all': openBag(false); closeFilters(); openAdmDrawer(null); break;
+    case 'ord-open': openAdmDrawer(t.dataset.id); break;
+    case 'ord-close': openAdmDrawer(null); break;
+    case 'ord-f': ordFilter = t.dataset.v; renderAdmin(); break;
+    case 'ord-st': { const o = LIVE.orders.find(x => x.id === admSel); if(o && o.status !== t.dataset.v) setOrder(o, {status:t.dataset.v, payStatus:payAfter(o, t.dataset.v)}); break; }
+    case 'ord-track': { const o = LIVE.orders.find(x => x.id === admSel); if(o) setOrder(o, {track:$('#trackIn').value.trim().toUpperCase()}); break; }
+    case 'cpf': showCpf = !showCpf; openAdmDrawer(admSel); break;
+    case 'stock': { const p = byId(t.dataset.id); if(p) writeProduct(p.id, {stock:Math.max(0, (p.stock || 0) + +t.dataset.d)}); break; }
+    case 'vis': { const p = byId(t.dataset.id); if(p) writeProduct(p.id, {hidden:!p.hidden}); break; }
+    case 'import': t.disabled = true; t.textContent = 'Importando…'; importCatalog().then(() => toast(null, 'Catálogo importado'), () => { t.disabled = false; t.textContent = 'Importar catálogo'; toast(null, 'Não foi possível importar. Tente de novo.'); }); break;
+    case 'demo-gen': t.disabled = true; demoGen(); break;
+    case 'demo-clear': t.disabled = true; demoClear(); break;
+    case 'pf-add-opt': PF.opts.push({l:'', d:0}); pfRedraw(); break;
+    case 'pf-rm-opt': PF.opts.splice(+t.dataset.i, 1); pfRedraw(); break;
+    case 'pf-add-color': PF.colors.push({n:'', h:'#8e8e93'}); pfRedraw(); break;
+    case 'pf-rm-color': PF.colors.splice(+t.dataset.i, 1); pfRedraw(); break;
+    case 'pf-photo-rm': PF.img = ''; PF.imgUrl = ''; PF.imgCredit = null; pfRedraw(); break;
+    case 'pf-save': pfSave(); break;
+    case 'pf-del': {
+      if(Date.now() - delArm > 4000){ delArm = Date.now(); t.textContent = 'Toque de novo para excluir'; setTimeout(() => { if($('#pfDel')) $('#pfDel').textContent = 'Excluir produto'; }, 4000); break; }
+      const id = PF.id;
+      (DB ? (SEEDED ? Promise.resolve() : importCatalog()).then(() => DB.doc('products/' + id).delete()) : Promise.resolve(P = P.filter(p => p.id !== id)))
+        .then(() => { toast(null, 'Produto excluído'); location.hash = ADM + '-produtos'; }, () => toast(null, 'Não foi possível excluir. Tente de novo.'));
+      break; }
+    case 'hero-color': {
+      heroC = +t.dataset.i; const hp = pick('iphone-18-pro','iphone'), hex = hp.colors[heroC].h;
+      $('#heroArt').innerHTML = art(hp, heroC, 'combo');
+      $('#heroLbl').textContent = hp.colors[heroC].n;
+      $('#hb1').style.background = hex; $('#hb2').style.background = mix(hex,.4);
+      $$('[data-act="hero-color"]').forEach((b,i) => b.classList.toggle('on', i === heroC));
+      break; }
+    case 'color': sel.color = +t.dataset.i; rerender(); break;
+    case 'opt': sel.opt = +t.dataset.i; rerender(); break;
+    case 'view': sel.view = t.dataset.v; rerender(); break;
+    case 'cep': { const v = $('#cep').value; if(v.replace(/\D/g,'').length !== 8){ toast(null, 'Digite um CEP com 8 dígitos'); break; } cep = v; save('nume-cep', cep); rerender(); toast(null, 'Prazo atualizado para ' + region(cep).city); break; }
+    case 'add': addToCart(t.dataset.id, sel.opt, sel.color); break;
+    case 'buy': ck = newCk([{k:key(t.dataset.id, sel.opt, sel.color), id:t.dataset.id, opt:sel.opt, color:sel.color, qty:1}]); location.hash = 'checkout'; break;
+    case 'qty': { const it = cart.find(x => x.k === t.dataset.k); if(it){ it.qty = Math.max(1, Math.min(5, it.qty + +t.dataset.d)); save('nume-cart', cart); updateBag(); } break; }
+    case 'rm': cart = cart.filter(x => x.k !== t.dataset.k); save('nume-cart', cart); updateBag(); break;
+    case 'bag-checkout': ck = newCk(cart); ck.fromCart = true; openBag(false); if(location.hash === '#checkout') route(); else location.hash = 'checkout'; break;
+    case 'line': { const v = t.dataset.v; F.line.has(v) ? F.line.delete(v) : F.line.add(v); t.classList.toggle('on'); renderResults(); break; }
+    case 'unchip': { const k = t.dataset.k, v = t.dataset.v;
+      if(k === 'q'){ F.q = ''; $('#q').value = ''; } else if(k === 'max'){ F.max = 36000; $('#pmax').value = 36000; $('#pmaxV').textContent = 'Qualquer valor'; }
+      else { F[k].delete(v); const inp = $(`[data-f="${k}"][value="${v}"]`); if(inp) inp.checked = false; $$(`.chip[data-v="${v}"]`).forEach(c => c.classList.remove('on')); }
+      renderResults(); break; }
+    case 'clear': F = {q:'', fam:new Set(), cond:new Set(), line:new Set(), max:36000, sort:F.sort}; { const y = scrollY; route(); scrollTo(0,y); } break;
+    case 'filters-open': $('#panel').classList.add('open'); $('#scrim').classList.add('on'); break;
+    case 'filters-close': closeFilters(); break;
+    case 'ck-fill': ck.addr = {nome:'Marina Costa', email:'marina@exemplo.com', tel:'(11) 98765-4321', cpf:'123.456.789-09', cep:'01310-100', rua:'Avenida Paulista', num:'1000', comp:'Apto 52', bairro:'Bela Vista', cidade:'São Paulo', uf:'SP'}; rerender(); break;
+    case 'ck-next': {
+      const s = +t.dataset.s;
+      if(s === 1){ if(!validAddr()) break; ck.step = 2; }
+      else if(s === 2){ if(ck.pay === 'card'){ if(!validCard()) break; } ck.step = 3; }
+      rerender(); const cur = $('.step.cur'); cur && cur.scrollIntoView({behavior:'smooth', block:'start'}); break; }
+    case 'ck-edit': if(ck.step === 1) readAddr(); if(ck.step === 2) readCard(); ck.step = +t.dataset.s; rerender(); break;
+    case 'pay': readCard(); ck.pay = t.dataset.v; rerender(); break;
+    case 'ck-confirm': ck.terms = $('#terms').checked; confirmOrder(); break;
+    case 'copy': { const inp = $('#pixCode'); const ok = () => toast(null, 'Código copiado');
+      try { navigator.clipboard.writeText(inp.value).then(ok, () => { inp.select(); toast(null, 'Selecionado. Use Ctrl+C para copiar'); }); } catch(err){ inp.select(); toast(null, 'Selecionado. Use Ctrl+C para copiar'); } break; }
+  }
+});
+function closeFilters(){ const pn = $('#panel'); if(pn) pn.classList.remove('open'); if(!$('#bag').classList.contains('open')) $('#scrim').classList.remove('on'); }
+
+document.addEventListener('input', e => {
+  const el = e.target;
+  if(el.dataset.mask) applyMask(el);
+  if(el.id === 'q'){ F.q = el.value; renderResults(); }
+  if(el.id === 'ordQ'){ ordQ = el.value; renderAdmin(); }
+  if(el.id === 'prodQ'){ prodQ = el.value; renderAdmin(); }
+  if(PF && el.dataset.pf && el.type !== 'checkbox' && el.tagName !== 'SELECT'){ PF[el.dataset.pf] = el.value; pfPreview(); }
+  if(PF && el.dataset.pfo){ PF.opts[+el.dataset.pfo][el.dataset.k] = el.value; pfPreview(); }
+  if(PF && el.dataset.pfc){ PF.colors[+el.dataset.pfc][el.dataset.k] = el.value; pfPreview(); }
+  if(el.id === 'pmax'){ F.max = +el.value; $('#pmaxV').textContent = F.max >= 36000 ? 'Qualquer valor' : 'até ' + brl0(F.max); renderResults(); }
+  if(el.id === 'a-cep'){
+    const r = region(el.value);
+    if(r){ ck.addr.cep = el.value; const c = $('#a-cidade'), u = $('#a-uf'), b = $('#a-bairro');
+      if(c && !c.value) c.value = r.city; if(u && !u.value) u.value = r.uf; if(b && !b.value) b.value = r.bairro;
+      $('#shipOpts').innerHTML = shipOpts(el.value); }
+  }
+  if(el.id === 'c-num' || el.id === 'c-name' || el.id === 'c-exp' || el.id === 'c-cvv'){
+    if(el.id === 'c-num'){ $('#ccNum').textContent = ccMasked(el.value); const br = brand(el.value); $('#ccBrand').textContent = br.n; $$('#cc .cc-face').forEach(f => f.style.setProperty('--ccbg', br.bg)); }
+    if(el.id === 'c-name') $('#ccName').textContent = el.value.toUpperCase() || 'SEU NOME';
+    if(el.id === 'c-exp') $('#ccExp').textContent = el.value || 'MM/AA';
+    if(el.id === 'c-cvv') $('#ccCvv').textContent = el.value ? '•'.repeat(el.value.length) : 'CVV';
+  }
+});
+document.addEventListener('change', e => {
+  const el = e.target;
+  if(el.dataset.f){ const s = F[el.dataset.f]; el.checked ? s.add(el.value) : s.delete(el.value);
+    if(el.dataset.f === 'fam'){ const y = scrollY; const h = location.hash.slice(1); const keepT = $('.page-head h1').textContent, keepS = $('.page-head .eyebrow').textContent; $('#app').innerHTML = pageCatalog(keepT, keepS); renderResults(); scrollTo(0,y); }
+    else renderResults(); }
+  if(el.id === 'sort'){ F.sort = el.value; renderResults(); }
+  if(PF && el.dataset.pf && (el.type === 'checkbox' || el.tagName === 'SELECT')){
+    const k = el.dataset.pf; PF[k] = el.type === 'checkbox' ? el.checked : el.value;
+    if(k === 'fam'){ PF.line = el.value === 'iphone' ? 'iPhone 17' : 'MacBook Air'; }
+    if(k === 'fam' || k === 'cond') pfRedraw(); else pfPreview(); }
+  if(el.id === 'pfPhoto' && el.files && el.files[0]){
+    const file = el.files[0];
+    if(file.size > 15 * 1024 * 1024){ $('#pfErr').textContent = 'A foto passa de 15 MB. Envie uma versão menor.'; }
+    else if(ASSETS){ $('#pfPv').innerHTML = '<span class="spinner" style="border-color:var(--line2);border-top-color:var(--accent)"></span>';
+      ASSETS.upload(file).then(r => { PF.img = r.id; PF.imgUrl = ''; PF.imgCredit = null; pfRedraw(); }, () => { $('#pfErr').textContent = 'Não foi possível enviar a foto. Tente outro arquivo.'; pfRedraw(); }); }
+    else if(!RUNTIME){ PF.imgUrl = URL.createObjectURL(file); PF.img = ''; pfRedraw(); }
+    else $('#pfErr').textContent = 'O envio de fotos não está disponível nesta visualização.';
+  }
+  if(el.name === 'ship'){ readAddr(); ck.ship = el.value; rerender(); }
+  if(el.id === 'c-inst'){ ck.card.inst = +el.value; }
+  if(el.id === 'terms'){ ck.terms = el.checked; if(el.checked) $('#termsErr').textContent = ''; }
+});
+document.addEventListener('focusin', e => { if(e.target.id === 'c-cvv') $('#cc')?.classList.add('flipped'); });
+document.addEventListener('focusout', e => { if(e.target.id === 'c-cvv') $('#cc')?.classList.remove('flipped'); });
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){ openBag(false); openSpot(false); closeFilters(); openAdmDrawer(null); }
+  if((e.key === 'k' && (e.metaKey || e.ctrlKey)) || (e.key === '/' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))){ e.preventDefault(); openSpot(true); }
+  if(e.key === 'Enter' && e.target.id === 'cep'){ e.preventDefault(); $('[data-act="cep"]').click(); }
+});
+
+/* Card color preview on hover */
+document.addEventListener('pointerover', e => {
+  const s = e.target.closest('[data-cs]'); if(!s) return;
+  const p = byId(s.dataset.cs), i = +s.dataset.i, cardEl = s.closest('.card');
+  const fa = $('.face.a', cardEl), fb = $('.face.b', cardEl);
+  fa.innerHTML = art(p, i, p.fam === 'iphone' ? 'back' : 'front');
+  if(fb) fb.innerHTML = art(p, i, p.fam === 'iphone' ? 'front' : 'lid');
+  $$('.sw', cardEl).forEach((b,k) => b.classList.toggle('on', k === i));
+  cardEl.querySelector('a.cover').href = '#p-' + p.id;
+  cardEl.dataset.color = i;
+});
+/* Carry the hovered card color into the product page */
+document.addEventListener('click', e => {
+  const cv = e.target.closest('a.cover'); if(!cv) return;
+  const cardEl = cv.closest('.card'); const id = cardEl.dataset.card;
+  sel = {id, color:+(cardEl.dataset.color||0), opt:0, view:viewsOf(byId(id))[0]};
+}, true);
+
+/* Tilt + glass sheen */
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let tiltEl = null;
+const tipEl = $('#tip');
+document.addEventListener('pointermove', e => {
+  const tp = e.target.closest && e.target.closest('[data-tip]');
+  if(tp){ tipEl.textContent = tp.dataset.tip; tipEl.hidden = false;
+    const w = tipEl.offsetWidth; tipEl.style.left = Math.min(innerWidth - w - 12, e.clientX + 14) + 'px'; tipEl.style.top = (e.clientY - 44) + 'px'; }
+  else if(!tipEl.hidden) tipEl.hidden = true;
+  const g = e.target.closest && e.target.closest('.glass');
+  if(g){ const r = g.getBoundingClientRect(); g.style.setProperty('--mx', (e.clientX - r.left) + 'px'); g.style.setProperty('--my', (e.clientY - r.top) + 'px'); }
+  if(reduce || e.pointerType === 'touch') return;
+  const t = e.target.closest && e.target.closest('.tilt, .card');
+  const el = t ? (t.classList.contains('card') ? $('.tilt', t) : t) : null;
+  if(tiltEl && tiltEl !== el){ resetTilt(tiltEl); tiltEl = null; }
+  if(!el) return;
+  const inner = $('.tilt-inner', el) || el.firstElementChild; if(!inner) return;
+  const box = (t.classList.contains('card') ? t : el).getBoundingClientRect();
+  const x = (e.clientX - box.left) / box.width - .5, y = (e.clientY - box.top) / box.height - .5;
+  const big = el.classList.contains('stage') || el.classList.contains('hero-stage') || el.classList.contains('mac-stage');
+  const m = big ? 22 : 16;
+  el.classList.add('tilting');
+  inner.style.transform = `rotateY(${x*m}deg) rotateX(${-y*m*.7}deg) translateZ(0) scale(${big?1.02:1.04})`;
+  tiltEl = el;
+});
+function resetTilt(el){ el.classList.remove('tilting'); const inner = $('.tilt-inner', el); if(inner) inner.style.transform = ''; }
+document.addEventListener('pointerleave', () => { if(tiltEl){ resetTilt(tiltEl); tiltEl = null; } });
+
+/* Boot */
+boot();
+</script>

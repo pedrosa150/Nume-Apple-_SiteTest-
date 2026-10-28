@@ -1,0 +1,7 @@
+# Photos downloaded from Wikimedia Commons during testing (not used by the site)
+fotos/
+# Local editor/preview settings
+.claude/
+node_modules/
+.DS_Store
+Thumbs.db
