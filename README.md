@@ -4,7 +4,7 @@ Protótipo de e-commerce para uma revenda de iPhones e Macs, novos e seminovos. 
 
 Tudo roda em um único arquivo HTML, sem framework e sem etapa de build obrigatória.
 
-**[Ver a demonstração](https://SEU-USUARIO.github.io/SEU-REPOSITORIO/)** · painel do vendedor: `…/#gestao-x7r4kq`
+**[Ver a demonstração](https://pedrosa150.github.io/Nume-Apple-_SiteTest-/)** · painel do vendedor: `…/#gestao-x7r4kq`
 
 ![Página inicial](docs/screenshots/01-inicio.jpg)
 
